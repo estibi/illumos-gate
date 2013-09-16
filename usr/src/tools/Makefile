@@ -33,7 +33,6 @@ BOOT_SUBDIRS= \
 
 COMMON_SUBDIRS= \
 	codereview \
-	codesign \
 	cscope-fast \
 	ctf \
 	depcheck \

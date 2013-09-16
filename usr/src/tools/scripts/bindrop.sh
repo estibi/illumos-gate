@@ -239,13 +239,6 @@ MACH=$(uname -p)
 rm "$needdirs"
 
 #
-# Exclude signed crypto binaries; they are delivered in their
-# own tarball.
-#
-ROOT="$tmpdir/closed/$rootdir" findcrypto "$SRC/tools/codesign/creds" |
-    awk '{ print $2 }' | (cd "$tmpdir/closed/$rootdir"; xargs rm -f)
-
-#
 # Add binary license files.
 #
 

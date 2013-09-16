@@ -554,28 +554,6 @@ function build {
 	fi
 
 	#
-	#	Re-sign selected binaries using signing server
-	#	(gatekeeper builds only)
-	#
-	if [ -n "$CODESIGN_USER" -a "$this_build_ok" = "y" ]; then
-		echo "\n==== Signing proto area at `date` ====\n" >> $LOGFILE
-		signing_file="${TMPDIR}/signing"
-		rm -f ${signing_file}
-		export CODESIGN_USER
-		signproto $SRC/tools/codesign/creds 2>&1 | \
-			tee -a ${signing_file} >> $LOGFILE
-		echo "\n==== Finished signing proto area at `date` ====\n" \
-		    >> $LOGFILE
-		echo "\n==== Crypto module signing errors ($LABEL) ====\n" \
-		    >> $mail_msg_file
-		egrep 'WARNING|ERROR' ${signing_file} >> $mail_msg_file
-		if (( $? == 0 )) ; then
-			build_ok=n
-			this_build_ok=n
-		fi
-	fi
-
-	#
 	#	Building Packages
 	#
 	if [ "$p_FLAG" = "y" -a "$this_build_ok" = "y" ]; then
