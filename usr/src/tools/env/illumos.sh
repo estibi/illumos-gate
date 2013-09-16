@@ -134,8 +134,8 @@ export LOGFILE="$ATLOG/nightly.log"
 export MACH="$(uname -p)"
 
 #
-#  The following two macros are the closed/crypto binaries.  Once
-#  Illumos has totally freed itself, we can remove these references.
+#  The following macro is the closed binaries.  Once
+#  Illumos has totally freed itself, we can remove this reference.
 #
 # Location of encumbered binaries.
 export ON_CLOSED_BINS="$CODEMGR_WS/closed"
