@@ -24,9 +24,7 @@
 # Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
 #
 # Create an encumbered binaries tarball from a full build proto area,
-# less the contents of an OpenSolaris proto area.  Special handling
-# for crypto binaries that need to be signed by Sun Release
-# Engineering.
+# less the contents of an OpenSolaris proto area.
 #
 
 usage="bindrop [-n] basename"
@@ -110,23 +108,11 @@ needdirs=$(mktemp -t needdirsXXXXX)
 (cd "${ROOT}${suffix}-closed"; tar cf - .) | (cd "$tmpdir/closed/$rootdir"; tar xpf -)
 
 #
-# Remove internal ON crypto signing certs
-#
-delete="
-	etc/certs/SUNWosnetSE
-	etc/certs/SUNWosnetSolaris
-	etc/crypto/certs/SUNWosnet
-	etc/crypto/certs/SUNWosnetLimited
-	etc/crypto/certs/SUNWosnetCF
-	etc/crypto/certs/SUNWosnetCFLimited
-	"
-
-#
 # Remove miscellaneous files that we don't want to ship.
 #
 
 # SUNWsvvs (SVVS test drivers).
-delete="$delete
+delete="
 	usr/include/sys/svvslo.h
 	usr/include/sys/tidg.h
 	usr/include/sys/tivc.h

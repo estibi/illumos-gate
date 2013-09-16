@@ -139,8 +139,6 @@ export MACH="$(uname -p)"
 #
 # Location of encumbered binaries.
 export ON_CLOSED_BINS="$CODEMGR_WS/closed"
-# Location of signed cryptographic binaries.
-export ON_CRYPTO_BINS="$CODEMGR_WS/on-crypto.$MACH.tar.bz2"
 
 # REF_PROTO_LIST - for comparing the list of stuff in your proto area
 # with. Generally this should be left alone, since you want to see differences

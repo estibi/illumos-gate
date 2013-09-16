@@ -542,24 +542,6 @@ function copy_kernel {
 	    egrep "^MOD|^CONF|^LINK|^SYMLINK" > $modlist
 	[ "$VERBOSE" = "V" ] && cat $modlist
 	check_modlist $modlist
-	if [ -n "$ON_CRYPTO_BINS" ]; then
-		cryptotar="$ON_CRYPTO_BINS"
-		if [ "$OBJD" = obj ]; then
-			isa=$(uname -p)
-			cryptotar=$(echo "$ON_CRYPTO_BINS" |
-			    sed -e s/.$isa.tar.bz2/-nd.$isa.tar.bz2/)
-		fi
-		[ -f "$cryptotar" ] || fail "crypto ($cryptotar) doesn't exist"
-		cryptotree=$(mktemp -d /tmp/crypto.XXXXXX)
-		[ -n "$cryptotree" ] || fail "can't create tree for crypto"
-		unpack_crypto "$cryptotar" "$cryptotree"
-		#
-		# fixcrypto must come before fixglom, because
-		# fixcrypto uses the unglommed path to find things in
-		# the unpacked crypto.
-		#
-		fixcrypto $modlist "$cryptotree"
-	fi
 	if [ "$GLOM" = "yes" ]; then
 		fixglom $modlist $GLOMNAME
 		filtimpl $modlist $IMPL
@@ -734,11 +716,6 @@ function copy_kmdb {
 	srctrees=$SRC
 	if [[ -d $SRC/../closed && "$CLOSED_IS_PRESENT" != no ]]; then
 		srctrees="$srctrees $SRC/../closed"
-	else
-		if [ -z "$ON_CRYPTO_BINS" ]; then
-			echo "Warning: ON_CRYPTO_BINS not set; pre-signed" \
-			    "crypto not provided."
-		fi
 	fi
 	if [[ $WANT64 = "yes" ]] ; then
 		# kmdbmod for sparc and x86 are built and installed
