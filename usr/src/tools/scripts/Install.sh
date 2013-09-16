@@ -776,7 +776,6 @@ function okexit {
 	save_state
 	rm -rf $modstatedir
 	rm -f $modlist
-	[ -n "$cryptotree" ] && rm -rf "$cryptotree"
 	verbose "Install complete"
 	exit 0
 }
