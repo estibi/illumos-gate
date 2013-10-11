@@ -90,14 +90,12 @@ file path=opt/onbld/bin/check_rtime mode=0555
 file path=opt/onbld/bin/checkpaths mode=0555
 file path=opt/onbld/bin/checkproto mode=0555
 file path=opt/onbld/bin/copyrightchk mode=0555
-file path=opt/onbld/bin/cryptodrop mode=0555
 file path=opt/onbld/bin/cstyle mode=0555
 file path=opt/onbld/bin/ctfcvtptbl mode=0555
 file path=opt/onbld/bin/ctffindmod mode=0555
 file path=opt/onbld/bin/elfcmp mode=0555
 file path=opt/onbld/bin/elfsigncmp mode=0555
 file path=opt/onbld/bin/find_elf mode=0555
-file path=opt/onbld/bin/findcrypto mode=0555
 file path=opt/onbld/bin/flg.flp mode=0555
 file path=opt/onbld/bin/genoffsets mode=0555
 file path=opt/onbld/bin/get_depend_info mode=0555
@@ -116,8 +114,6 @@ file path=opt/onbld/bin/nightly mode=0555
 file path=opt/onbld/bin/onu mode=0555
 file path=opt/onbld/bin/protocmp.terse mode=0555
 file path=opt/onbld/bin/sccscheck mode=0555
-file path=opt/onbld/bin/signit mode=0555
-file path=opt/onbld/bin/signproto mode=0555
 file path=opt/onbld/bin/validate_flg mode=0555
 file path=opt/onbld/bin/validate_paths mode=0555
 file path=opt/onbld/bin/validate_pkg mode=0555
@@ -208,8 +204,6 @@ file path=opt/onbld/man/man1/ndrgen.1
 file path=opt/onbld/man/man1/nightly.1
 file path=opt/onbld/man/man1/onu.1
 file path=opt/onbld/man/man1/sccscheck.1
-file path=opt/onbld/man/man1/signit.1
-file path=opt/onbld/man/man1/signproto.1
 file path=opt/onbld/man/man1/webrev.1
 file path=opt/onbld/man/man1/which_scm.1
 file path=opt/onbld/man/man1/ws.1

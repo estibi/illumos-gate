@@ -250,12 +250,8 @@ a time.
 .B Miscellaneous options
 .TP 10
 .B \-O
-generate deliverables for OpenSolaris.  Tarballs containing signed
-cryptographic binaries and binaries
-of closed-source components are put in $CODEMGR_WS.  (The
-cryptographic tarballs are copies of the
-ones that are put in the parent directory of
-$PKGARCHIVE.)
+generate deliverables for OpenSolaris.  Tarballs containing binaries
+of closed-source components are put in $CODEMGR_WS.
 .TP 10
 .B \-V VERS
 set the build version string to VERS, overriding VERSION
@@ -546,20 +542,6 @@ the developer downloads a closed binaries tree and unpacks it.
 tells nightly
 where to find these closed binaries, so that it can add them into the
 build.
-.LP
-.RE
-.B ON_CRYPTO_BINS
-.RS 5
-This is the path to a compressed tarball that contains debug
-cryptographic binaries that have been signed to allow execution
-outside of Sun, e.g., $PARENT_WS/packages/$MACH/on-crypto.$MACH.bz2.
-.I nightly
-will automatically adjust the path for non-debug builds.  This tarball
-is needed if the closed-source tree is not present.  Also, it is
-usually needed when generating OpenSolaris deliverables from a project
-workspace.  This is because most projects do not have access to the
-necessary key and certificate that would let them sign their own
-cryptographic binaries.
 .LP
 .RE
 .B CHECK_PATHS

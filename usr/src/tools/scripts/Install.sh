@@ -336,79 +336,6 @@ function filtmod {
 }
 
 #
-# Unpack the crypto tarball into the given tree, then massage the
-# tree so that the binaries are all in objNN or debugNN directories.
-#
-function unpack_crypto {
-	typeset tarfile=$1
-	typeset ctop=$2
-	[ -d "$ctop" ] || fail "Can't create tree for crypto modules."
-
-	[ "$VERBOSE" = "V" ] && echo "unpacking crypto tarball into $ctop..."
-	bzcat "$tarfile" | (cd "$ctop"; tar xf -)
-
-	typeset root="$ctop/proto/root_$MACH"
-	[ $OBJD = obj ] && root="$ctop/proto/root_$MACH-nd"
-	[ -d "$root" ] || fail "Can't unpack crypto tarball."
-
-	(cd "$root"; for d in platform kernel usr/kernel; do
-		[ ! -d $d ] && continue
-		find $d -type f -print
-	done) | while read file; do
-		typeset dir=$(dirname "$file")
-		typeset base=$(basename "$file")
-		typeset type=$(basename "$dir")
-		if [ "$type" = amd64 ]; then
-			newdir="$dir/${OBJD}64"
-		elif [ "$type" = sparcv9 ]; then
-			newdir="$dir/${OBJD}64"
-		else
-			newdir="$dir/${OBJD}32"
-		fi
-		mkdir -p "$root/$newdir"
-		[ "$VERBOSE" = "V" ] && echo "mv $file $newdir"
-		mv "$root/$file" "$root/$newdir"
-	done
-}
-
-#
-# usage: fixcrypto listfile ctop
-# Massage entries in listfile for crypto modules, so that they point
-# into ctop.
-#
-function fixcrypto {
-	typeset listfile=$1
-	typeset ctop=$2
-
-	typeset ccontents=/tmp/crypto-toc$$
-	find "$ctop" -type f -print > $ccontents
-	typeset root=root_$MACH
-	[ "$OBJD" = obj ] && root=root_$MACH-nd
-
-	grep -v ^MOD $listfile > $listfile.no-mod
-	grep ^MOD $listfile | while read tag srcdir module targdir size impl; do
-		#
-		# We don't just grep for ${OBJD}$size/$module because
-		# there can be generic and platform-dependent versions
-		# of a module.
-		#
-		newsrcfile=$(grep -w $root/$targdir/${OBJD}$size/$module $ccontents)
-		if [ -n "$newsrcfile" ]; then
-			# srcdir doesn't include final objNN or debugNN
-			echo $tag $module $targdir $size $impl \
-			    $(dirname $(dirname "$newsrcfile"))
-		else
-			echo $tag $module $targdir $size $impl $srcdir
-		fi
-	done > $listfile.mod
-	cat $listfile.mod $listfile.no-mod > $listfile
-
-	rm -f $listfile.mod
-	rm -f $listfile.no-mod
-	rm -f $ccontents
-}
-
-#
 # Copy a module, or create a link, as needed.
 #
 
@@ -542,24 +469,6 @@ function copy_kernel {
 	    egrep "^MOD|^CONF|^LINK|^SYMLINK" > $modlist
 	[ "$VERBOSE" = "V" ] && cat $modlist
 	check_modlist $modlist
-	if [ -n "$ON_CRYPTO_BINS" ]; then
-		cryptotar="$ON_CRYPTO_BINS"
-		if [ "$OBJD" = obj ]; then
-			isa=$(uname -p)
-			cryptotar=$(echo "$ON_CRYPTO_BINS" |
-			    sed -e s/.$isa.tar.bz2/-nd.$isa.tar.bz2/)
-		fi
-		[ -f "$cryptotar" ] || fail "crypto ($cryptotar) doesn't exist"
-		cryptotree=$(mktemp -d /tmp/crypto.XXXXXX)
-		[ -n "$cryptotree" ] || fail "can't create tree for crypto"
-		unpack_crypto "$cryptotar" "$cryptotree"
-		#
-		# fixcrypto must come before fixglom, because
-		# fixcrypto uses the unglommed path to find things in
-		# the unpacked crypto.
-		#
-		fixcrypto $modlist "$cryptotree"
-	fi
 	if [ "$GLOM" = "yes" ]; then
 		fixglom $modlist $GLOMNAME
 		filtimpl $modlist $IMPL
@@ -734,11 +643,6 @@ function copy_kmdb {
 	srctrees=$SRC
 	if [[ -d $SRC/../closed && "$CLOSED_IS_PRESENT" != no ]]; then
 		srctrees="$srctrees $SRC/../closed"
-	else
-		if [ -z "$ON_CRYPTO_BINS" ]; then
-			echo "Warning: ON_CRYPTO_BINS not set; pre-signed" \
-			    "crypto not provided."
-		fi
 	fi
 	if [[ $WANT64 = "yes" ]] ; then
 		# kmdbmod for sparc and x86 are built and installed
@@ -872,7 +776,6 @@ function okexit {
 	save_state
 	rm -rf $modstatedir
 	rm -f $modlist
-	[ -n "$cryptotree" ] && rm -rf "$cryptotree"
 	verbose "Install complete"
 	exit 0
 }

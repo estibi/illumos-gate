@@ -33,7 +33,6 @@ SHFILES= \
 	bringovercheck \
 	checkpaths \
 	checkproto \
-	cryptodrop \
 	cstyle \
 	elfcmp \
 	flg.flp \

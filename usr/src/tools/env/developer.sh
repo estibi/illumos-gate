@@ -97,11 +97,6 @@ MACH=`uname -p`;				export MACH
 #
 ELF_DATA_BASELINE_DIR="/ws/onnv-gate/usr/src/ELF-data-baseline.$MACH";	export ELF_DATA_BASELINE_DIR
 
-# This is usually just needed if the closed tree is missing, or when
-# building a project gate with the -O (cap oh) flag.
-# ON_CRYPTO_BINS="$PARENT_WS/packages/$MACH/on-crypto.$MACH.tar.bz2"
-# export ON_CRYPTO_BINS
-
 # REF_PROTO_LIST - for comparing the list of stuff in your proto area
 # with. Generally this should be left alone, since you want to see differences
 # from your parent (the gate).
