@@ -122,7 +122,7 @@ static const union {
 double
 _SVID_libm_err(double x, double y, int type) {
 	struct exception	exc;
-	double			t, w, ieee_retval;
+	double			t, w, ieee_retval = 0;
 	enum version		lib_version = _lib_version;
 	int			iy;
 
@@ -856,11 +856,8 @@ _SVID_libm_err(double x, double y, int type) {
 		if (lib_version == strict_ansi) {
 			exc.retval = 1.0;
 		} else if (!matherr(&exc)) {
-			switch (lib_version) {
-			case c_issue_4:
-			case ansi_1:
+			if ((lib_version == c_issue_4) || (lib_version == ansi_1))
 				errno = EDOM;
-			}
 		}
 		break;
 	case 43:

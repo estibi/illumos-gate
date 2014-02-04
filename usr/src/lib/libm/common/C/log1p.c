@@ -123,7 +123,7 @@ static const double xxx[] = {
 
 double
 log1p(double x) {
-	double	hfsq, f, c, s, z, R, u;
+	double	hfsq, f, c = 0.0, s, z, R, u;
 	int	k, hx, hu, ax;
 
 	hx = ((int *)&x)[HIWORD];		/* high word of x */

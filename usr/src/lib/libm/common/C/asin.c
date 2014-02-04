@@ -104,7 +104,7 @@ static const double xxx[] = {
 
 double
 asin(double x) {
-	double t, w, p, q, c, r, s;
+	double t = 0.0L, w, p, q, c, r, s;
 	int hx, ix;
 
 	hx = ((int *) &x)[HIWORD];

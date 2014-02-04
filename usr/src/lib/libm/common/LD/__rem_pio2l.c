@@ -34,6 +34,7 @@
  */
 
 #include "libm.h"
+#include "longdouble.h"
 
 #include "longdouble.h"
 

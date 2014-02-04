@@ -79,8 +79,8 @@ __nearbyint(double x) {
 
 	/* handle |x| < 1 */
 	if (hx < 0x3ff00000) {
-		if (rm == FE_UPWARD || (rm == FE_TONEAREST &&
-			(hx >= 0x3fe00000 && ((hx & 0xfffff) | xx.i[LOWORD]))))
+		if ( rm == FE_UPWARD || ( rm == FE_TONEAREST &&
+			( hx >= 0x3fe00000 && ( (hx & 0xfffff) | xx.i[LOWORD]) ) ) )
 			xx.i[HIWORD] = sx | 0x3ff00000;
 		else
 			xx.i[HIWORD] = sx;
@@ -100,9 +100,9 @@ __nearbyint(double x) {
 			return (x);
 		xx.i[LOWORD] = 0;
 		xx.i[HIWORD] &= ~(i - 1);
-		if (rm == FE_UPWARD || (rm == FE_TONEAREST &&
-			(frac > 0x80000000u || (frac == 0x80000000) &&
-			(xx.i[HIWORD] & i))))
+		if ((rm == FE_UPWARD) || ((rm == FE_TONEAREST) &&
+			((frac > 0x80000000u) || ((frac == 0x80000000) &&
+			(xx.i[HIWORD] & i)))))
 			xx.i[HIWORD] += i;
 	} else {
 		i = 1 << j;
@@ -110,9 +110,9 @@ __nearbyint(double x) {
 		if (!frac)
 			return (x);
 		xx.i[LOWORD] &= ~(i - 1);
-		if (rm == FE_UPWARD || (rm == FE_TONEAREST &&
-			(frac > 0x80000000u || (frac == 0x80000000) &&
-			(xx.i[LOWORD] & i)))) {
+		if ((rm == FE_UPWARD) || ((rm == FE_TONEAREST) &&
+			(frac > 0x80000000u || ((frac == 0x80000000) &&
+			(xx.i[LOWORD] & i))))) {
 			xx.i[LOWORD] += i;
 			if (xx.i[LOWORD] == 0)
 				xx.i[HIWORD]++;

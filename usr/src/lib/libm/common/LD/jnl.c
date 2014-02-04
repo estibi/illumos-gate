@@ -60,6 +60,7 @@
 #include "libm.h"
 #include "longdouble.h"
 #include <float.h>	/* LDBL_MAX */
+#include "longdouble.h"
 
 #define GENERIC long double
 
@@ -72,7 +73,7 @@ one  = 1.0L;
 GENERIC
 jnl(n,x) int n; GENERIC x;{
 	int i, sgn;
-	GENERIC a, b, temp, z, w;
+	GENERIC a, b, temp = 0, z, w;
 
     /* J(-n,x) = (-1)^n * J(n, x), J(n, -x) = (-1)^n * J(n, x)
      * Thus, J(-n,x) = J(n,-x)
@@ -212,14 +213,16 @@ GENERIC ynl(n,x)
 int n; GENERIC x;{
 	int i;
 	int sign;
-	GENERIC a, b, temp;
+	GENERIC a, b, temp = 0;
 
-	if(x!=x) return x+x;
-	if (x <= zero) 
+	if(x!=x)
+		return x+x;
+	if (x <= zero) {
 		if(x==zero) 
 			return -one/zero;
 		else 
 			return zero/zero;
+	}
 	sign = 1;
 	if(n<0){
 		n = -n;

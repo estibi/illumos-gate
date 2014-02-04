@@ -122,7 +122,7 @@ static struct exc_list {
 static int check_exc_list(char *addr, unsigned long code, char *stk,
     struct frame *fp)
 {
-	struct exc_list	*l, *ll;
+	struct exc_list	*l, *ll = NULL;
 	struct frame	*f;
 	int		i, n;
 

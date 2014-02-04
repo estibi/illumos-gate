@@ -248,8 +248,8 @@ pow(double x, double y) {
 			if (ahx >= 0x5ff00000 && ahx < 0x7ff00000)
 				return (_SVID_libm_err(x, y, 21));
 							/* x*x overflow */
-			else if (ahx < 0x1e56a09e && (ahx | lx) != 0 ||
-				ahx == 0x1e56a09e && lx < 0x667f3bcd)
+			else if ((ahx < 0x1e56a09e && (ahx | lx) != 0) ||
+				(ahx == 0x1e56a09e && lx < 0x667f3bcd))
 				return (_SVID_libm_err(x, y, 22));
 							/* x*x underflow */
 			else

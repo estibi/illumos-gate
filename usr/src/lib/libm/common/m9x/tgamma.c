@@ -1406,7 +1406,7 @@ static const double
 /* gamma(x+i) for 0 <= x < 1  */
 static struct Double
 gam_n(int i, double x) {
-	struct Double rr, yy;
+	struct Double rr = {0.0L, 0.0L}, yy;
 	double r1, r2, t2, z, xh, xl, yh, yl, zh, z1, z2, zl, x5, wh, wl;
 
 	/* compute yy = gamma(x+1) */

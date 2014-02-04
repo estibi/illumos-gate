@@ -111,7 +111,7 @@ t13	=  6.916271223396808311166202285131722231723e-0006L;
 /* INDENT ON */
 long double
 __k_tanl(long double x, long double y, int k) {
-	long double a, t, z, w, s, c;
+	long double a, t, z, w = 0.0, s, c;
 	int *pt = (int *) &t, *px = (int *) &x;
 	int i, j, hx, ix;
 

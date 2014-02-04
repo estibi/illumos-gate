@@ -121,7 +121,7 @@ static const double q[] = {
 
 double
 __k_tan(double x, double y, int k) {
-	double a, t, z, w, s, c, r, rh, xh, xl;
+	double a, t, z, w = 0.0L, s, c, r, rh, xh, xl;
 	int i, j, hx, ix;
 
 	t = one;

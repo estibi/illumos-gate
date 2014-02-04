@@ -71,7 +71,7 @@ static const double q[] = {
 
 float
 __k_tanf(double x, int n) {
-	float ft;
+	float ft = 0.0;
 	double z, w;
 	int ix;
 
