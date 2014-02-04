@@ -47,7 +47,7 @@ static const int hiinf = 0x7fff0000;
 static const long double
 	tiny = 1.0e-4000L,
 	huge = 1.0e4000L,
-#if defined(__i386)
+#if defined(__x86)
 		/* 43 significant bits, 21 trailing zeros */
 	ln2hil = 0.693147180559890330187045037746429443359375L,
 	ln2lol = 5.497923018708371174712471612513436025525412068e-14L,

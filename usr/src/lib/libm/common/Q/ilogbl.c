@@ -40,7 +40,7 @@
 #define	XSCALE_OFFSET	0x406f				/* 0x3fff + 112 */
 static const long double xscale = 5192296858534827628530496329220096.0L;
 								/* 2^112 */
-#elif defined(__i386)
+#elif defined(__x86)
 /*
  * if pseudo-denormal, replace by the equivalent normal
  */

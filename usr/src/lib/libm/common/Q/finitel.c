@@ -39,7 +39,7 @@ finitel(long double x) {
 	int *px = (int *) &x;
 	return ((px[0] & ~0x80000000) < 0x7fff0000);
 }
-#elif defined(__i386)
+#elif defined(__x86)
 int
 finitel(long double x) {
 	int *px = (int *) &x, t = px[2] & 0x7fff;
@@ -49,4 +49,4 @@ finitel(long double x) {
 	return (t != 0x7fff);
 #endif
 }
-#endif	/* defined(__sparc) || defined(__i386) */
+#endif	/* defined(__sparc) || defined(__x86) */

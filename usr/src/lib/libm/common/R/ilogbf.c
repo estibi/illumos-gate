@@ -34,7 +34,7 @@
 #include "libm.h"
 #include "xpg6.h"	/* __xpg6 */
 
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 static const float two25 = 33554432.0F;
 #else
 /*
@@ -76,7 +76,7 @@ ilogbf(float x) {
 		if (k == 0)
 			return (raise_invalid(0x80000001));
 		else {
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 			x *= two25;
 			return (((*((int *) &x) & 0x7f800000) >> 23) - 152);
 #else

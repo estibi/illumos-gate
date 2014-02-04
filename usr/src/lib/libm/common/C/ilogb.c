@@ -34,7 +34,7 @@
 #include "libm.h"
 #include "xpg6.h"	/* __xpg6 */
 
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 static const double two52 = 4503599627370496.0;
 #else
 /*
@@ -80,7 +80,7 @@ ilogb(double x) {
 		if ((px[LOWORD] | k) == 0)
 			return (raise_invalid(0x80000001));
 		else {
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 			x *= two52;
 			return (((px[HIWORD] & 0x7ff00000) >> 20) - 1075);
 #else

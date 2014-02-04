@@ -43,7 +43,7 @@
 static const long double xtwot = 10384593717069655257060992658440192.0L,
 								/* 2^113 */
 	twomtm1 = 4.814824860968089632639944856462318296E-35L;	/* 2^-114 */
-#elif defined(__i386)
+#elif defined(__x86)
 #define	XSET_EXP(k, x)	((int *) &x)[2] = (((int *) &x)[2] & ~0x7fff) | k
 #if defined(HANDLE_UNSUPPORTED)
 #define	ISINFNANL(k, x)	(k == 0x7fff || k != 0 && \

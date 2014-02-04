@@ -187,7 +187,7 @@ __nearbyint(double x) {
 	return (z);
 }
 
-#elif defined(__i386)
+#elif defined(__x86)
 
 /* inline template */
 extern long double frndint(long double);

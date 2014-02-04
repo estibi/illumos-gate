@@ -49,4 +49,4 @@ finitel(long double x) {
 	return (t != 0x7fff);
 #endif
 }
-#endif	/* defined(__sparc) || defined(__i386) */
+#endif	/* defined(__sparc) || defined(__x86) */

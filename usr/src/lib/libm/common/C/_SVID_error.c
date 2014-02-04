@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <float.h>		/* DBL_MAX, DBL_MIN */
 #include <unistd.h>		/* write */
-#if defined(__i386) || defined(i386) || defined(__amd64)
+#if defined(__x86)
 #include <ieeefp.h>
 #undef	fp_class
 #define	fp_class	fpclass

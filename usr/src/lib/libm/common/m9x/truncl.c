@@ -107,4 +107,4 @@ truncl(long double x) {
 }
 #else
 #error Unknown architecture
-#endif	/* defined(__sparc) || defined(__i386) */
+#endif	/* defined(__sparc) || defined(__x86) */

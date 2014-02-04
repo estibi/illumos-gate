@@ -69,7 +69,7 @@ signbitl(long double x) {
 	unsigned *px = (unsigned *) &x;
 	return (px[0] >> 31);
 }
-#elif defined(__i386)
+#elif defined(__x86)
 int
 isinfl(long double x) {
 	int *px = (int *) &x;
@@ -110,4 +110,4 @@ signbitl(long double x) {
 	unsigned *px = (unsigned *) &x;
 	return ((px[2] >> 15) & 1);
 }
-#endif	/* defined(__sparc) || defined(__i386) */
+#endif	/* defined(__sparc) || defined(__x86) */
