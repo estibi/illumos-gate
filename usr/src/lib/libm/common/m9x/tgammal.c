@@ -881,7 +881,7 @@ t0z3_l =  4.461599916947014419045492615933551648857380e-35L
  */
 static struct LDouble
 gam_n(int i, long double x) {
-	struct LDouble rr, yy;
+	struct LDouble rr = {0.0L, 0.0L}, yy;
 	long double r1, r2, t2, z, xh, xl, yh, yl, zh, z1, z2, zl, x5, wh, wl;
 
 	/* compute yy = gamma(x+1) */

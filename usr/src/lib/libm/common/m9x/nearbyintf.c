@@ -80,7 +80,7 @@ __nearbyintf(float x) {
 
 	hx &= ~(i - 1);
 	if (rm == FE_UPWARD || (rm == FE_TONEAREST && (frac > (i >> 1) ||
-		(frac == (i >> 1)) && (hx & i))))
+		((frac == (i >> 1)) && (hx & i)))))
 		xx.i = sx | (hx + i);
 	else
 		xx.i = sx | hx;

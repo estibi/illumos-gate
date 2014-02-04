@@ -400,7 +400,7 @@ t0z3 = 0.819773101100500601787868704921606996312;
  */
 static double
 gam_n(int i, double x) {
-	double rr, yy;
+	double rr = 0.0L, yy;
 	double z1, z2;
 
 	/* compute yy = gamma(x+1) */

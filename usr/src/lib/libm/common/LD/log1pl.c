@@ -54,11 +54,12 @@ log1pl(long double x) {
 		return (logl(x));
 	rd = __swapRD(fp_nearest);
 	y = 1.L + x;
-	if (y != 1.L)
+	if (y != 1.L) {
 		if (y == x)
 			x = logl(x);
 		else
 			x *= logl(y) / (y - 1.L);
+	}
 	if (rd != fp_nearest)
 		(void) __swapRD(rd);
 	return (x);

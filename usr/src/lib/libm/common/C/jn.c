@@ -71,7 +71,7 @@ static const GENERIC
 GENERIC
 jn(int n, GENERIC x) {
 	int i, sgn;
-	GENERIC a, b, temp;
+	GENERIC a, b, temp = 0;
 	GENERIC z, w, ox, on;
 
     /* J(-n,x) = (-1)^n * J(n, x), J(n, -x) = (-1)^n * J(n, x)
@@ -217,17 +217,19 @@ GENERIC
 yn(int n, GENERIC x) {
 	int i;
 	int sign;
-	GENERIC a, b, temp, ox, on;
+	GENERIC a, b, temp = 0, ox, on;
 
 	ox = x; on = (GENERIC)n;
 	if(isnan(x)) return x*x;	/* + -> * for Cheetah */
-	if (x <= zero)
-		if(x==zero)
+	if (x <= zero) {
+		if(x==zero) {
 			/* return -one/zero; */
 			return _SVID_libm_err((GENERIC)n,x,12);
-		else
+		} else {
 			/* return zero/zero; */
 			return _SVID_libm_err((GENERIC)n,x,13);
+		}
+	}
 	if (!((int) _lib_version == libm_ieee ||
 		(__xpg6 & _C99SUSv3_math_errexcept) != 0)) {
 	    if(x > X_TLOSS) return _SVID_libm_err(on,ox,39);

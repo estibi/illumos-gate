@@ -45,8 +45,8 @@ int
 isnanl(long double x) {
 	int *px = (int *) &x, t = px[2] & 0x7fff;
 #if defined(HANDLE_UNSUPPORTED)
-	return (t == 0x7fff && ((px[1] & ~0x80000000) | px[0]) != 0 ||
-		t != 0 && (px[1] & 0x80000000) == 0);
+	return ((t == 0x7fff && ((px[1] & ~0x80000000) | px[0]) != 0) ||
+		(t != 0 && (px[1] & 0x80000000) == 0));
 #else
 	return (t == 0x7fff && ((px[1] & ~0x80000000) | px[0]) != 0);
 #endif

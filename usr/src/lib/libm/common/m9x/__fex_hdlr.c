@@ -394,7 +394,7 @@ __fex_hdlr(int sig, siginfo_t *sip, ucontext_t *uap)
 {
 	struct fex_handler_data	*thr_handlers;
 	struct sigaction	act;
-	void			(*handler)(), (*simd_handler[4])();
+	void			(*handler)() = NULL, (*simd_handler[4])();
 	int			mode, simd_mode[4], i, len, accrued, *ap;
 	unsigned int		cwsw, oldcwsw, mxcsr, oldmxcsr;
 	enum fex_exception	e, simd_e[4];

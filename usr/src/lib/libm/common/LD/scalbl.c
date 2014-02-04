@@ -48,16 +48,16 @@ scalbl(long double x, long double fn) {
 
 	/* fn is +/-Inf */
 #if defined(_BIG_ENDIAN)
-	if ((py[0] & 0x7fff0000) == 0x7fff0000)
+	if ((py[0] & 0x7fff0000) == 0x7fff0000) {
 		if ((py[0] & 0x80000000) != 0)
 #else
-	if ((py[2] & 0x7fff) == 0x7fff)
+	if ((py[2] & 0x7fff) == 0x7fff) {
 		if ((py[2] & 0x8000) != 0)
 #endif
 			return x / (-fn);
 		else
 			return x * fn;
-
+	}
 	if (rintl(fn) != fn)
 		return (fn - fn) / (fn - fn);
 	if (fn > 65000.0L)

@@ -37,6 +37,7 @@ nextafter(double x, double y) {
 	int		hx, hy, k;
 	double		ans;
 	unsigned	lx;
+	volatile double dummy = 0.0L;
 
 	hx = ((int *)&x)[HIWORD];
 	lx = ((int *)&x)[LOWORD];
@@ -79,7 +80,7 @@ nextafter(double x, double y) {
 #if !defined(__lint)
 	} else if (k == 0) {
 		/* underflow */
-		volatile double dummy = DBL_MIN * copysign(DBL_MIN, x);
+		dummy = DBL_MIN * copysign(DBL_MIN, x);
 #endif
 	}
 	return (ans);

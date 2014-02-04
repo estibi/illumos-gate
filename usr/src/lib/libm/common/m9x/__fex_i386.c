@@ -1428,6 +1428,9 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 		case fex_ldouble:
 			*(float *)ea = (float) r.val.q;
 			break;
+
+		default:
+			break;
 		}
 		if (ex != FPE_FLTRES && (op & 8) != 0)
 			pop(uap);
@@ -1460,6 +1463,9 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 
 		case fex_ldouble:
 			*(int *)ea = (int) r.val.q;
+			break;
+
+		default:
 			break;
 		}
 		if (ex != FPE_FLTRES && (op & 8) != 0)
@@ -1494,6 +1500,9 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 		case fex_ldouble:
 			*(double *)ea = (double) r.val.q;
 			break;
+
+		default:
+			break;
 		}
 		if (ex != FPE_FLTRES && (op & 8) != 0)
 			pop(uap);
@@ -1526,6 +1535,9 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 
 		case fex_ldouble:
 			*(short *)ea = (short) r.val.q;
+			break;
+
+		default:
 			break;
 		}
 		if (ex != FPE_FLTRES && (op & 8) != 0)
@@ -1565,6 +1577,9 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 		case fex_ldouble:
 			*(long long *)ea = (long long) r.val.q;
 			break;
+
+		default:
+			break;
 		}
 		if (ex != FPE_FLTRES)
 			pop(uap);
@@ -1587,6 +1602,9 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 
 	case fex_double:
 		r.val.q = (long double) r.val.d;
+		break;
+
+	default:
 		break;
 	}
 
