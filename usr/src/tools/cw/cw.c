@@ -392,6 +392,8 @@ static const xarch_table_t xtbl[] = {
 	{ "amd64",	(SS11|M64), { "-m64", "-mtune=opteron" } },
 	{ "386",	SS11,	{ "-march=i386" } },
 	{ "pentium_pro", SS11,	{ "-march=pentiumpro" } },
+	{ "sse",	SS11, { "-msse", "-mfpmath=sse" } },
+	{ "sse2",	SS11, { "-msse2", "-mfpmath=sse" } },
 #elif defined(__sparc)
 	{ "generic",	(SS11|M32), { "-m32", "-mcpu=v8" } },
 	{ "generic64",	(SS11|M64), { "-m64", "-mcpu=v9" } },
