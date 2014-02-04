@@ -64,7 +64,7 @@ lrint(double x) {
 		/* add and subtract a power of two to round x to an integer */
 #if defined(__sparc)
 		yy.i[HIWORD] = (xx.i[HIWORD] & 0x80000000) | 0x43300000;
-#elif defined(__i386)
+#elif defined(__x86)
 		yy.i[HIWORD] = (xx.i[HIWORD] & 0x80000000) | 0x43e00000;
 #else
 #error Unknown architecture

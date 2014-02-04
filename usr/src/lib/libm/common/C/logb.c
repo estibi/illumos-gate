@@ -36,7 +36,7 @@
 #include "xpg6.h"	/* __xpg6 */
 #define	_C99SUSv3_logb	_C99SUSv3_logb_subnormal_is_like_ilogb
 
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 static const double two52 = 4503599627370496.0;
 #else
 /*
@@ -69,7 +69,7 @@ logb(double x) {
 		if ((px[LOWORD] | k) == 0)
 			return (_SVID_libm_err(x, x, 45));
 		else if ((__xpg6 & _C99SUSv3_logb) != 0) {
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 			x *= two52;
 			return ((double) (((px[HIWORD] & 0x7ff00000) >> 20)
 				- 1075));

@@ -24,7 +24,7 @@ extern "C" {
 
 #include <sys/types.h>
 
-#if defined(__amd64) || defined(__i386)
+#if defined(__x86)
 
 /*
  * Floating point Control Word and Status Word

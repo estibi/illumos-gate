@@ -35,7 +35,7 @@
 #include <float.h>		/* FLT_MAX, FLT_MIN */
 
 static const float twom25f = 2.98023223876953125e-8F;
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 static const float two23f = 8388608.0F;
 #else
 /*
@@ -71,7 +71,7 @@ scalblnf(float x, long n) {
 	if (ix == 0 || n == 0)
 		return (x);
 	if (k == 0) {
-#if defined(USE_FPSCALE) || defined(__i386)
+#if defined(USE_FPSCALE) || defined(__x86)
 		x *= two23f;
 		k = ((*px & ~0x80000000) >> 23) - 23;
 #else

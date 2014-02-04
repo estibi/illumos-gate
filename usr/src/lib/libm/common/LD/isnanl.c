@@ -51,4 +51,4 @@ isnanl(long double x) {
 	return (t == 0x7fff && ((px[1] & ~0x80000000) | px[0]) != 0);
 #endif
 }
-#endif	/* defined(__sparc) || defined(__i386) */
+#endif	/* defined(__sparc) || defined(__x86) */

@@ -97,7 +97,7 @@ lroundl(long double x) {
 		l = -l;
 	return ((long) l);
 }
-#elif defined(__i386)
+#elif defined(__x86)
 long
 lroundl(long double x) {
 	union {
@@ -139,7 +139,7 @@ lroundl(long double x) {
 }
 #else
 #error Unknown architecture
-#endif	/* defined(__sparc) || defined(__i386) */
+#endif	/* defined(__sparc) || defined(__x86) */
 #else
 #error Unsupported architecture
 #endif	/* defined(_ILP32) */

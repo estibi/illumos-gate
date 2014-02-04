@@ -82,7 +82,7 @@ csqrtl(ldcomplex z) {
 		}
 	} else if (ix >= iy) {
 		n = (ix - iy) >> 16;
-#if defined(__i386)		/* 64 significant bits */
+#if defined(__x86)		/* 64 significant bits */
 		if (n >= 35)
 #else				/* 113 significant bits  */
 		if (n >= 60)
@@ -108,7 +108,7 @@ csqrtl(ldcomplex z) {
 		}
 	} else {
 		n = (iy - ix) >> 16;
-#if defined(__i386)		/* 64 significant bits */
+#if defined(__x86)		/* 64 significant bits */
 		if (n >= 35) {	/* } */
 #else				/* 113 significant bits  */
 		if (n >= 60) {

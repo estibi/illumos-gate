@@ -52,7 +52,7 @@
 					if (--px[n1] == 0xffffffff) \
 						--px[n0]; \
 		}
-#elif defined(__i386)
+#elif defined(__x86)
 #define	n0	2
 #define	n1	1
 #define	n2	0

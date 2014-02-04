@@ -44,7 +44,7 @@ cprojl(ldcomplex z) {
 
 	x = LD_RE(z);
 	y = LD_IM(z);
-#if defined(__i386)
+#if defined(__x86)
 	hy = ((int *) &y)[2] << 16;
 #else
 	hy = ((int *) &y)[0];

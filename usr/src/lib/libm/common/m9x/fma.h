@@ -117,7 +117,7 @@ extern void __fenv_setfsr32(const unsigned int *);
 extern void __fenv_getcwsw(unsigned int *);
 extern void __fenv_setcwsw(const unsigned int *);
 
-#endif /* __i386 */
+#endif /* __x86 */
 
 #ifdef __cplusplus
 }

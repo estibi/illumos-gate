@@ -64,7 +64,7 @@
 #include "libm.h"
 #include "longdouble.h"
 
-#if defined(__i386)
+#if defined(__x86)
 #define	__swapRD	__swap87RD
 #endif
 extern enum fp_direction_type __swapRD(enum fp_direction_type);
@@ -73,7 +73,7 @@ static const long double
 	zero	  = 0.0L,
 	ivln10    = 4.342944819032518276511289189166050822944e-0001L,
 	one	  = 1.0L,
-#if defined(__i386)
+#if defined(__x86)
 	log10_2hi = 3.010299956639803653501985536422580480576e-01L,
 	log10_2lo = 8.298635403410822349787106337291183585413e-16L;
 #elif defined(__sparc)

@@ -365,7 +365,7 @@ static long double k_log_NKzl(int N, int K, long double zh, long double *zt)
 	long double y, r, w, s2, s2h, s2t, t, zk, v, P;
 	double dzk;
 
-#if !defined(__i386)
+#if !defined(__x86)
 	unsigned lx, ly;
 	int j;
 #endif
@@ -378,7 +378,7 @@ static long double k_log_NKzl(int N, int K, long double zh, long double *zt)
 	s2h = s2 = r * t;
 /* split s2 into correctly rounded half */
 
-#if defined(__i386)
+#if defined(__x86)
 		((unsigned *)&s2h)[0] = 0;	/* 32 bits chopped */
 #else
 
@@ -412,7 +412,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 	int n, k, ix, iy, iz, nx, ny, nz, i;
 	double dk;
 
-#if !defined(__i386)
+#if !defined(__x86)
 	int j;
 	unsigned lx, ly;
 #endif
@@ -440,7 +440,7 @@ __k_clog_rl(long double x, long double y, long double *er)
  *
  *	log(sqrt(1 + y**2)) =  y**2 / 2 - y**4 / 8 + ...  =  y**2 / 2
  */
-#if defined(__i386)
+#if defined(__x86)
 	if (x == 1.0L && ny < (0x3fff - 46)) {
 #else
 	if (x == 1.0L && ny < (0x3fff - 70)) {
@@ -450,7 +450,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 		if (ny >= 8305) {	/* compute er = tail of t2 */
 			dk = (double) y;
 
-#if defined(__i386)
+#if defined(__x86)
 			((unsigned *)&dk)[LOWORD] &= 0xfffe0000;
 #endif
 
@@ -488,7 +488,7 @@ __k_clog_rl(long double x, long double y, long double *er)
  * log(x) = log(sqrt(x * x + y * y)) to 27 extra bits.
  */
 
-#if defined(__i386)
+#if defined(__x86)
 	if (n > 78 || y == 0.0L) {
 #else
 	if (n > 122 || y == 0.0L) {
@@ -500,7 +500,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 		z = x - zk;
 		dk = (double)z;
 
-#if defined(__i386)
+#if defined(__x86)
 		((unsigned *)&dk)[LOWORD] &= 0xfffe0000;
 #endif
 
@@ -526,7 +526,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 		wh = x;
 
 /* split x into correctly rounded half */
-#if defined(__i386)
+#if defined(__x86)
 		((unsigned *)&wh)[0] = 0;	/* 32 bits chopped */
 #else
 		lx = ((unsigned *)&wh)[2];	/* 56 rounded */
@@ -548,7 +548,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 		wh = y;
 
 /* split y into correctly rounded half */
-#if defined(__i386)
+#if defined(__x86)
 		((unsigned *)&wh)[0] = 0;	/* 32 bits chopped */
 #else
 		ly = ((unsigned *)&wh)[2];	/* 56 bits rounded */
@@ -592,7 +592,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 		zh = ((tk + t2) + t3) + t4;
 
 /* split zh into correctly rounded half */
-#if defined(__i386)
+#if defined(__x86)
 		((unsigned *)&zh)[0] = 0;
 #else
 		ly = ((unsigned *)&zh)[2];

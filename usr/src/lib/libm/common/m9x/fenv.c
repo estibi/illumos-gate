@@ -61,7 +61,7 @@ const fenv_t __fenv_dfl_env = {
 		{ FEX_NONSTOP, (void(*)())0 },
 		{ FEX_NONSTOP, (void(*)())0 },
 	},
-#ifdef __i386
+#ifdef __x86
 	0x13000000
 #else
 	0
