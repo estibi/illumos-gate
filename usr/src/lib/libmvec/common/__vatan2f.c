@@ -58,12 +58,12 @@ __vatan2f( int n, float * restrict y, int stridey, float * restrict x,
 	double		sign0, sign1, sign2;
 	int		i, k0 = 0, k1, k2, hx, sx, sy;
 	int		hy0, hy1, hy2;
-	float		base0, base1, base2;
+	float		base0 = 0.0, base1, base2;
 	double		num0, num1, num2;
 	double		den0, den1, den2;
 	double		dx0, dx1, dx2;
 	double		dy0, dy1, dy2;
-	double		db0, db1, db2;		
+	double		db0, db1, db2;
 
 	do
 	{
