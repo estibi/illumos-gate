@@ -31,8 +31,6 @@ extern void __vsincosf( int, float *, int, float *, int, float *, int );
 
 #pragma weak vsincosf_ = __vsincosf_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vsincosf_( int *n, float *x, int *stridex, float *s, int *strides,
@@ -40,53 +38,3 @@ __vsincosf_( int *n, float *x, int *stridex, float *s, int *strides,
 {
 	__vsincosf( *n, x, *stridex, s, *strides, c, *stridec );
 }
-
-#else
-
-#include "mtsk.h"
-
-static float *xp, *sp, *cp;
-static int sx, ss, sc;
-
-/* m-function for parallel vsincosf */
-void
-__vsincosf_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vsincosf( UpperBound - LowerBound + 1, xp + sx * LowerBound, sx,
-		sp + ss * LowerBound, ss, cp + sc * LowerBound, sc );
-}
-
-void
-__vsincosf_( int *n, float *x, int *stridex, float *s, int *strides,
-	float *c, int *stridec )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vsincosf( *n, x, *stridex, s, *strides, c, *stridec );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	sp = s;
-	ss = *strides;
-	cp = c;
-	sc = *stridec;
-
-	m.MFunctionPtr = &__vsincosf_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif

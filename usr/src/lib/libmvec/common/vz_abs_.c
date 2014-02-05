@@ -31,58 +31,9 @@ extern void __vz_abs( int, double *, int, double *, int );
 
 #pragma weak vz_abs_ = __vz_abs_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vz_abs_( int *n, double *x, int *stridex, double *y, int *stridey )
 {
 	__vz_abs( *n, x, *stridex, y, *stridey );
 }
-
-#else
-
-#include "mtsk.h"
-
-static double *xp, *yp;
-static int sx, sy;
-
-/* m-function for parallel vz_abs */
-void
-__vz_abs_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vz_abs( UpperBound - LowerBound + 1, xp + ( sx << 1) * LowerBound, sx,
-		yp + ( sy << 1 ) * LowerBound, sy );
-}
-
-void
-__vz_abs_( int *n, double *x, int *stridex, double *y, int *stridey )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vz_abs( *n, x, *stridex, y, *stridey );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-
-	m.MFunctionPtr = &__vz_abs_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif

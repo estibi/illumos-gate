@@ -31,58 +31,9 @@ extern void __vsqrt( int, double *, int, double *, int );
 
 #pragma weak vsqrt_ = __vsqrt_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vsqrt_( int *n, double *x, int *stridex, double *y, int *stridey )
 {
 	__vsqrt( *n, x, *stridex, y, *stridey );
 }
-
-#else
-
-#include "mtsk.h"
-
-static double *xp, *yp;
-static int sx, sy;
-
-/* m-function for parallel vsqrt */
-void
-__vsqrt_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vsqrt( UpperBound - LowerBound + 1, xp + sx * LowerBound, sx,
-		yp + sy * LowerBound, sy );
-}
-
-void
-__vsqrt_( int *n, double *x, int *stridex, double *y, int *stridey )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vsqrt( *n, x, *stridex, y, *stridey );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-
-	m.MFunctionPtr = &__vsqrt_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif

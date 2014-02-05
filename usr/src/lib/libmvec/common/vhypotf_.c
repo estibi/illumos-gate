@@ -31,8 +31,6 @@ extern void __vhypotf( int, float *, int, float *, int, float *, int );
 
 #pragma weak vhypotf_ = __vhypotf_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vhypotf_( int *n, float *x, int *stridex, float *y, int *stridey,
@@ -40,53 +38,3 @@ __vhypotf_( int *n, float *x, int *stridex, float *y, int *stridey,
 {
 	__vhypotf( *n, x, *stridex, y, *stridey, z, *stridez );
 }
-
-#else
-
-#include "mtsk.h"
-
-static float *xp, *yp, *zp;
-static int sx, sy, sz;
-
-/* m-function for parallel vhypotf */
-void
-__vhypotf_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vhypotf( UpperBound - LowerBound + 1, xp + sx * LowerBound, sx,
-		yp + sy * LowerBound, sy, zp + sz * LowerBound, sz );
-}
-
-void
-__vhypotf_( int *n, float *x, int *stridex, float *y, int *stridey,
-	float *z, int *stridez )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vhypotf( *n, x, *stridex, y, *stridey, z, *stridez );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-	zp = z;
-	sz = *stridez;
-
-	m.MFunctionPtr = &__vhypotf_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif

@@ -31,58 +31,9 @@ extern void __vsinf( int, float *, int, float *, int );
 
 #pragma weak vsinf_ = __vsinf_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vsinf_( int *n, float *x, int *stridex, float *y, int *stridey )
 {
 	__vsinf( *n, x, *stridex, y, *stridey );
 }
-
-#else
-
-#include "mtsk.h"
-
-static float *xp, *yp;
-static int sx, sy;
-
-/* m-function for parallel vsinf */
-void
-__vsinf_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vsinf( UpperBound - LowerBound + 1, xp + sx * LowerBound, sx,
-		yp + sy * LowerBound, sy );
-}
-
-void
-__vsinf_( int *n, float *x, int *stridex, float *y, int *stridey )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vsinf( *n, x, *stridex, y, *stridey );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-
-	m.MFunctionPtr = &__vsinf_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif

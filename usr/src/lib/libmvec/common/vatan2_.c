@@ -31,8 +31,6 @@ extern void __vatan2( int, double *, int, double *, int, double *, int );
 
 #pragma weak vatan2_ = __vatan2_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vatan2_( int *n, double *y, int *stridey, double *x, int *stridex,
@@ -40,53 +38,3 @@ __vatan2_( int *n, double *y, int *stridey, double *x, int *stridex,
 {
 	__vatan2( *n, y, *stridey, x, *stridex, z, *stridez );
 }
-
-#else
-
-#include "mtsk.h"
-
-static double *xp, *yp, *zp;
-static int sx, sy, sz;
-
-/* m-function for parallel vatan2 */
-void
-__vatan2_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vatan2( UpperBound - LowerBound + 1, yp + sy * LowerBound, sy,
-		xp + sx * LowerBound, sx, zp + sz * LowerBound, sz );
-}
-
-void
-__vatan2_( int *n, double *y, int *stridey, double *x, int *stridex,
-	double *z, int *stridez )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vatan2( *n, y, *stridey, x, *stridex, z, *stridez );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-	zp = z;
-	sz = *stridez;
-
-	m.MFunctionPtr = &__vatan2_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif
