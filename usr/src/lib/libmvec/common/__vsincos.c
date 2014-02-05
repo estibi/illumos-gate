@@ -28,6 +28,7 @@
  */
 
 #include <sys/isa_defs.h>
+#include <sys/ccompile.h>
 
 #ifdef _LITTLE_ENDIAN
 #define HI(x)	*(1+(int*)x)
@@ -98,11 +99,7 @@ __vsincos( int n, double * restrict x, int stridex,
 			*xsave, *ysave, *csave;
 	unsigned	hx0, hx1, hx2, xsb0, xsb1, xsb2;
 	int		i, biguns, nsave, sxsave, sysave, scsave;
-#if defined(__GNUC__)
-	volatile int	v __attribute__((__unused__));
-#else
-	volatile int	v;
-#endif
+	volatile int	v __GNU_UNUSED;
 	nsave = n;
 	xsave = x;
 	sxsave = stridex;
