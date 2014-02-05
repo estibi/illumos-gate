@@ -98,8 +98,11 @@ __vsincos( int n, double * restrict x, int stridex,
 			*xsave, *ysave, *csave;
 	unsigned	hx0, hx1, hx2, xsb0, xsb1, xsb2;
 	int		i, biguns, nsave, sxsave, sysave, scsave;
+#if defined(__GNUC__)
+	volatile int	v __attribute__((__unused__));
+#else
 	volatile int	v;
-
+#endif
 	nsave = n;
 	xsave = x;
 	sxsave = stridex;
