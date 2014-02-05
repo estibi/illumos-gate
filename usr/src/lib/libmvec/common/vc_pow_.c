@@ -32,8 +32,6 @@ extern void __vc_pow( int, float *, int, float *, int, float *, int,
 
 #pragma weak vc_pow_ = __vc_pow_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vc_pow_( int *n, float *x, int *stridex, float *y, int *stridey,
@@ -41,55 +39,3 @@ __vc_pow_( int *n, float *x, int *stridex, float *y, int *stridey,
 {
 	__vc_pow( *n, x, *stridex, y, *stridey, z, *stridez, tmp );
 }
-
-#else
-
-#include "mtsk.h"
-
-static float *xp, *yp, *zp, *tp;
-static int sx, sy, sz;
-
-/* m-function for parallel vc_pow */
-void
-__vc_pow_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vc_pow( UpperBound - LowerBound + 1, xp + ( sx << 1 ) * LowerBound, sx,
-		yp + ( sy << 1 ) * LowerBound, sy, zp + ( sz << 1 ) * LowerBound, sz,
-		tp + LowerBound );
-}
-
-void
-__vc_pow_( int *n, float *x, int *stridex, float *y, int *stridey,
-	float *z, int *stridez, float *tmp )
-{
-	struct MFunctionBlock m;
-	int i;
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-		__vc_pow( *n, x, *stridex, y, *stridey, z, *stridez, tmp );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-	zp = z;
-	sz = *stridez;
-	tp = tmp;
-
-	m.MFunctionPtr = &__vc_pow_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif

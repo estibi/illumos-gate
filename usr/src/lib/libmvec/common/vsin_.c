@@ -49,8 +49,6 @@ extern void __vsin_ultra3( int, double *, int, double *, int );
 
 #pragma weak vsin_ = __vsin_
 
-#ifndef LIBMTSK_BASED
-
 /* just invoke the serial function */
 void
 __vsin_( int *n, double *x, int *stridex, double *y, int *stridey )
@@ -74,85 +72,3 @@ __vsin_( int *n, double *x, int *stridex, double *y, int *stridey )
 #endif
 	__vsin( *n, x, *stridex, y, *stridey );
 }
-
-#else
-
-#include "mtsk.h"
-
-static double *xp, *yp;
-static int sx, sy;
-
-/* m-function for parallel vsin */
-void
-__vsin_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vsin( UpperBound - LowerBound + 1, xp + sx * LowerBound, sx,
-		yp + sy * LowerBound, sy );
-}
-
-#ifdef CHECK_ULTRA3
-/* m-function for ultra3 version of parallel vsin */
-void
-__vsin_ultra3_mfunc( struct MFunctionBlock *MFunctionBlockPtr, int LowerBound,
-	int UpperBound, int Step )
-{
-	__vsin_ultra3( UpperBound - LowerBound + 1, xp + sx * LowerBound, sx,
-		yp + sy * LowerBound, sy );
-}
-#endif
-
-void
-__vsin_( int *n, double *x, int *stridex, double *y, int *stridey )
-{
-	struct MFunctionBlock m;
-	int i;
-#ifdef CHECK_ULTRA3
-	int		u;
-	char	buf[BUFLEN];
-
-	u = use_ultra3;
-	if (!u) {
-		/* use __vsin_ultra3 on Cheetah (and ???) */
-		if (sysinfo(SI_ISALIST, buf, BUFLEN) > 0 && !strncmp(buf, "sparcv9+vis2", 12))
-			u = 3;
-		else
-			u = 1;
-		use_ultra3 = u;
-	}
-#endif
-
-	/* if ncpus < 2, we are already in a parallel construct, or there
-	   aren't enough vector elements to bother parallelizing, just
-	   invoke the serial function */
-	i = __mt_getncpus_();
-	if ( i < 2 || *n < ( i << 3 ) || __mt_inepc_() || __mt_inapc_() )
-	{
-#ifdef CHECK_ULTRA3
-		if (u & 2)
-			__vsin_ultra3( *n, x, *stridex, y, *stridey );
-		else
-#endif
-		__vsin( *n, x, *stridex, y, *stridey );
-		return;
-	}
-
-	/* should be safe, we already know we're not in a parallel region */
-	xp = x;
-	sx = *stridex;
-	yp = y;
-	sy = *stridey;
-
-#ifdef CHECK_ULTRA3
-	if (u & 2)
-		m.MFunctionPtr = &__vsin_ultra3_mfunc;
-	else
-#endif
-	m.MFunctionPtr = &__vsin_mfunc;
-	m.LowerBound = 0;
-	m.UpperBound = *n - 1;
-	m.Step = 1;
-	__mt_dopar_vfun_( m.MFunctionPtr, m.LowerBound, m.UpperBound, m.Step );
-}
-
-#endif
