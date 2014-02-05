@@ -51,12 +51,12 @@ void
 __vatan2f( int n, float * restrict y, int stridey, float * restrict x,
 	int stridex, float * restrict z, int stridez )
 {
-	float		x0, x1, x2, y0, y1, y2, *pz0, *pz1, *pz2;
+	float		x0, x1, x2, y0, y1, y2, *pz0 = 0, *pz1, *pz2;
 	double		ah0, ah1, ah2;
 	double		t0, t1, t2;
 	double		sx0, sx1, sx2;
 	double		sign0, sign1, sign2;
-	int		i, k0, k1, k2, hx, sx, sy;
+	int		i, k0 = 0, k1, k2, hx, sx, sy;
 	int		hy0, hy1, hy2;
 	float		base0, base1, base2;
 	double		num0, num1, num2;

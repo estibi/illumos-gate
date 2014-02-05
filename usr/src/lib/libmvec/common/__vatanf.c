@@ -38,7 +38,7 @@ __vatanf( int n, float * restrict x, int stridex, float * restrict y, int stride
 {
   extern const double __vlibm_TBL_atan1[];
   double  conup0, conup1, conup2;
-  float dummy, ansf;
+  float dummy, ansf = 0.0;
   float f0, f1, f2;
   float ans0, ans1, ans2;
   float poly0, poly1, poly2;
