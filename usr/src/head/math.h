@@ -62,7 +62,7 @@ using std::tanh;
 extern "C" {
 #endif
 
-#if defined(__cplusplus) && defined(__GNUC__)
+#if defined(__cplusplus)
 #define	exception	__math_exception
 #endif
 

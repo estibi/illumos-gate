@@ -61,18 +61,19 @@ extern "C" {
  * C99 7.12.3 classification macros
  */
 #undef	isnan
+#undef	isinf
 #if __GNUC__ >= 4
 #define	isnan(x)	__builtin_isnan(x)
+#define	isinf(x)	__builtin_isinf(x)
 #else
 #define	isnan(x)	__extension__( \
 			{ __typeof(x) __x_n = (x); \
 			__builtin_isunordered(__x_n, __x_n); })
-#endif
-#undef	isinf
 #define	isinf(x)	__extension__( \
 			{ __typeof(x) __x_i = (x); \
 			__x_i == (__typeof(__x_i)) INFINITY || \
 			__x_i == (__typeof(__x_i)) (-INFINITY); })
+#endif
 #undef	isfinite
 #define	isfinite(x)	__extension__( \
 			{ __typeof(x) __x_f = (x); \
