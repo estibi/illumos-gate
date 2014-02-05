@@ -78,9 +78,10 @@ __vsin( int n, double * restrict x, int stridex, double * restrict y,
 {
 	double		x0_or_one[4], x1_or_one[4], x2_or_one[4];
 	double		y0_or_zero[4], y1_or_zero[4], y2_or_zero[4];
-	double		x0, x1, x2, *py0, *py1, *py2, *xsave, *ysave;
-	unsigned	hx0, hx1, hx2, xsb0, xsb1, xsb2;
-	int			i, biguns, nsave, sxsave, sysave;
+	double		x0, x1, x2, *py0 = 0, *py1 = 0, *py2, *xsave, *ysave;
+	unsigned	hx0, hx1, hx2, xsb0, xsb1 = 0, xsb2;
+	int		i, biguns, nsave, sxsave, sysave;
+	volatile int	v;
 
 	nsave = n;
 	xsave = x;
@@ -101,7 +102,7 @@ LOOP0:
 		}
 		if ( hx0 < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -128,7 +129,7 @@ LOOP1:
 		}
 		if ( hx1 < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -155,7 +156,7 @@ LOOP2:
 		}
 		if ( hx2 < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -510,7 +511,7 @@ MEDIUM:
 	{
 		double		fn0, fn1, fn2, a0, a1, a2, w0, w1, w2, y0, y1, y2;
 		unsigned	hx;
-		int			n0, n1, n2;
+		int		n0, n1, n2;
 
 loop0:
 		hx = HI(x);
@@ -518,7 +519,7 @@ loop0:
 		hx &= ~0x80000000;
 		if ( hx < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -557,7 +558,7 @@ loop1:
 		hx &= ~0x80000000;
 		if ( hx < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -596,7 +597,7 @@ loop2:
 		hx &= ~0x80000000;
 		if ( hx < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;

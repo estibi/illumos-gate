@@ -546,9 +546,9 @@ if ( hy < 0x3bf00000 )		/* |Y| < 2^(-64) */						\
 yisint##I = 0;	/* Y - non-integer */								\
 exp = hy >> 20;	/* Y exponent */								\
 ull_y0 &= LMMANT;										\
-ull_x##I = ull_y0 | LDONE;									\
+ull_x##I = (ull_y0 | LDONE);									\
 x##I = *(double*)&ull_x##I;									\
-ull_ax##I = (ull_x##I + LMROUND) & LMHI20;							\
+ull_ax##I = ((ull_x##I + LMROUND) & LMHI20);							\
 ax##I = *(double*)&ull_ax##I;									\
 if ( hx >= 0x7ff00000 || exp >= 0x43e )		/* X=Inf,Nan or |Y|>2^63,Inf,Nan */		\
 {												\
@@ -619,7 +619,7 @@ if ( hx >= 0x7ff00000 || exp >= 0x43e )		/* X=Inf,Nan or |Y|>2^63,Inf,Nan */		\
 		RET_SC(I)									\
 	}											\
 }												\
-if ( sx || (hx | lx) == 0 )	/* X <= 0      */						\
+if ( (sx || (hx | lx)) == 0 )	/* X <= 0      */						\
 {												\
 	if ( exp >= 0x434 )	/* |Y| >= 2^53 */						\
 		yisint##I = 2;	/* Y - even    */						\
@@ -662,11 +662,11 @@ if ( !exp )											\
 {												\
 	ax##I = (double) ull_y0;								\
 	ull_ax##I = *(unsigned long long*)&ax##I;						\
-	ull_x##I = ull_ax##I & LMMANT | LDONE;							\
+	ull_x##I = ((ull_ax##I & LMMANT) | LDONE);							\
 	x##I = *(double*)&ull_x##I;								\
 	exp##I = ((unsigned int*) & ull_ax##I)[0];						\
 	exp##I = (exp##I >> 20) - (2046 + 1023 + 51);						\
-	ull_ax##I = ull_x##I + LMROUND & LMHI20;						\
+	ull_ax##I = (ull_x##I + (LMROUND & LMHI20));						\
 	ax##I = *(double*)&ull_ax##I;								\
 	ux##I = x##I + ax##I;									\
 }												\
@@ -678,19 +678,19 @@ void
 __vpow( int n, double * restrict px, int stridex, double * restrict py,
 	int stridey, double * restrict pz, int stridez )
 {
-	double			*py0, *py1, *py2;
-	double			*pz0, *pz1, *pz2;
-	double			y0, yd0, u0, s0, s_l0, m_h0;
-	double			y1, yd1, u1, s1, s_l1, m_h1;
+	double			*py0 = 0, *py1 = 0, *py2;
+	double			*pz0 = 0, *pz1 = 0, *pz2;
+	double			y0, yd0 = 0.0L, u0, s0, s_l0, m_h0;
+	double			y1, yd1 = 0.0L, u1, s1, s_l1, m_h1;
 	double			y2, yd2, u2, s2, s_l2, m_h2;
-	double			ax0, x0, s_h0, ux0;
-	double			ax1, x1, s_h1, ux1;
+	double			ax0 = 0.0L, x0 = 0.0L, s_h0, ux0;
+	double			ax1 = 0.0L, x1 = 0.0L, s_h1, ux1;
 	double			ax2, x2, s_h2, ux2;
 	int			eflag0, gflag0, ind0, i0;
 	int			eflag1, gflag1, ind1, i1;
 	int			eflag2, gflag2, ind2, i2;
-	int			hx0, yisint0, exp0;
-	int			hx1, yisint1, exp1;
+	int			hx0 = 0, yisint0 = 0, exp0 = 0;
+	int			hx1 = 0, yisint1 = 0, exp1 = 0;
 	int			hx2, yisint2, exp2;
 	int			exp, i = 0;
 	unsigned		hx, lx, sx, hy, ly, sy;
@@ -1129,8 +1129,8 @@ static void
 __vpowx( int n, double * restrict px, double * restrict py,
 	int stridey, double * restrict pz, int stridez )
 {
-	double			*py0, *py1, *py2;
-	double			*pz0, *pz1, *pz2;
+	double			*py0, *py1 = 0, *py2;
+	double			*pz0, *pz1 = 0, *pz2;
 	double			ux0, y0, yd0, u0, s0;
 	double			y1, yd1, u1, s1;
 	double			y2, yd2, u2, s2;
@@ -1155,10 +1155,10 @@ __vpowx( int n, double * restrict px, double * restrict py,
 	/* perform s_h + yr = 256*log2(x) */
 	ull_y0 = *(unsigned long long*)px;
 	hx = HI(px);
-	ull_x0 = ull_y0 & LMMANT | LDONE;
+	ull_x0 = (ull_y0 & LMMANT) | LDONE;
 	x0 = *(double*)&ull_x0;
 	exp0 = (hx >> 20) - 2046;
-	ull_ax0 = ull_x0 + LMROUND & LMHI20;
+	ull_ax0 = ull_x0 + (LMROUND & LMHI20);
 	ax0 = *(double*)&ull_ax0;
 	hx0 = HI(&ax0);
 	ux0 = x0 + ax0;

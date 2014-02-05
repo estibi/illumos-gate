@@ -98,9 +98,10 @@ __vcos( int n, double * restrict x, int stridex, double * restrict y,
 {
 	double		x0_or_one[4], x1_or_one[4], x2_or_one[4];
 	double		y0_or_zero[4], y1_or_zero[4], y2_or_zero[4];
-	double		x0, x1, x2, *py0, *py1, *py2, *xsave, *ysave;
-	unsigned	hx0, hx1, hx2, xsb0, xsb1, xsb2;
-	int			i, biguns, nsave, sxsave, sysave;
+	double		x0, x1, x2, *py0 = 0, *py1 = 0, *py2, *xsave, *ysave;
+	unsigned	hx0, hx1, hx2, xsb0, xsb1 = 0, xsb2;
+	int		i, biguns, nsave, sxsave, sysave;
+	volatile int	v;
 
 	nsave = n;
 	xsave = x;
@@ -122,7 +123,7 @@ LOOP0:  /* Find first arg in right range. */
 		}
 		if ( hx0 < 0x3e400000 ) {
 			/* Too small.  cos x ~ 1. */
-			volatile int v = *x;
+			v = *x;
 			*y = 1.0;
 			x += stridex;
 			y += stridey;
@@ -149,7 +150,7 @@ LOOP1: /* Get second arg, same as above. */
 		}
 		if ( hx1 < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = 1.0;
 			x += stridex;
 			y += stridey;
@@ -176,7 +177,7 @@ LOOP2: /* Get third arg, same as above. */
 		}
 		if ( hx2 < 0x3e400000 )
 		{
-			volatile int v = *x;
+			v = *x;
 			*y = 1.0;
 			x += stridex;
 			y += stridey;
