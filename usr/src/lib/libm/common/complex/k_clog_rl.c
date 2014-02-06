@@ -494,7 +494,7 @@ __k_clog_rl(long double x, long double y, long double *er)
 	if (n > 122 || y == 0.0L) {
 #endif
 
-		XFSCALE(x, 0x3fff - (ix >> 16));
+		XFSCALE(x, (0x3fff - (ix >> 16)));
 		i = ((ix & 0xffff) + 0x100) >> 9;  /* 7.5 bits of x */
 		zk = 1.0L + ((long double) i) * 0.0078125L;
 		z = x - zk;
@@ -517,8 +517,8 @@ __k_clog_rl(long double x, long double y, long double *er)
 /*
  * compute z = x*x + y*y
  */
-		XFSCALE(x, 0x3fff - (ix >> 16));
-		XFSCALE(y, 0x3fff - n - (iy >> 16));
+		XFSCALE(x, (0x3fff - (ix >> 16)));
+		XFSCALE(y, (0x3fff - n - (iy >> 16)));
 		ix = (ix & 0xffff) | 0x3fff0000;
 		iy = (iy & 0xffff) | (0x3fff0000 - (n << 16));
 		nx -= 0x3fff;

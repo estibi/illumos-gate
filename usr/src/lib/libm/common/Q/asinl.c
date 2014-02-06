@@ -53,6 +53,7 @@ static const long double big = 1.0e+20L;
 long double
 asinl(long double x) {
 	long double t, w;
+	volatile long double dummy = 0.0L;
 
 	w = fabsl(x);
 	if (isnanl(x))
@@ -60,7 +61,7 @@ asinl(long double x) {
 	else if (w <= half) {
 		if (w < small) {
 #ifndef lint
-			volatile long double dummy = w + big;
+			dummy = w + big;
 							/* inexact if w != 0 */
 #endif
 			return (x);
