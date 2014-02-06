@@ -82,7 +82,6 @@ __vsin( int n, double * restrict x, int stridex, double * restrict y,
 	double		x0, x1, x2, *py0 = 0, *py1 = 0, *py2, *xsave, *ysave;
 	unsigned	hx0, hx1, hx2, xsb0, xsb1 = 0, xsb2;
 	int		i, biguns, nsave, sxsave, sysave;
-	volatile int	v __GNU_UNUSED;
 	nsave = n;
 	xsave = x;
 	sxsave = stridex;
@@ -102,7 +101,6 @@ LOOP0:
 		}
 		if ( hx0 < 0x3e400000 )
 		{
-			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -129,7 +127,6 @@ LOOP1:
 		}
 		if ( hx1 < 0x3e400000 )
 		{
-			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -156,7 +153,6 @@ LOOP2:
 		}
 		if ( hx2 < 0x3e400000 )
 		{
-			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -519,7 +515,6 @@ loop0:
 		hx &= ~0x80000000;
 		if ( hx < 0x3e400000 )
 		{
-			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -558,7 +553,6 @@ loop1:
 		hx &= ~0x80000000;
 		if ( hx < 0x3e400000 )
 		{
-			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
@@ -597,7 +591,6 @@ loop2:
 		hx &= ~0x80000000;
 		if ( hx < 0x3e400000 )
 		{
-			v = *x;
 			*y = *x;
 			x += stridex;
 			y += stridey;
