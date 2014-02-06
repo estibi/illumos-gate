@@ -218,11 +218,12 @@ int n; GENERIC x;{
 	GENERIC a, b, temp;
 
 	if(x!=x) return x+x;
-	if (x <= zero)
+	if (x <= zero) {
 		if(x==zero)
 			return -one/zero;
 		else
 			return zero/zero;
+	}
 	sign = 1;
 	if(n<0){
 		n = -n;

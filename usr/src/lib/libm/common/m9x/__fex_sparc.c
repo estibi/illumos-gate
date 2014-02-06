@@ -662,6 +662,9 @@ stuff:
 			case fex_ldouble:
 				info->res.val.i = (int) info->res.val.q;
 				break;
+
+			default:
+				break;
 			}
 			*(int*)FPreg(rd) = info->res.val.i;
 			return;
@@ -685,6 +688,9 @@ stuff:
 			case fex_ldouble:
 				info->res.val.l = (long long) info->res.val.q;
 				break;
+
+			default:
+				break;
 			}
 			*(long long*)FPREG(rd) = info->res.val.l;
 			break;
@@ -705,6 +711,9 @@ stuff:
 
 			case fex_ldouble:
 				info->res.val.f = (float) info->res.val.q;
+				break;
+
+			default:
 				break;
 			}
 			*(float*)FPreg(rd) = info->res.val.f;
@@ -727,6 +736,9 @@ stuff:
 			case fex_ldouble:
 				info->res.val.d = (double) info->res.val.q;
 				break;
+
+			default:
+				break;
 			}
 			*(double*)FPREG(rd) = info->res.val.d;
 			break;
@@ -747,6 +759,9 @@ stuff:
 
 			case fex_double:
 				info->res.val.q = (long double) info->res.val.d;
+				break;
+
+			default:
 				break;
 			}
 			*(long double*)FPREG(rd) = info->res.val.q;
@@ -774,6 +789,9 @@ stuff:
 			case fex_ldouble:
 				info->res.val.d = (double) info->res.val.q;
 				break;
+
+			default:
+				break;
 			}
 			*(double*)FPREG(rd) = info->res.val.d;
 			break;
@@ -794,6 +812,9 @@ stuff:
 
 			case fex_double:
 				info->res.val.q = (long double) info->res.val.d;
+				break;
+
+			default:
 				break;
 			}
 			*(long double*)FPREG(rd) = info->res.val.q;
@@ -820,6 +841,9 @@ stuff:
 		case fex_ldouble:
 			info->res.val.f = (float) info->res.val.q;
 			break;
+
+		default:
+			break;
 		}
 		*(float*)FPreg(rd) = info->res.val.f;
 		break;
@@ -841,6 +865,9 @@ stuff:
 		case fex_ldouble:
 			info->res.val.d = (double) info->res.val.q;
 			break;
+
+		default:
+			break;
 		}
 		*(double*)FPREG(rd) = info->res.val.d;
 		break;
@@ -861,6 +888,9 @@ stuff:
 
 		case fex_double:
 			info->res.val.q = (long double) info->res.val.d;
+			break;
+
+		default:
 			break;
 		}
 		*(long double*)FPREG(rd) = info->res.val.q;

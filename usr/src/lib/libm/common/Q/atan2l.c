@@ -103,7 +103,7 @@ atan2l(long double y, long double x) {
 		return (signy == 1 ? -PIo2 - tiny : PIo2 + tiny);
 
 	/* when x is INF */
-	if (!finitel(x))
+	if (!finitel(x)) {
 		if (!finitel(y)) {
 			switch (m) {
 			case 0:
@@ -127,7 +127,7 @@ atan2l(long double y, long double x) {
 				return (-PI - tiny);	/* atan(-...,-INF) */
 			}
 		}
-
+	}
 	/* when y is INF */
 	if (!finitel(y))
 		return (signy == 1 ? -PIo2 - tiny : PIo2 + tiny);

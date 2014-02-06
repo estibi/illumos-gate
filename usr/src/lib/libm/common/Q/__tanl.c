@@ -111,7 +111,7 @@ static const long double
 
 long double
 __k_tanl(long double x, long double y, int k) {
-	long double a, t, z, w, s, c;
+	long double a, t, z, w = 0, s, c;
 	int *pt = (int *) &t, *px = (int *) &x;
 	int i, j, hx, ix;
 
