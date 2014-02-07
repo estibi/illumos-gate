@@ -10,44 +10,16 @@
 #
 
 #
-# Copyright 2011 Nexenta Systems, Inc.  All rights reserved.
+# Copyright (c) 2012, Igor Kozhukhov <ikozhukhov@gmail.com>.  All rights reserved.
 #
 
+# all data have been moved to system/library/math
+# package obsolete now
+#
 set name=pkg.fmri value=pkg:/system/library/math/header-math@$(PKGVERS)
-set name=pkg.description \
-    value="Math & Microtasking Library Headers & Lint Files"
-set name=pkg.summary value="Math & Microtasking Library Headers & Lint Files"
+set name=pkg.description value="Math Library Headers & Lint Files"
+set name=pkg.obsolete value=true
+set name=pkg.summary value="Math Library Headers & Lint Files"
 set name=info.classification \
     value=org.opensolaris.category.2008:System/Libraries
 set name=variant.arch value=$(ARCH)
-set name=variant.opensolaris.zone value=global value=nonglobal
-# license license=SUNWlibm.copyright
-# license license=SUNWlibmr.copyright
-dir path=usr group=sys
-dir path=usr/include
-dir path=usr/include/iso
-dir path=usr/include/sys
-file path=lib/$(ARCH64)/llib-lm.ln
-file path=lib/llib-lm
-file path=lib/llib-lm.ln
-file path=usr/include/complex.h
-file path=usr/include/fenv.h
-file path=usr/include/floatingpoint.h
-file path=usr/include/iso/math_c99.h
-file path=usr/include/iso/math_iso.h
-file path=usr/include/math.h
-file path=usr/include/sys/ieeefp.h
-file path=usr/include/tgmath.h
-legacy pkg=SUNWlibm \
-    desc="Math & Microtasking Library Headers & Lint Files (Usr)" \
-    hotline="Please contact your local service provider" \
-    name="Math & Microtasking Library Headers & Lint Files (Usr)" \
-    vendor="Sun Microsystems, Inc." version=5.11,REV=2009.08.04
-legacy pkg=SUNWlibmr desc="Math Library Lint Files (Root)" \
-    hotline="Please contact your local service provider" \
-    name="Math Library Lint Files (Root)" vendor="Sun Microsystems, Inc." \
-    version=5.11,REV=2009.08.04
-link path=usr/lib/$(ARCH64)/llib-lm.ln \
-    target=../../../lib/$(ARCH64)/llib-lm.ln
-link path=usr/lib/llib-lm target=../../lib/llib-lm
-link path=usr/lib/llib-lm.ln target=../../lib/llib-lm.ln
