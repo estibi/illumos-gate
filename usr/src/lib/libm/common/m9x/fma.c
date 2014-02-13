@@ -76,8 +76,7 @@ __fma(double x, double y, double z) {
 		double d;
 	} xx, yy, zz;
 	double xhi, yhi, xlo, ylo, t;
-	unsigned int xy0, xy1, xy2, xy3, z0, z1, z2, z3, rm, sticky;
-	unsigned int fsr;
+	unsigned int xy0, xy1, xy2, xy3, z0, z1, z2, z3, fsr, rm, sticky;
 	int hx, hy, hz, ex, ey, ez, exy, sxy, sz, e, ibit;
 	volatile double	dummy;
 
