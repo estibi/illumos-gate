@@ -79,8 +79,8 @@ __nearbyint(double x) {
 
 	/* handle |x| < 1 */
 	if (hx < 0x3ff00000) {
-		if ( rm == FE_UPWARD || ( rm == FE_TONEAREST &&
-			( hx >= 0x3fe00000 && ( (hx & 0xfffff) | xx.i[LOWORD]) ) ) )
+		if (rm == FE_UPWARD || (rm == FE_TONEAREST &&
+			(hx >= 0x3fe00000 && ((hx & 0xfffff) | xx.i[LOWORD]))))
 			xx.i[HIWORD] = sx | 0x3ff00000;
 		else
 			xx.i[HIWORD] = sx;
