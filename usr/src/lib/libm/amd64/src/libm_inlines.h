@@ -137,7 +137,7 @@ copysign(double d1, double d2)
 	    "andpd %1, %0\n\t"
 	    "andnpd %2, %1\n\t"
 	    "orpd %1, %0\n\t"
-	    : "+x" (d1), "+x" (tmpd)
+	    : "+x" (d1), "=x" (tmpd)
 	    : "x" (d2), "r" (0x7fffffffffffffff));
 
 	return (d1);
