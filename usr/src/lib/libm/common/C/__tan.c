@@ -127,8 +127,8 @@ __k_tan(double x, double y, int k) {
 	t = one;
 	hx = ((int *) &x)[HIWORD];
 	ix = hx & 0x7fffffff;
-	if (ix < 0x3fc40000) {
-		if (ix < 0x3e400000) {
+	if (ix < 0x3fc40000) {		/* 0.15625 */
+		if (ix < 0x3e400000) {	/* 2^-27 */
 			if ((i = (int) x) == 0)		/* generate inexact */
 				w = x;
 			t = y;
