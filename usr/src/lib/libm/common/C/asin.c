@@ -104,8 +104,8 @@ static const double xxx[] = {
 
 double
 asin(double x) {
-	double t = 0.0L, w, p, q, c, r, s;
-	int hx, ix;
+	double t, w, p, q, c, r, s;
+	int hx, ix, i;
 
 	hx = ((int *) &x)[HIWORD];
 	ix = hx & 0x7fffffff;
@@ -125,12 +125,11 @@ asin(double x) {
 	}
 	else if (ix < 0x3fe00000) {	/* |x| < 0.5 */
 		if (ix < 0x3e400000) {	/* if |x| < 2**-27 */
-			if (huge + x > one)
+			if ((i = (int) x) == 0)
 				return x;	/* return x with inexact if
 						 * x != 0 */
 		}
-		else
-			t = x * x;
+		t = x * x;
 		p = t * (pS0 + t * (pS1 + t * (pS2 + t * (pS3 +
 			t * (pS4 + t * pS5)))));
 		q = one + t * (qS1 + t * (qS2 + t * (qS3 + t * qS4)));
