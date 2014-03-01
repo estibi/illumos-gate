@@ -172,9 +172,10 @@ expm1(double x) {
 		y = -x;				/* y = |x| */
 	hx &= 0x7fffffff;			/* high word of |x| */
 
-	/* filter out huge and non-finite arugment */
-	if (hx >= 0x4043687A) {			/* if |x|>=56*ln2 */
-		if (hx >= 0x40862E42) {		/* if |x|>=709.78... */
+	/* filter out huge and non-finite argument */
+	/* for example exp(38)-1 is approximately 3.1855932e+16 */
+	if (hx >= 0x4043687A) {			/* if |x|>=56*ln2  (~38.8162...)*/
+		if (hx >= 0x40862E42) {		/* if |x|>=709.78... -> inf */
 			if (hx >= 0x7ff00000) {
 				if (((hx & 0xfffff) | ((int *) &x)[LOWORD])
 					!= 0)
@@ -194,31 +195,31 @@ expm1(double x) {
 	/* argument reduction */
 	if (hx > 0x3fd62e42) {			/* if  |x| > 0.5 ln2 */
 		if (hx < 0x3FF0A2B2) {		/* and |x| < 1.5 ln2 */
-			if (xsb == 0) {
+			if (xsb == 0) {		/* positive number */
 				hi = x - ln2_hi;
 				lo = ln2_lo;
 				k = 1;
 			}
-			else {
+			else { /* negative number */
 				hi = x + ln2_hi;
 				lo = -ln2_lo;
 				k = -1;
 			}
 		}
-		else {
+		else {	/* |x| > 1.5 ln2 */
 			k = (int) (invln2 * x + (xsb == 0 ? 0.5 : -0.5));
 			t = k;
 			hi = x - t * ln2_hi;	/* t*ln2_hi is exact here */
 			lo = t * ln2_lo;
 		}
 		x = hi - lo;
-		c = (hi - x) - lo;
+		c = (hi - x) - lo; /* still at |x| > 0.5 ln2 */
 	}
 	else if (hx < 0x3c900000) {		/* when |x|<2**-54, return x */
 		t = huge + x;		/* return x w/inexact when x != 0 */
 		return x - (t - (huge + x));
 	}
-	else
+	else	/* |x| <= 0.5 ln2 */
 		k = 0;
 
 	/* x is now in primary range */
@@ -227,9 +228,9 @@ expm1(double x) {
 	r1 = one + hxs * (Q1 + hxs * (Q2 + hxs * (Q3 + hxs * (Q4 + hxs * Q5))));
 	t = 3.0 - r1 * hfx;
 	e = hxs * ((r1 - t) / (6.0 - x * t));
-	if (k == 0)
-		return x - (x * e - hxs);	/* c is 0 */
-	else {
+	if (k == 0) /* |x| <= 0.5 ln2 */
+		return x - (x * e - hxs);
+	else {      /* |x| > 0.5 ln2 */
 		e = (x * (e - c) - c);
 		e -= hxs;
 		if (k == -1)
