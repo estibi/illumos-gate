@@ -37,7 +37,7 @@ nextafter(double x, double y) {
 	int		hx, hy, k;
 	double		ans;
 	unsigned	lx;
-	volatile double dummy = 0.0L;
+	volatile double dummy;
 
 	hx = ((int *)&x)[HIWORD];
 	lx = ((int *)&x)[LOWORD];
