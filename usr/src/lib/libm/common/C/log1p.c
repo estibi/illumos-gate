@@ -152,6 +152,7 @@ log1p(double x) {
 			hu = 1;
 		}
 	}
+	/* We will initialize 'c' here. */
 	if (k != 0) {
 		if (hx < 0x43400000) {
 			u = 1.0 + x;
@@ -183,6 +184,7 @@ log1p(double x) {
 		if (f == zero) {
 			if (k == 0)
 				return (zero);
+			/* We already initialized 'c' before, when (k != 0) */
 			c += k * ln2_lo;
 			return (k * ln2_hi + c);
 		}
