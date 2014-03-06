@@ -53,7 +53,7 @@ static const long double big = 1.0e+20L;
 long double
 asinl(long double x) {
 	long double t, w;
-	volatile long double dummy = 0.0L;
+	volatile long double dummy;
 
 	w = fabsl(x);
 	if (isnanl(x))
