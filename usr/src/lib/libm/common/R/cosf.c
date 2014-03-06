@@ -76,7 +76,7 @@ cosf(float x)
 	double	y, z, w;
 	float	f;
 	int	n, ix, hx, hy;
-	volatile int i = 0;
+	volatile int i;
 
 	hx = *((int *)&x);
 	ix = hx & 0x7fffffff;
