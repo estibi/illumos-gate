@@ -472,7 +472,7 @@ tgammaf(float xf) {
 	if (hx >= 0x41000000)	/* x >= 8 */
 		return ((float) large_gam(x));
 
-	if (hx > 0) {		/* x from 0 to 8 */
+	if (hx > 0) {		/* 0 < x < 8 */
 		i = (int) xf;
 		return ((float) gam_n(i, x - (double) i));
 	}

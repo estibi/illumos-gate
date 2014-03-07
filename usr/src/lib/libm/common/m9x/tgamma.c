@@ -1558,7 +1558,7 @@ tgamma(double x) {
 		__HI(w) += m << 20;
 		return (w);
 	}
-	if (hx > 0) {		/* x from 0 to 8 */
+	if (hx > 0) {		/* 0 < x < 8 */
 		i = (int) x;
 		ww = gam_n(i, x - (double) i);
 		return (ww.h + ww.l);
