@@ -1032,7 +1032,7 @@ tgammal(long double x) {
 		return (scalbnl(w, m));
 	}
 
-	if (hx > 0) {		/* x from 0 to 8 */
+	if (hx > 0) {		/* 0 < x < 8 */
 		i = (int) x;
 		ww = gam_n(i, x - (long double) i);
 		return (ww.h + ww.l);
