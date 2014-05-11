@@ -39,9 +39,14 @@ extern "C" {
  * Compilation environments for Solaris must provide the _Imaginary datatype
  * and the compiler intrinsics _Complex_I and _Imaginary_I
  */
+#if defined(__SUNPRO_C)
 #define	_Complex_I	_Complex_I
-#define	complex		_Complex
 #define	_Imaginary_I	_Imaginary_I
+#else
+#define	_Complex_I	1.0fi
+#define	_Imaginary_I	1.0fi
+#endif
+#define	complex		_Complex
 #define	imaginary	_Imaginary
 #undef	I
 #define	I		_Imaginary_I
