@@ -189,12 +189,21 @@ extern char *ecvt __P((double, int, int *, int *));
 extern char *fcvt __P((double, int, int *, int *));
 extern char *gcvt __P((double, int, char *));
 
+#if __cplusplus >= 199711L
+namespace std {
+#endif
 /*
  * ANSI C Standard says the following entry points should be
  * prototyped in <stdlib.h>.  They are now, but weren't before.
  */
 extern double atof __P((const char *));
 extern double strtod __P((const char *, char **));
+#if __cplusplus >= 199711L
+}
+
+using std::atof;
+using std::strtod;
+#endif /* end of namespace std */
 
 #ifdef __cplusplus
 }
