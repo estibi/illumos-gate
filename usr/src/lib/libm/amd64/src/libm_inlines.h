@@ -137,7 +137,7 @@ copysign(double d1, double d2)
 	    "andpd %1, %0\n\t"
 	    "andnpd %2, %1\n\t"
 	    "orpd %1, %0\n\t"
-	    : "+x" (d1), "=x" (tmpd)
+	    : "+&x" (d1), "=&x" (tmpd)
 	    : "x" (d2), "r" (0x7fffffffffffffff));
 
 	return (d1);
@@ -151,7 +151,7 @@ fabs(double d)
 	__asm__ __volatile__(
 	    "movd  %2, %1\n\t"
 	    "andpd %1, %0"
-	    : "+x" (d), "=x" (tmp)
+	    : "+x" (d), "=&x" (tmp)
 	    : "r" (0x7fffffffffffffff));
 
 	return (d);
@@ -171,7 +171,7 @@ fabsf(float d)
 extern __inline__ int
 finite(double d)
 {
-    long ret = 0x7fffffffffffffff;
+	long ret = 0x7fffffffffffffff;
 	uint64_t tmp;
 
 	__asm__ __volatile__(
