@@ -641,7 +641,7 @@ pkcs11:		libcryptoutil
 print:		libldap5
 udapl/udapl_tavor:	udapl/libdat
 libzfs:		libdevid libgen libnvpair libuutil \
-		libadm libavl libefi libidmap libmd libm libzfs_core
+		libadm libavl libefi libidmap libmd libzfs_core libm
 libzfs_core:	libnvpair
 libzfs_jni:	libdiskmgt libnvpair libzfs
 libzpool:	libavl libumem libnvpair libcmdutils
