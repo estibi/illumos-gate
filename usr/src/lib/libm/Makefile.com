@@ -511,10 +511,6 @@ LINTFLAGS	+= $(LINTERROFF)
 LINTFLAGS64	+= $(LINTERROFF)
 LINTFLAGS64	+= -errchk=longptr64
 
-CERRWARN	+= -_gcc=-Wno-switch
-CERRWARN	+= -_gcc=-Wno-parentheses
-CERRWARN	+= -_gcc=-Wno-unused-variable
-
 CPPFLAGS	+= -DLIBM_BUILD
 
 CFLAGS 		+= $(C_BIGPICFLAGS)
