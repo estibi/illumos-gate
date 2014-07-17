@@ -176,7 +176,9 @@ fsqrt(long double x)
 extern __inline__ long double
 fsincos(long double x)
 {
-	__asm__ __volatile__("fsincos" : "+t" (x) : : "cc");
+	long double dummy;
+
+	__asm__ __volatile__("fsincos" : "+t" (x), "=u" (dummy) : : "cc");
 	return (x);
 }
 
