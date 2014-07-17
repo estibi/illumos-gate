@@ -434,7 +434,7 @@ sse_cmpeqsd(double *d1, double *d2, long long *ll1)
 	__asm__ __volatile__(
 	    "cmpeqsd %2,%1\n\t"
 	    "movsd   %1,%0"
-	    : "=m" (*ll1), "=x" (*d1)
+	    : "=m" (*ll1), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -444,7 +444,7 @@ sse_cmpltsd(double *d1, double *d2, long long *ll1)
 	__asm__ __volatile__(
 	    "cmpltsd %2,%1\n\t"
 	    "movsd   %1,%0"
-	    : "=m" (*ll1), "=x" (*d1)
+	    : "=m" (*ll1), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -454,7 +454,7 @@ sse_cmplesd(double *d1, double *d2, long long *ll1)
 	__asm__ __volatile__(
 	    "cmplesd %2,%1\n\t"
 	    "movsd   %1,%0"
-	    : "=m" (*ll1), "=x" (*d1)
+	    : "=m" (*ll1), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -464,7 +464,7 @@ sse_cmpunordsd(double *d1, double *d2, long long *ll1)
 	__asm__ __volatile__(
 	    "cmpunordsd %2,%1\n\t"
 	    "movsd      %1,%0"
-	    : "=m" (*ll1), "=x" (*d1)
+	    : "=m" (*ll1), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -475,7 +475,7 @@ sse_minsd(double *d1, double *d2, double *d3)
 	__asm__ __volatile__(
 	    "minsd %2,%1\n\t"
 	    "movsd %1,%0"
-	    : "=m" (*d3), "=x" (*d1)
+	    : "=m" (*d3), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -485,7 +485,7 @@ sse_maxsd(double *d1, double *d2, double *d3)
 	__asm__ __volatile__(
 	    "maxsd %2,%1\n\t"
 	    "movsd %1,%0"
-	    : "=m" (*d3), "=x" (*d1)
+	    : "=m" (*d3), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -495,7 +495,7 @@ sse_addsd(double *d1, double *d2, double *d3)
 	__asm__ __volatile__(
 	    "addsd %2,%1\n\t"
 	    "movsd %1,%0"
-	    : "=m" (*d3), "=x" (*d1)
+	    : "=m" (*d3), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -505,7 +505,7 @@ sse_subsd(double *d1, double *d2, double *d3)
 	__asm__ __volatile__(
 	    "subsd %2,%1\n\t"
 	    "movsd %1,%0"
-	    : "=m" (*d3), "=x" (*d1)
+	    : "=m" (*d3), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -515,7 +515,7 @@ sse_mulsd(double *d1, double *d2, double *d3)
 	__asm__ __volatile__(
 	    "mulsd %2,%1\n\t"
 	    "movsd %1,%0"
-	    : "=m" (*d3), "=x" (*d1)
+	    : "=m" (*d3), "+x" (*d1)
 	    : "x" (*d2));
 }
 
@@ -525,7 +525,7 @@ sse_divsd(double *d1, double *d2, double *d3)
 	__asm__ __volatile__(
 	    "divsd %2,%1\n\t"
 	    "movsd %1,%0"
-	    : "=m" (*d3), "=x" (*d1)
+	    : "=m" (*d3), "+x" (*d1)
 	    : "x" (*d2));
 }
 
