@@ -203,6 +203,32 @@ floor(double d)
 	return (d);
 }
 
+/*
+ *      branchless __isnan
+ *      ((0x7ff00000-[((lx|-lx)>>31)&1]|ahx)>>31)&1 = 1 iff x is NaN
+ */
+extern __inline__ int
+isnan(double d)
+{
+	int ret;
+
+	__asm__ __volatile__(
+		"movl %1,%%ecx\n\t"
+		"negl %%ecx\n\t"			/* ecx <-- -lo_32(x) */
+		"orl  %%ecx,%1\n\t"
+		"shrl $31,%1\n\t"			/* 1 iff lx != 0 */
+		"andl $0x7fffffff,%2\n\t"	/* ecx <-- hi_32(abs(x)) */
+		"orl  %2,%1\n\t"
+		"subl $0x7ff00000,%1\n\t"
+		"negl %1\n\t"
+		"shrl $31,%1\n\t"
+		: "=r" (ret)
+		: "0" (_HI_WORD(d)), "r" (_LO_WORD(d))
+		: "ecx");
+
+	return (ret);
+}
+
 extern __inline__ int
 isnanf(float f)
 {
