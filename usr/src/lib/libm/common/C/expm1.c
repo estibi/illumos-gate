@@ -30,7 +30,8 @@
 #pragma weak expm1 = __expm1
 
 /* INDENT OFF */
-/* expm1(x)
+/*
+ * expm1(x)
  * Returns exp(x)-1, the exponential of x minus 1.
  *
  * Method
@@ -174,7 +175,7 @@ expm1(double x) {
 
 	/* filter out huge and non-finite argument */
 	/* for example exp(38)-1 is approximately 3.1855932e+16 */
-	if (hx >= 0x4043687A) {			/* if |x|>=56*ln2  (~38.8162...)*/
+	if (hx >= 0x4043687A) {			/* if |x|>=56*ln2  (~38.8162...) */
 		if (hx >= 0x40862E42) {		/* if |x|>=709.78... -> inf */
 			if (hx >= 0x7ff00000) {
 				if (((hx & 0xfffff) | ((int *) &x)[LOWORD])
