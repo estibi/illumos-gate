@@ -45,13 +45,13 @@
 #include <math.h>
 #include <values.h>
 
-#define GENERIC double
+#define	GENERIC double
 static const GENERIC
 zero    = 0.0,
 small	= 1.0e-5,
 tiny 	= 1.0e-20,
 one	= 1.0,
-invsqrtpi= 5.641895835477562869480794515607725858441e-0001,
+invsqrtpi = 5.641895835477562869480794515607725858441e-0001,
 tpi	= 0.636619772367581343075535053490057448;
 
 static GENERIC pone(GENERIC), qone(GENERIC);
@@ -62,10 +62,10 @@ static const GENERIC r0[4] = {
    8.263917341093549759781339713418201620998e-0008,
 };
 static const GENERIC s0[7] = {
-   1.0e0,
-   1.605069137643004242395356851797873766927e-0002,
-   1.149454623251299996428500249509098499383e-0004,
-   3.849701673735260970379681807910852327825e-0007,
+	1.0e0,
+	1.605069137643004242395356851797873766927e-0002,
+	1.149454623251299996428500249509098499383e-0004,
+	3.849701673735260970379681807910852327825e-0007,
 };
 static const GENERIC r1[12] = {
    4.999999999999999995517408894340485471724e-0001,
@@ -82,25 +82,26 @@ static const GENERIC r1[12] = {
   -3.458159926081163274483854614601091361424e-0026,
 };
 static const GENERIC s1[5] = {
-   1.0e0,
-   4.923499437590484879081138588998986303306e-0003,
-   1.054389489212184156499666953501976688452e-0005,
-   1.180768373106166527048240364872043816050e-0008,
-   5.942665743476099355323245707680648588540e-0012,
+	1.0e0,
+	4.923499437590484879081138588998986303306e-0003,
+	1.054389489212184156499666953501976688452e-0005,
+	1.180768373106166527048240364872043816050e-0008,
+	5.942665743476099355323245707680648588540e-0012,
 };
 
 GENERIC
 j1(GENERIC x) {
-	GENERIC z, d, s,c,ss,cc,r;
+	GENERIC z, d, s, c, ss, cc, r;
 	int i, sgn;
 
-	if(!finite(x)) return one/x;
+	if (!finite(x)) return one/x;
 	sgn = signbit(x);
 	x = fabs(x);
-	if(x > 8.00){
+	if (x > 8.00) {
 		s = sin(x);
 		c = cos(x);
-	/* j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
+	/*
+	 * j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
 	 * where x0 = x-3pi/4
 	 * 	Better formula:
 	 *		cos(x0) = cos(x)cos(3pi/4)+sin(x)sin(3pi/4)
@@ -111,10 +112,10 @@ j1(GENERIC x) {
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>8.9e307) {	/* x+x may overflow */
+		if (x > 8.9e307) {	/* x+x may overflow */
 			ss = -s-c;
 			cc =  s-c;
-		} else if(signbit(s)!=signbit(c)) {
+		} else if (signbit(s) != signbit(c)) {
 			cc = s - c;
 			ss = cos(x+x)/cc;
 		} else {
@@ -125,94 +126,99 @@ j1(GENERIC x) {
 	 * j1(x) = 1/sqrt(pi*x) * (P(1,x)*cc - Q(1,x)*ss)
 	 * y1(x) = 1/sqrt(pi*x) * (P(1,x)*ss + Q(1,x)*cc)
 	 */
-                if(x>1.0e40)
+		if (x > 1.0e40)
 		    d = (invsqrtpi*cc)/sqrt(x);
 		else
-                    d =  invsqrtpi*(pone(x)*cc-qone(x)*ss)/sqrt(x);
-                if (x > X_TLOSS) {
-		    if(sgn!=0) {d = -d; x = -x;}
-                    return _SVID_libm_err(x,d,36);
-                } else
-		    if(sgn==0) return d; else return -d;
+			d =  invsqrtpi*(pone(x)*cc-qone(x)*ss)/sqrt(x);
+
+		if (x > X_TLOSS) {
+		    if (sgn != 0) { d = -d; x = -x; }
+			return _SVID_libm_err(x, d, 36);
+		} else
+		    if (sgn == 0) return d; else return -d;
 	}
-	if(x<=small) {
-            if(x<=tiny) d = 0.5*x;
-            else d =  x*(0.5-x*x*0.125);
-	    if(sgn==0) return d; else return -d;
-        }
+	if (x <= small) {
+		if (x <= tiny)
+			d = 0.5*x;
+		else
+			d =  x*(0.5-x*x*0.125);
+		if (sgn == 0) return d; else return -d;
+	}
 	z = x*x;
-	if(x<1.28) {
+	if (x < 1.28) {
 	    r = r0[3];
 	    s = s0[3];
-	    for(i=2;i>=0;i--) {
+	    for (i = 2; i >= 0; i--) {
 		r = r*z + r0[i];
 		s = s*z + s0[i];
 	    }
 	    d = x*0.5+x*(z*(r/s));
 	} else {
 	    r = r1[11];
-	    for(i=10;i>=0;i--) r = r*z + r1[i];
+	    for (i = 10; i >= 0; i--) r = r*z + r1[i];
 	    s = s1[0]+z*(s1[1]+z*(s1[2]+z*(s1[3]+z*s1[4])));
 	    d = x*(r/s);
 	}
-	if(sgn==0) return d; else return -d;
+	if (sgn == 0) return d; else return -d;
 }
 
 static const GENERIC u0[4] = {
-  -1.960570906462389461018983259589655961560e-0001,
-   4.931824118350661953459180060007970291139e-0002,
-  -1.626975871565393656845930125424683008677e-0003,
-   1.359657517926394132692884168082224258360e-0005,
+	-1.960570906462389461018983259589655961560e-0001,
+	 4.931824118350661953459180060007970291139e-0002,
+	-1.626975871565393656845930125424683008677e-0003,
+	 1.359657517926394132692884168082224258360e-0005,
 };
 static const GENERIC v0[5] = {
-   1.0e0,
-   2.565807214838390835108224713630901653793e-0002,
-   3.374175208978404268650522752520906231508e-0004,
-   2.840368571306070719539936935220728843177e-0006,
-   1.396387402048998277638900944415752207592e-0008,
+	1.0e0,
+	2.565807214838390835108224713630901653793e-0002,
+	3.374175208978404268650522752520906231508e-0004,
+	2.840368571306070719539936935220728843177e-0006,
+	1.396387402048998277638900944415752207592e-0008,
 };
 static const GENERIC u1[12] = {
-  -1.960570906462389473336339614647555351626e-0001,
-   5.336268030335074494231369159933012844735e-0002,
-  -2.684137504382748094149184541866332033280e-0003,
-   5.737671618979185736981543498580051903060e-0005,
-  -6.642696350686335339171171785557663224892e-0007,
-   4.692417922568160354012347591960362101664e-0009,
-  -2.161728635907789319335231338621412258355e-0011,
-   6.727353419738316107197644431844194668702e-0014,
-  -1.427502986803861372125234355906790573422e-0016,
-   2.020392498726806769468143219616642940371e-0019,
-  -1.761371948595104156753045457888272716340e-0022,
-   7.352828391941157905175042420249225115816e-0026,
+	-1.960570906462389473336339614647555351626e-0001,
+	 5.336268030335074494231369159933012844735e-0002,
+	-2.684137504382748094149184541866332033280e-0003,
+	 5.737671618979185736981543498580051903060e-0005,
+	-6.642696350686335339171171785557663224892e-0007,
+	 4.692417922568160354012347591960362101664e-0009,
+	-2.161728635907789319335231338621412258355e-0011,
+	 6.727353419738316107197644431844194668702e-0014,
+	-1.427502986803861372125234355906790573422e-0016,
+	 2.020392498726806769468143219616642940371e-0019,
+	-1.761371948595104156753045457888272716340e-0022,
+	 7.352828391941157905175042420249225115816e-0026,
 };
 static const GENERIC v1[5] = {
-   1.0e0,
-   5.029187436727947764916247076102283399442e-0003,
-   1.102693095808242775074856548927801750627e-0005,
-   1.268035774543174837829534603830227216291e-0008,
-   6.579416271766610825192542295821308730206e-0012,
+	1.0e0,
+	5.029187436727947764916247076102283399442e-0003,
+	1.102693095808242775074856548927801750627e-0005,
+	1.268035774543174837829534603830227216291e-0008,
+	6.579416271766610825192542295821308730206e-0012,
 };
 
 
 GENERIC
 y1(GENERIC x) {
-	GENERIC z, d, s,c,ss,cc,u,v;
+	GENERIC z, d, s, c, ss, cc, u, v;
 	int i;
 
-	if(isnan(x)) return x*x;	/* + -> * for Cheetah */
-	if(x <= zero){
-		if(x==zero)
+	if (isnan(x))
+		return x*x;	/* + -> * for Cheetah */
+	if (x <= zero) {
+		if (x == zero)
 		    /* return -one/zero;  */
-		    return _SVID_libm_err(x,x,10);
+		    return _SVID_libm_err(x, x, 10);
 		else
 		    /* return zero/zero; */
-		    return _SVID_libm_err(x,x,11);
+		    return _SVID_libm_err(x, x, 11);
 	}
-	if(x > 8.0){
-		if(!finite(x)) return zero;
+	if (x > 8.0) {
+		if (!finite(x)) return zero;
 		s = sin(x);
 		c = cos(x);
-	/* j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
+	/*
+	 * j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
 	 * where x0 = x-3pi/4
 	 * 	Better formula:
 	 *		cos(x0) = cos(x)cos(3pi/4)+sin(x)sin(3pi/4)
@@ -223,10 +229,10 @@ y1(GENERIC x) {
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>8.9e307) {	/* x+x may overflow */
+		if (x > 8.9e307) {	/* x+x may overflow */
 			ss = -s-c;
 			cc =  s-c;
-		} else if(signbit(s)!=signbit(c)) {
+		} else if (signbit(s) != signbit(c)) {
 			cc = s - c;
 			ss = cos(x+x)/cc;
 		} else {
@@ -237,30 +243,31 @@ y1(GENERIC x) {
 	 * j1(x) = 1/sqrt(pi*x) * (P(1,x)*cc - Q(1,x)*ss)
 	 * y1(x) = 1/sqrt(pi*x) * (P(1,x)*ss + Q(1,x)*cc)
 	 */
-		if(x>1.0e91)
+		if (x > 1.0e91)
 		    d =  (invsqrtpi*ss)/sqrt(x);
 		else
-                    d = invsqrtpi*(pone(x)*ss+qone(x)*cc)/sqrt(x);
-                if (x > X_TLOSS)
-                    return _SVID_libm_err(x,d,37);
-                else
-                    return d;
+			d = invsqrtpi*(pone(x)*ss+qone(x)*cc)/sqrt(x);
+
+		if (x > X_TLOSS)
+			return _SVID_libm_err(x, d, 37);
+		else
+			return d;
 	}
-        if(x<=tiny) {
-            return(-tpi/x);
-        }
+		if (x <= tiny) {
+			return (-tpi/x);
+		}
 	z = x*x;
-	if(x<1.28) {
+	if (x < 1.28) {
 	    u = u0[3]; v = v0[3]+z*v0[4];
-	    for(i=2;i>=0;i--){
+	    for (i = 2; i >= 0; i--) {
 		u = u*z + u0[i];
 		v = v*z + v0[i];
 	    }
 	} else {
-	    for (u = u1[11], i=10;i>=0;i--) u = u*z+u1[i];
+	    for (u = u1[11], i = 10; i >= 0; i--) u = u*z+u1[i];
 	    v = v1[0]+z*(v1[1]+z*(v1[2]+z*(v1[3]+z*v1[4])));
 	}
-	return(x*(u/v) + tpi*(j1(x)*log(x)-one/x));
+	return (x*(u/v) + tpi*(j1(x)*log(x)-one/x));
 }
 
 static const GENERIC pr0[6] = {
@@ -283,16 +290,16 @@ static const GENERIC huge    = 1.0e10;
 
 static GENERIC
 pone(GENERIC x) {
-	GENERIC s,r,t,z;
+	GENERIC s, r, t, z;
 	int i;
-        /* assume x > 8 */
-	if(x>huge) return one;
+		/* assume x > 8 */
+	if (x > huge) return one;
 	t = 8.0/x; z = t*t;
-            r = pr0[5]; s = ps0[5]+z;
-            for(i=4;i>=0;i--) {
-                r = z*r + pr0[i];
-                s = z*s + ps0[i];
-            }
+	r = pr0[5]; s = ps0[5]+z;
+	for (i = 4; i >= 0; i--) {
+		r = z*r + pr0[i];
+		s = z*s + ps0[i];
+	}
 	return r/s;
 }
 
@@ -316,15 +323,15 @@ static const GENERIC qs0[6] = {
 
 static GENERIC
 qone(GENERIC x) {
-	GENERIC s,r,t,z;
+	GENERIC s, r, t, z;
 	int i;
-	if(x>huge) return 0.375/x;
+	if (x > huge) return 0.375/x;
 	t = 8.0/x; z = t*t;
-        /* assume x > 8 */
-            r = qr0[5]; s = qs0[5]+z;
-            for(i=4;i>=0;i--) {
-                r = z*r + qr0[i];
-                s = z*s + qs0[i];
-            }
+		/* assume x > 8 */
+	r = qr0[5]; s = qs0[5]+z;
+	for (i = 4; i >= 0; i--) {
+		r = z*r + qr0[i];
+		s = z*s + qs0[i];
+	}
 	return t*(r/s);
 }
