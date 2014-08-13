@@ -34,5 +34,5 @@
 /* ARGSUSED0 */
 int
 __matherr(struct exception *x) {
-	return 0;
+	return (0);
 }

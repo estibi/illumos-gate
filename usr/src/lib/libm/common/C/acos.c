@@ -30,7 +30,8 @@
 #pragma weak acos = __acos
 
 /* INDENT OFF */
-/* acos(x)
+/*
+ * acos(x)
  * Method :
  *	acos(x)  = pi/2 - asin(x)
  *	acos(-x) = pi/2 + asin(x)
@@ -104,31 +105,30 @@ acos(double x) {
 		if (((ix - 0x3ff00000) | ((int *) &x)[LOWORD]) == 0) {
 			/* |x| == 1 */
 			if (hx > 0)	/* acos(1) = 0 */
-				return 0.0;
+				return (0.0);
 			else		/* acos(-1) = pi */
-				return pi + 2.0 * pio2_lo;
-		}
-		else if (isnan(x))
+				return (pi + 2.0 * pio2_lo);
+		} else if (isnan(x))
 #if defined(FPADD_TRAPS_INCOMPLETE_ON_NAN)
-			return ix >= 0x7ff80000 ? x : (x - x) / (x - x);
+			return (ix >= 0x7ff80000 ? x : (x - x) / (x - x));
 			/* assumes sparc-like QNaN */
 #else
 			return (x - x) / (x - x);	/* acos(|x|>1) is NaN */
 #endif
 		else
-			return _SVID_libm_err(x, x, 1);
+			return (_SVID_libm_err(x, x, 1));
 	}
 	if (ix < 0x3fe00000) {	/* |x| < 0.5 */
 		if (ix <= 0x3c600000)
-			return pio2_hi + pio2_lo;	/* if |x| < 2**-57 */
+			return (pio2_hi + pio2_lo);	/* if |x| < 2**-57 */
 		z = x * x;
 		p = z * (pS0 + z * (pS1 + z * (pS2 + z * (pS3 +
 			z * (pS4 + z * pS5)))));
 		q = one + z * (qS1 + z * (qS2 + z * (qS3 + z * qS4)));
 		r = p / q;
-		return pio2_hi - (x - (pio2_lo - x * r));
-	}
-	else if (hx < 0) {	/* x < -0.5 */
+		return (pio2_hi - (x - (pio2_lo - x * r)));
+	} else if (hx < 0) {
+		/* x < -0.5 */
 		z = (one + x) * 0.5;
 		p = z * (pS0 + z * (pS1 + z * (pS2 + z * (pS3 +
 			z * (pS4 + z * pS5)))));
@@ -136,9 +136,9 @@ acos(double x) {
 		s = sqrt(z);
 		r = p / q;
 		w = r * s - pio2_lo;
-		return pi - 2.0 * (s + w);
-	}
-	else {			/* x > 0.5 */
+		return (pi - 2.0 * (s + w));
+	} else {
+		/* x > 0.5 */
 		z = (one - x) * 0.5;
 		s = sqrt(z);
 		df = s;
@@ -149,6 +149,6 @@ acos(double x) {
 		q = one + z * (qS1 + z * (qS2 + z * (qS3 + z * qS4)));
 		r = p / q;
 		w = r * s + c;
-		return 2.0 * (df + w);
+		return (2.0 * (df + w));
 	}
 }

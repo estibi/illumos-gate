@@ -101,7 +101,7 @@
  *	  (ii)  if k=0, return r-E
  *	  (iii) if k=-1, return 0.5*(r-E)-0.5
  *        (iv)	if k=1 if r < -0.25, return 2*((r+0.5)- E)
- *	       	       else	     return  1.0+2.0*(r-E);
+ *					else	     return  1.0+2.0*(r-E);
  *	  (v)   if (k<-2||k>56) return 2^k(1-(E-r)) - 1 (or exp(x)-1)
  *	  (vi)  if k <= 20, return 2^k((1-2^-k)-(E-r)), else
  *	  (vii) return 2^k(1-((E+2^-k)-r))
@@ -175,21 +175,23 @@ expm1(double x) {
 
 	/* filter out huge and non-finite argument */
 	/* for example exp(38)-1 is approximately 3.1855932e+16 */
-	if (hx >= 0x4043687A) {			/* if |x|>=56*ln2  (~38.8162...) */
+	if (hx >= 0x4043687A) {
+		/* if |x|>=56*ln2 (~38.8162...) */
 		if (hx >= 0x40862E42) {		/* if |x|>=709.78... -> inf */
 			if (hx >= 0x7ff00000) {
 				if (((hx & 0xfffff) | ((int *) &x)[LOWORD])
 					!= 0)
-					return x * x;	/* + -> * for Cheetah */
+					return (x * x);	/* + -> * for Cheetah */
 				else
-					return xsb == 0 ? x : -1.0;	/* exp(+-inf)={inf,-1} */
+					/* exp(+-inf)={inf,-1} */
+					return (xsb == 0 ? x : -1.0);
 			}
 			if (x > o_threshold)
-				return huge * huge;	/* overflow */
+				return (huge * huge);	/* overflow */
 		}
 		if (xsb != 0) {		/* x < -56*ln2, return -1.0 w/inexact */
 			if (x + tiny < 0.0)		/* raise inexact */
-				return tiny - one;	/* return -1 */
+				return (tiny - one);	/* return -1 */
 		}
 	}
 
@@ -200,14 +202,14 @@ expm1(double x) {
 				hi = x - ln2_hi;
 				lo = ln2_lo;
 				k = 1;
-			}
-			else { /* negative number */
+			} else {
+				/* negative number */
 				hi = x + ln2_hi;
 				lo = -ln2_lo;
 				k = -1;
 			}
-		}
-		else {	/* |x| > 1.5 ln2 */
+		} else {
+			/* |x| > 1.5 ln2 */
 			k = (int) (invln2 * x + (xsb == 0 ? 0.5 : -0.5));
 			t = k;
 			hi = x - t * ln2_hi;	/* t*ln2_hi is exact here */
@@ -215,12 +217,12 @@ expm1(double x) {
 		}
 		x = hi - lo;
 		c = (hi - x) - lo; /* still at |x| > 0.5 ln2 */
-	}
-	else if (hx < 0x3c900000) {		/* when |x|<2**-54, return x */
+	} else if (hx < 0x3c900000) {
+		/* when |x|<2**-54, return x */
 		t = huge + x;		/* return x w/inexact when x != 0 */
-		return x - (t - (huge + x));
-	}
-	else	/* |x| <= 0.5 ln2 */
+		return (x - (t - (huge + x)));
+	} else
+		/* |x| <= 0.5 ln2 */
 		k = 0;
 
 	/* x is now in primary range */
@@ -230,22 +232,22 @@ expm1(double x) {
 	t = 3.0 - r1 * hfx;
 	e = hxs * ((r1 - t) / (6.0 - x * t));
 	if (k == 0) /* |x| <= 0.5 ln2 */
-		return x - (x * e - hxs);
-	else {      /* |x| > 0.5 ln2 */
+		return (x - (x * e - hxs));
+	else {		/* |x| > 0.5 ln2 */
 		e = (x * (e - c) - c);
 		e -= hxs;
 		if (k == -1)
-			return 0.5 * (x - e) - 0.5;
+			return (0.5 * (x - e) - 0.5);
 		if (k == 1) {
 			if (x < -0.25)
-				return -2.0 * (e - (x + 0.5));
+				return (-2.0 * (e - (x + 0.5)));
 			else
-				return one + 2.0 * (x - e);
+				return (one + 2.0 * (x - e));
 		}
 		if (k <= -2 || k > 56) {	/* suffice to return exp(x)-1 */
 			y = one - (e - x);
 			((int *) &y)[HIWORD] += k << 20;
-			return y - one;
+			return (y - one);
 		}
 		t = one;
 		if (k < 20) {
@@ -253,13 +255,12 @@ expm1(double x) {
 							/* t = 1 - 2^-k */
 			y = t - (e - x);
 			((int *) &y)[HIWORD] += k << 20;
-		}
-		else {
+		} else {
 			((int *) &t)[HIWORD] = (0x3ff - k) << 20; /* 2^-k */
 			y = x - (e + t);
 			y += one;
 			((int *) &y)[HIWORD] += k << 20;
 		}
 	}
-	return y;
+	return (y);
 }

@@ -83,13 +83,17 @@ jn(int n, GENERIC x) {
 		n = -n;
 		x = -x;
 	}
-	if (isnan(x)) return x*x;	/* + -> * for Cheetah */
+	if (isnan(x))
+		return (x*x);	/* + -> * for Cheetah */
 	if (!((int) _lib_version == libm_ieee ||
 		(__xpg6 & _C99SUSv3_math_errexcept) != 0)) {
-	    if (fabs(x) > X_TLOSS) return _SVID_libm_err(on, ox, 38);
+	    if (fabs(x) > X_TLOSS)
+			return (_SVID_libm_err(on, ox, 38));
 	}
-	if (n == 0) return (j0(x));
-	if (n == 1) return (j1(x));
+	if (n == 0)
+		return (j0(x));
+	if (n == 1)
+		return (j1(x));
 	if ((n&1) == 0)
 		sgn = 0; 			/* even n */
 	else
@@ -217,7 +221,10 @@ jn(int n, GENERIC x) {
 			b = (t*j0(x)/b);
 	    }
 	}
-	if (sgn == 1) return -b; else return b;
+	if (sgn == 1)
+		return (-b);
+	else
+		return (b);
 }
 
 GENERIC
@@ -227,28 +234,33 @@ yn(int n, GENERIC x) {
 	GENERIC a, b, temp = 0, ox, on;
 
 	ox = x; on = (GENERIC)n;
-	if (isnan(x)) return x*x;	/* + -> * for Cheetah */
+	if (isnan(x))
+		return (x*x);	/* + -> * for Cheetah */
 	if (x <= zero) {
 		if (x == zero) {
 			/* return -one/zero; */
-			return _SVID_libm_err((GENERIC)n, x, 12);
+			return (_SVID_libm_err((GENERIC)n, x, 12));
 		} else {
 			/* return zero/zero; */
-			return _SVID_libm_err((GENERIC)n, x, 13);
+			return (_SVID_libm_err((GENERIC)n, x, 13));
 		}
 	}
 	if (!((int) _lib_version == libm_ieee ||
 		(__xpg6 & _C99SUSv3_math_errexcept) != 0)) {
-	    if (x > X_TLOSS) return _SVID_libm_err(on, ox, 39);
+	    if (x > X_TLOSS)
+			return (_SVID_libm_err(on, ox, 39));
 	}
 	sign = 1;
 	if (n < 0) {
 		n = -n;
 		if ((n&1) == 1) sign = -1;
 	}
-	if (n == 0) return (y0(x));
-	if (n == 1) return (sign*y1(x));
-	if (!finite(x)) return zero;
+	if (n == 0)
+		return (y0(x));
+	if (n == 1)
+		return (sign*y1(x));
+	if (!finite(x))
+		return (zero);
 
 	if (x > 1.0e91) {
 				/*
@@ -287,5 +299,8 @@ yn(int n, GENERIC x) {
 			a = temp;
 		}
 	}
-	if (sign > 0) return b; else return -b;
+	if (sign > 0)
+		return (b);
+	else
+		return (-b);
 }

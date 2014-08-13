@@ -30,7 +30,8 @@
 #pragma weak asinh = __asinh
 
 /* INDENT OFF */
-/* asinh(x)
+/*
+ * asinh(x)
  * Method :
  *	Based on
  *		asinh(x) = sign(x) * log [ |x| + sqrt(x*x+1) ]
@@ -64,25 +65,25 @@ asinh(double x) {
 	ix = hx & 0x7fffffff;
 	if (ix >= 0x7ff00000)
 #if defined(FPADD_TRAPS_INCOMPLETE_ON_NAN)
-		return ix >= 0x7ff80000 ? x : x + x;
+		return (ix >= 0x7ff80000 ? x : x + x);
 		/* assumes sparc-like QNaN */
 #else
-		return x + x;	/* x is inf or NaN */
+		return (x + x);	/* x is inf or NaN */
 #endif
 	if (ix < 0x3e300000) {	/* |x|<2**-28 */
 		if (huge + x > one)
-			return x;	/* return x inexact except 0 */
+			return (x);	/* return x inexact except 0 */
 	}
 	if (ix > 0x41b00000) {	/* |x| > 2**28 */
 		w = log(fabs(x)) + ln2;
-	}
-	else if (ix > 0x40000000) {	/* 2**28 > |x| > 2.0 */
+	} else if (ix > 0x40000000) {
+		/* 2**28 > |x| > 2.0 */
 		t = fabs(x);
 		w = log(2.0 * t + one / (sqrt(x * x + one) + t));
-	}
-	else {			/* 2.0 > |x| > 2**-28 */
+	} else {
+		/* 2.0 > |x| > 2**-28 */
 		t = x * x;
 		w = log1p(fabs(x) + t / (one + sqrt(one + t)));
 	}
-	return hx > 0 ? w : -w;
+	return (hx > 0 ? w : -w);
 }
