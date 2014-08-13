@@ -69,7 +69,7 @@ fp_classf(float f)
 	/* XXX: Separate input and output */
 	__asm__ __volatile__(
 	    "sethi  %%hi(0x80000000),%1\n\t"
-	    "andncc %3,%1,%0\n\t"
+	    "andncc %2,%1,%0\n\t"
 	    "bne    1f\n\t"
 	    "nop\n\t"
 	    "mov    0,%0\n\t"
@@ -104,7 +104,7 @@ fp_classf(float f)
 	    "nop\n\t"
 	    "mov    5,%0\n\t"	/* x is signaling NaN */
 	    "2:\n\t"
-	    : "+r" (ret), "=&r" (tmp)
+	    : "=r" (ret), "=&r" (tmp)
 	    : "r" (f)
 	    : "cc");
 	return (ret);
