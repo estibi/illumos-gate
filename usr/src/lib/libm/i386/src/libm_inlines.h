@@ -308,7 +308,7 @@ isnanl(long double ld)
 	    "jz	   2f\n\t"		/* jump if exp is all 1 */
 	    "testl $0x80000000,%1\n\t"
 	    "jz	   3f\n\t"		/* jump if leading bit is 0 */
-	    "movl  $0,%0\n\t"
+	    "xorl  %0,%0\n\t"
 	    "jmp   1f\n\t"
 	    "2:\n\t"			/* note that %0 = 0 from before */
 	    "cmpl  $0x80000000,%1\n\t"	/* what is first half of significand? */
