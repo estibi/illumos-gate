@@ -36,15 +36,15 @@
  * Method :
  *	1. Replace x by |x| (cosh(x) = cosh(-x)).
  *	2.
- *		                                        [ exp(x) - 1 ]^2
- *	    0        <= x <= 0.3465  :  cosh(x) := 1 + -------------------
- *			       			           2*exp(x)
+ *                                       [ exp(x) - 1 ]^2
+ *  0        <= x <= 0.3465  :  cosh(x) := 1 + -------------------
+ *								      2*exp(x)
  *
  *		                                   exp(x) +  1/exp(x)
- *	    0.3465   <= x <= 22      :  cosh(x) := -------------------
- *			       			           2
- *	    22       <= x <= lnovft  :  cosh(x) := exp(x)/2
- *	    lnovft   <= x <  INF     :  cosh(x) := scalbn(exp(x-1024*ln2),1023)
+ *  0.3465   <= x <= 22      :  cosh(x) := -------------------
+ *								           2
+ *  22       <= x <= lnovft  :  cosh(x) := exp(x)/2
+ *  lnovft   <= x <  INF     :  cosh(x) := scalbn(exp(x-1024*ln2),1023)
  *
  *	Note: .3465 is a number near one half of ln2.
  *

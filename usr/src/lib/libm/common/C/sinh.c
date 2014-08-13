@@ -37,10 +37,10 @@
  *	1. reduce x to non-negative by sinh(-x) = - sinh(x).
  *	2.
  *
- *	                                      expm1(x) + expm1(x)/(expm1(x)+1)
- *	    0 <= x <= lnovft     : sinh(x) := --------------------------------
- *			       		                      2
- *     lnovft <= x <  INF	 : sinh(x) := exp(x-1024*ln2)*2**1023
+ *                                   expm1(x) + expm1(x)/(expm1(x)+1)
+ *   0 <= x <= lnovft   : sinh(x) := --------------------------------
+ *								       2
+ *  lnovft <= x <  INF  : sinh(x) := exp(x-1024*ln2)*2**1023
  *
  *
  * Special cases:

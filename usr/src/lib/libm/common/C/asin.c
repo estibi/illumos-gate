@@ -30,7 +30,8 @@
 #pragma weak asin = __asin
 
 /* INDENT OFF */
-/* asin(x)
+/*
+ * asin(x)
  * Method :
  *	Since  asin(x) = x + x^3/6 + x^5*3/40 + x^7*15/336 + ...
  *	we approximate asin(x) on [0,0.5] by
@@ -112,29 +113,28 @@ asin(double x) {
 	if (ix >= 0x3ff00000) {	/* |x| >= 1 */
 		if (((ix - 0x3ff00000) | ((int *) &x)[LOWORD]) == 0)
 			/* asin(1)=+-pi/2 with inexact */
-			return x * pio2_hi + x * pio2_lo;
+			return (x * pio2_hi + x * pio2_lo);
 		else if (isnan(x))
 #if defined(FPADD_TRAPS_INCOMPLETE_ON_NAN)
-			return ix >= 0x7ff80000 ? x : (x - x) / (x - x);
+			return (ix >= 0x7ff80000 ? x : (x - x) / (x - x));
 			/* assumes sparc-like QNaN */
 #else
 			return (x - x) / (x - x);	/* asin(|x|>1) is NaN */
 #endif
 		else
-			return _SVID_libm_err(x, x, 2);
-	}
-	else if (ix < 0x3fe00000) {	/* |x| < 0.5 */
+			return (_SVID_libm_err(x, x, 2));
+	} else if (ix < 0x3fe00000) {	/* |x| < 0.5 */
 		if (ix < 0x3e400000) {	/* if |x| < 2**-27 */
 			if ((i = (int) x) == 0)
-				return x;	/* return x with inexact if
-						 * x != 0 */
+				/* return x with inexact if x != 0 */
+				return (x);
 		}
 		t = x * x;
 		p = t * (pS0 + t * (pS1 + t * (pS2 + t * (pS3 +
 			t * (pS4 + t * pS5)))));
 		q = one + t * (qS1 + t * (qS2 + t * (qS3 + t * qS4)));
 		w = p / q;
-		return x + x * w;
+		return (x + x * w);
 	}
 	/* 1 > |x| >= 0.5 */
 	w = one - fabs(x);
@@ -145,8 +145,7 @@ asin(double x) {
 	if (ix >= 0x3FEF3333) {	/* if |x| > 0.975 */
 		w = p / q;
 		t = pio2_hi - (2.0 * (s + s * w) - pio2_lo);
-	}
-	else {
+	} else {
 		w = s;
 		((int *) &w)[LOWORD] = 0;
 		c = (t - w * w) / (s + w);
@@ -155,5 +154,5 @@ asin(double x) {
 		q = pio4_hi - 2.0 * w;
 		t = pio4_hi - (p - q);
 	}
-	return hx > 0 ? t : -t;
+	return (hx > 0 ? t : -t);
 }

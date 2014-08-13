@@ -31,12 +31,13 @@
 #pragma weak erfc = __erfc
 
 /* INDENT OFF */
-/* double erf(double x)
+/*
+ * double erf(double x)
  * double erfc(double x)
  *			     x
  *		      2      |\
  *     erf(x)  =  ---------  | exp(-t*t)dt
- *	 	   sqrt(pi) \|
+ *		   sqrt(pi) \|
  *			     0
  *
  *     erfc(x) =  1-erf(x)
@@ -62,7 +63,7 @@
  *	   is close to one. The interval is chosen because the fix
  *	   point of erf(x) is near 0.6174 (i.e., erf(x)=x when x is
  *	   near 0.6174), and by some experiment, 0.84375 is chosen to
- * 	   guarantee the error is less than one ulp for erf.
+ *	   guarantee the error is less than one ulp for erf.
  *
  *      2. For |x| in [0.84375,1.25], let s = |x| - 1, and
  *         c = 0.84506291151 rounded to single (24 bits)
@@ -122,7 +123,7 @@
  *      7. Special case:
  *         	erf(0)  = 0, erf(inf)  = 1, erf(-inf) = -1,
  *         	erfc(0) = 1, erfc(inf) = 0, erfc(-inf) = 2,
- *	   	erfc/erf(NaN) is NaN
+ *   	erfc/erf(NaN) is NaN
  */
 /* INDENT ON */
 
@@ -288,23 +289,24 @@ erf(double x) {
 	if (ix >= 0x7ff00000) {	/* erf(nan)=nan */
 #if defined(FPADD_TRAPS_INCOMPLETE_ON_NAN)
 		if (ix >= 0x7ff80000)		/* assumes sparc-like QNaN */
-			return x;
+			return (x);
 #endif
 		i = ((unsigned) hx >> 31) << 1;
-		return (double) (1 - i) + one / x;	/* erf(+-inf)=+-1 */
+		return ((double) (1 - i) + one / x);	/* erf(+-inf)=+-1 */
 	}
 
 	if (ix < 0x3feb0000) {	/* |x|<0.84375 */
 		if (ix < 0x3e300000) {	/* |x|<2**-28 */
 			if (ix < 0x00800000)	/* avoid underflow */
-				return 0.125 * (8.0 * x + efx8 * x);
-			return x + efx * x;
+				return (0.125 * (8.0 * x + efx8 * x));
+			return (x + efx * x);
 		}
 		z = x * x;
 		r = pp0 + z * (pp1 + z * (pp2 + z * (pp3 + z * pp4)));
-		s = one + z * (qq1 + z * (qq2 + z * (qq3 + z * (qq4 + z * qq5))));
+		s = one +
+			z *(qq1 + z * (qq2 + z * (qq3 + z * (qq4 + z * qq5))));
 		y = r / s;
-		return x + x * y;
+		return (x + x * y);
 	}
 	if (ix < 0x3ff40000) {	/* 0.84375 <= |x| < 1.25 */
 		s = fabs(x) - one;
@@ -313,15 +315,15 @@ erf(double x) {
 		Q = one + s * (qa1 + s * (qa2 + s * (qa3 + s * (qa4 +
 			s * (qa5 + s * qa6)))));
 		if (hx >= 0)
-			return erx + P / Q;
+			return (erx + P / Q);
 		else
-			return -erx - P / Q;
+			return (-erx - P / Q);
 	}
 	if (ix >= 0x40180000) {	/* inf > |x| >= 6 */
 		if (hx >= 0)
-			return one - tiny;
+			return (one - tiny);
 		else
-			return tiny - one;
+			return (tiny - one);
 	}
 	x = fabs(x);
 	s = one / (x * x);
@@ -330,8 +332,7 @@ erf(double x) {
 			s * (ra5 + s * (ra6 + s * ra7))))));
 		S = one + s * (sa1 + s * (sa2 + s * (sa3 + s * (sa4 +
 			s * (sa5 + s * (sa6 + s * (sa7 + s * sa8)))))));
-	}
-	else {			/* |x| >= 1/0.35 */
+	} else {			/* |x| >= 1/0.35 */
 		R = rb0 + s * (rb1 + s * (rb2 + s * (rb3 + s * (rb4 +
 			s * (rb5 + s * rb6)))));
 		S = one + s * (sb1 + s * (sb2 + s * (sb3 + s * (sb4 +
@@ -341,9 +342,9 @@ erf(double x) {
 	((int *) &z)[LOWORD] = 0;
 	r = exp(-z * z - 0.5625) * exp((z - x) * (z + x) + R / S);
 	if (hx >= 0)
-		return one - r / x;
+		return (one - r / x);
 	else
-		return r / x - one;
+		return (r / x - one);
 }
 
 double
@@ -356,26 +357,26 @@ erfc(double x) {
 	if (ix >= 0x7ff00000) {	/* erfc(nan)=nan */
 #if defined(FPADD_TRAPS_INCOMPLETE_ON_NAN)
 		if (ix >= 0x7ff80000)		/* assumes sparc-like QNaN */
-			return x;
+			return (x);
 #endif
 		/* erfc(+-inf)=0,2 */
-		return (double) (((unsigned) hx >> 31) << 1) + one / x;
+		return ((double) (((unsigned) hx >> 31) << 1) + one / x);
 	}
 
 	if (ix < 0x3feb0000) {	/* |x| < 0.84375 */
 		if (ix < 0x3c700000)	/* |x| < 2**-56 */
-			return one - x;
+			return (one - x);
 		z = x * x;
 		r = pp0 + z * (pp1 + z * (pp2 + z * (pp3 + z * pp4)));
-		s = one + z * (qq1 + z * (qq2 + z * (qq3 + z * (qq4 + z * qq5))));
+		s = one +
+			z * (qq1 + z * (qq2 + z * (qq3 + z * (qq4 + z * qq5))));
 		y = r / s;
 		if (hx < 0x3fd00000) {	/* x < 1/4 */
-			return one - (x + x * y);
-		}
-		else {
+			return (one - (x + x * y));
+		} else {
 			r = x * y;
 			r += (x - half);
-			return half - r;
+			return (half - r);
 		}
 	}
 	if (ix < 0x3ff40000) {	/* 0.84375 <= |x| < 1.25 */
@@ -386,11 +387,10 @@ erfc(double x) {
 			s * (qa5 + s * qa6)))));
 		if (hx >= 0) {
 			z = one - erx;
-			return z - P / Q;
-		}
-		else {
+			return (z - P / Q);
+		} else {
 			z = erx + P / Q;
-			return one + z;
+			return (one + z);
 		}
 	}
 	if (ix < 0x403c0000) {	/* |x|<28 */
@@ -401,10 +401,11 @@ erfc(double x) {
 				s * (ra5 + s * (ra6 + s * ra7))))));
 			S = one + s * (sa1 + s * (sa2 + s * (sa3 + s * (sa4 +
 				s * (sa5 + s * (sa6 + s * (sa7 + s * sa8)))))));
-		}
-		else {		/* |x| >= 1/.35 ~ 2.857143 */
+		} else {
+			/* |x| >= 1/.35 ~ 2.857143 */
 			if (hx < 0 && ix >= 0x40180000)
-				return two - tiny;	/* x < -6 */
+				return (two - tiny);	/* x < -6 */
+
 			R = rb0 + s * (rb1 + s * (rb2 + s * (rb3 + s * (rb4 +
 				s * (rb5 + s * rb6)))));
 			S = one + s * (sb1 + s * (sb2 + s * (sb3 + s * (sb4 +
@@ -414,14 +415,13 @@ erfc(double x) {
 		((int *) &z)[LOWORD] = 0;
 		r = exp(-z * z - 0.5625) * exp((z - x) * (z + x) + R / S);
 		if (hx > 0)
-			return r / x;
+			return (r / x);
 		else
-			return two - r / x;
-	}
-	else {
+			return (two - r / x);
+	} else {
 		if (hx > 0)
-			return tiny * tiny;
+			return (tiny * tiny);
 		else
-			return two - tiny;
+			return (two - tiny);
 	}
 }

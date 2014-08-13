@@ -39,5 +39,5 @@ fabs(double x) {
 	int *px = (int *) &x;
 
 	px[HIWORD] &= ~0x80000000;
-	return x;
+	return (x);
 }

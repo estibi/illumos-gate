@@ -30,7 +30,8 @@
 #pragma weak tanh = __tanh
 
 /* INDENT OFF */
-/* TANH(X)
+/*
+ * TANH(X)
  * RETURN THE HYPERBOLIC TANGENT OF X
  * code based on 4.3bsd
  * Modified by K.C. Ng for sun 4.0, Jan 31, 1987
@@ -73,7 +74,7 @@ tanh(double x) {
 	volatile double dummy;
 
 	if (isnan(x))
-		return x * x;	/* + -> * for Cheetah */
+		return (x * x);	/* + -> * for Cheetah */
 	signx = signbit(x);
 	t = fabs(x);
 	z = one;
@@ -83,19 +84,18 @@ tanh(double x) {
 		else if (t > small) {
 			y = expm1(-t - t);
 			z = -y / (y + two);
-		}
-		else {		/* raise the INEXACT flag for non-zero t */
+		} else {
+			/* raise the INEXACT flag for non-zero t */
 			dummy = t + big;
 #ifdef lint
 			dummy = dummy;
 #endif
-			return x;
+			return (x);
 		}
-	}
-	else if (!finite(t))
-		return copysign(1.0, x);
+	} else if (!finite(t))
+		return (copysign(1.0, x));
 	else
-		return signx == 1 ? -z + small * small : z - small * small;
+		return (signx == 1 ? -z + small * small : z - small * small);
 
-	return signx == 1 ? -z : z;
+	return (signx == 1 ? -z : z);
 }
