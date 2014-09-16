@@ -27,12 +27,13 @@
  * Use is subject to license terms.
  */
 
-/* long double __k_lgammal(long double x, int *signgamlp);
+/*
+ * long double __k_lgammal(long double x, int *signgamlp);
  * K.C. Ng, August, 1989.
  *
  * We choose [1.5,2.5] to be the primary interval. Our algorithms
  * are mainly derived from
- * 
+ *
  *
  *                             zeta(2)-1    2    zeta(3)-1    3
  * lgamma(2+s) = s*(1-euler) + --------- * s  -  --------- * s  + ...
@@ -40,11 +41,11 @@
  *
  *
  * Note 1. Since gamma(1+s)=s*gamma(s), hence
- *	   	lgamma(1+s) = log(s) + lgamma(s), or
- *	   	lgamma(s) = lgamma(1+s) - log(s). 
+ *		lgamma(1+s) = log(s) + lgamma(s), or
+ *		lgamma(s) = lgamma(1+s) - log(s).
  *	   When s is really tiny (like roundoff), lgamma(1+s) ~ s(1-enler)
  *	   Hence lgamma(s) ~ -log(s) for tiny s
- *	
+ *
  */
 
 #include "libm.h"
@@ -56,9 +57,9 @@ static long double poly(long double, const long double *, int);
 static long double polytail(long double);
 static long double primary(long double);
 
-static const long double 
+static const long double
 c0 =	 0.0L,
-ch = 	 0.5L,
+ch =	 0.5L,
 c1 =	 1.0L,
 c2 =	 2.0L,
 c3 =	 3.0L,
@@ -70,73 +71,77 @@ tiny =   1.0e-40L;
 
 long double
 __k_lgammal(long double x, int *signgamlp) {
-	long double t,y;
+	long double t, y;
 	int i;
 
-    /* purge off +-inf, NaN and negative arguments */
-	if(!finitel(x)) return x*x;
+	/* purge off +-inf, NaN and negative arguments */
+	if (!finitel(x))
+		return (x*x);
 	*signgamlp = 1;
-	if(signbitl(x)) return(neg(x,signgamlp));
+	if (signbitl(x))
+		return (neg(x, signgamlp));
 
-    /* for x < 8.0 */
-	if(x<8.0L) {
+	/* for x < 8.0 */
+	if (x < 8.0L) {
 	    y = anintl(x);
 	    i = (int) y;
-	    switch(i) {
+	    switch (i) {
 	    case 0:
-		if(x<1.0e-40L) return -logl(x); else
-		return (primary(x)-log1pl(x))-logl(x);
+		if (x < 1.0e-40L)
+			return (-logl(x));
+		else
+			return (primary(x)-log1pl(x))-logl(x);
 	    case 1:
-		return primary(x-y)-logl(x); 
+		return (primary(x-y)-logl(x));
 	    case 2:
-		return primary(x-y);
+		return (primary(x-y));
 	    case 3:
-		return primary(x-y)+logl(x-c1);
+		return (primary(x-y)+logl(x-c1));
 	    case 4:
-		return primary(x-y)+logl((x-c1)*(x-c2));
+		return (primary(x-y)+logl((x-c1)*(x-c2)));
 	    case 5:
-		return primary(x-y)+logl((x-c1)*(x-c2)*(x-c3));
+		return (primary(x-y)+logl((x-c1)*(x-c2)*(x-c3)));
 	    case 6:
-		return primary(x-y)+logl((x-c1)*(x-c2)*(x-c3)*(x-c4));
+		return (primary(x-y)+logl((x-c1)*(x-c2)*(x-c3)*(x-c4)));
 	    case 7:
-		return primary(x-y)+logl((x-c1)*(x-c2)*(x-c3)*(x-c4)*(x-c5));
+		return (primary(x-y)+logl((x-c1)*(x-c2)*(x-c3)*(x-c4)*(x-c5)));
 	    case 8:
 		return primary(x-y)+
 			logl((x-c1)*(x-c2)*(x-c3)*(x-c4)*(x-c5)*(x-c6));
 	    }
 	}
 
-    /* 8.0 <= x < 1.0e40 */
+	/* 8.0 <= x < 1.0e40 */
 	if (x < 1.0e40L) {
 	    t = logl(x);
-	    return x*(t-c1)-(ch*t-polytail(c1/x));
+	    return (x*(t-c1)-(ch*t-polytail(c1/x)));
 	}
-	
-    /* 1.0e40 <= x <= inf */
-	return x*(logl(x)-c1);
+
+	/* 1.0e40 <= x <= inf */
+	return (x*(logl(x)-c1));
 }
 
 static const long double an1[] = {		/* 20 terms */
-  -0.0772156649015328606065120900824024309741L,
-   3.224670334241132182362075833230130289059e-0001L,
-  -6.735230105319809513324605383668929964120e-0002L,
-   2.058080842778454787900092432928910226297e-0002L,
-  -7.385551028673985266273054086081102125704e-0003L,
-   2.890510330741523285758867304409628648727e-0003L,
-  -1.192753911703260976581414338096267498555e-0003L,
-   5.096695247430424562831956662855697824035e-0004L,
-  -2.231547584535777978926798502084300123638e-0004L,
-   9.945751278186384670278268034322157947635e-0005L,
-  -4.492623673665547726647838474125147631082e-0005L,
-   2.050721280617796810096993154281561168706e-0005L,
-  -9.439487785617396552092393234044767313568e-0006L,
-   4.374872903516051510689234173139793159340e-0006L,
-  -2.039156676413643091040459825776029327487e-0006L,
-   9.555777181318621470466563543806211523634e-0007L,
-  -4.468344919709630637558538313482398989638e-0007L,
-   2.216738086090045781773004477831059444178e-0007L,
-  -7.472783403418388455860445842543843485916e-0008L,
-   8.777317930927149922056782132706238921648e-0008L,
+	-0.0772156649015328606065120900824024309741L,
+	3.224670334241132182362075833230130289059e-0001L,
+	-6.735230105319809513324605383668929964120e-0002L,
+	2.058080842778454787900092432928910226297e-0002L,
+	-7.385551028673985266273054086081102125704e-0003L,
+	2.890510330741523285758867304409628648727e-0003L,
+	-1.192753911703260976581414338096267498555e-0003L,
+	5.096695247430424562831956662855697824035e-0004L,
+	-2.231547584535777978926798502084300123638e-0004L,
+	9.945751278186384670278268034322157947635e-0005L,
+	-4.492623673665547726647838474125147631082e-0005L,
+	2.050721280617796810096993154281561168706e-0005L,
+	-9.439487785617396552092393234044767313568e-0006L,
+	4.374872903516051510689234173139793159340e-0006L,
+	-2.039156676413643091040459825776029327487e-0006L,
+	9.555777181318621470466563543806211523634e-0007L,
+	-4.468344919709630637558538313482398989638e-0007L,
+	2.216738086090045781773004477831059444178e-0007L,
+	-7.472783403418388455860445842543843485916e-0008L,
+	8.777317930927149922056782132706238921648e-0008L,
 };
 
 static const long double an2[] = {		/* 20 terms */
@@ -302,18 +307,18 @@ primary(long double s) {	/* assume |s|<=0.5 */
 	int i;
 
 	i = (int) (8.0L * (s + 0.5L));
-	switch(i) {
-	case 0:	return ch*s+s*poly(s,an4,21);
-	case 1:	return ch*s+s*poly(s,an3,20);
-	case 2:	return ch*s+s*poly(s,an2,20);
-	case 3:	return ch*s+s*poly(s,an1,20);
-	case 4:	return ch*s+s*poly(s,ap1,19);
-	case 5:	return ch*s+s*poly(s,ap2,19);
-	case 6:	return ch*s+s*poly(s,ap3,19);
-	case 7:	return ch*s+s*poly(s,ap4,19);
+	switch (i) {
+	case 0:	return ch*s+s*poly(s, an4, 21);
+	case 1:	return ch*s+s*poly(s, an3, 20);
+	case 2:	return ch*s+s*poly(s, an2, 20);
+	case 3:	return ch*s+s*poly(s, an1, 20);
+	case 4:	return ch*s+s*poly(s, ap1, 19);
+	case 5:	return ch*s+s*poly(s, ap2, 19);
+	case 6:	return ch*s+s*poly(s, ap3, 19);
+	case 7:	return ch*s+s*poly(s, ap4, 19);
 	}
 	/* NOTREACHED */
-    return 0.0L;
+    return (0.0L);
 }
 
 static long double
@@ -321,8 +326,8 @@ poly(long double s, const long double *p, int n) {
 	long double y;
 	int i;
 	y = p[n-1];
-	for (i=n-2;i>=0;i--) y = p[i]+s*y;
-	return y;
+	for (i = n-2; i >= 0; i--) y = p[i]+s*y;
+	return (y);
 }
 
 static const long double pt[] = {
@@ -349,49 +354,49 @@ static const long double pt[] = {
 
 static long double
 polytail(long double s) {
-	long double t,z;
+	long double t, z;
 	int i;
 	z = s*s;
 	t = pt[18];
-	for (i=17;i>=1;i--) t = pt[i]+z*t;
-	return pt[0]+s*t;
+	for (i = 17; i >= 1; i--) t = pt[i]+z*t;
+	return (pt[0]+s*t);
 }
 
 static long double
 neg(long double z, int *signgamlp) {
-	long double t,p;
+	long double t, p;
 
-     /* 
-      * written by K.C. Ng,  Feb 2, 1989.
-      *
-      * Since  
-      *		-z*G(-z)*G(z) = pi/sin(pi*z),
-      * we have
-      * 	G(-z) = -pi/(sin(pi*z)*G(z)*z)
-      * 	      =  pi/(sin(pi*(-z))*G(z)*z)
-      * Algorithm 
-      *		z = |z|
-      *		t = sinpi(z); ...note that when z>2**112, z is an int
-      *		and hence t=0.
-      *
-      *		if(t==0.0) return 1.0/0.0;
-      *		if(t< 0.0) *signgamlp = -1; else t= -t;
-      *		if(z<1.0e-40)	...tiny z
-      *		    return -log(z);
-      *		else
-      *		    return log(pi/(t*z))-lgamma(z);
-      *		
-      */		
+	/*
+	 * written by K.C. Ng,  Feb 2, 1989.
+	 *
+	 * Since
+	 *		-z*G(-z)*G(z) = pi/sin(pi*z),
+	 * we have
+	 * 	G(-z) = -pi/(sin(pi*z)*G(z)*z)
+	 *		  =  pi/(sin(pi*(-z))*G(z)*z)
+	 * Algorithm
+	 *		z = |z|
+	 *		t = sinpi(z); ...note that when z>2**112, z is an int
+	 *		and hence t=0.
+	 *
+	 *		if(t==0.0) return 1.0/0.0;
+	 *		if(t< 0.0) *signgamlp = -1; else t= -t;
+	 *		if(z<1.0e-40)	...tiny z
+	 *		    return -log(z);
+	 *		else
+	 *		    return log(pi/(t*z))-lgamma(z);
+	 *
+	 */
 
 	t = sinpil(z);			/* t := sin(pi*z) */
-	if (t==c0)  			/* return   1.0/0.0 =  +INF */
-	    return c1/c0;
-	
+	if (t == c0)  			/* return   1.0/0.0 =  +INF */
+	    return (c1/c0);
+
 	z = -z;
-	if(z<=tiny) 
+	if (z <= tiny)
 	    p = -logl(z);
 	else
-      	    p = logl(pi/(fabsl(t)*z))-__k_lgammal(z,signgamlp);
-	if(t<c0) *signgamlp = -1;
-	return p;
+		p = logl(pi/(fabsl(t)*z)) - __k_lgammal(z, signgamlp);
+	if (t < c0) *signgamlp = -1;
+	return (p);
 }

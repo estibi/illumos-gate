@@ -30,7 +30,7 @@
 /*
  * floating point Bessel's function of the first and second kinds
  * of order zero: j1(x),y1(x);
- *          
+ *
  * Special cases:
  *	y0(0)=y1(0)=yn(n,0) = -inf with division by zero signal;
  *	y0(-ve)=y1(-ve)=yn(n,-ve) are NaN with invalid signal.
@@ -47,14 +47,14 @@
 #include <sunmath.h>
 #endif
 
-#define GENERIC long double
-static GENERIC 
+#define	GENERIC long double
+static GENERIC
 zero    = 0.0L,
 small	= 1.0e-9L,
 tiny 	= 1.0e-38L,
 one	= 1.0L,
 five   	= 5.0L,
-invsqrtpi= 5.641895835477562869480794515607725858441e-0001L,
+invsqrtpi = 5.641895835477562869480794515607725858441e-0001L,
 tpi	= 0.636619772367581343075535053490057448L;
 
 static GENERIC pone(), qone();
@@ -78,17 +78,19 @@ static GENERIC s0[7] = {
 };
 
 GENERIC
-j1l(x) GENERIC x;{
+j1l(x) GENERIC x; {
 	GENERIC z, d, s, c, ss, cc, r;
 	int i, sgn;
 
-	if(!finitel(x)) return one/x;
+	if (!finitel(x))
+		return (one/x);
 	sgn = signbitl(x);
 	x = fabsl(x);
-	if(x > 1.28L){
+	if (x > 1.28L) {
 		s = sinl(x);
 		c = cosl(x);
-	/* j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
+	/*
+	 * j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
 	 * where x0 = x-3pi/4
 	 * 	Better formula:
 	 *		cos(x0) = cos(x)cos(3pi/4)+sin(x)sin(3pi/4)
@@ -99,10 +101,10 @@ j1l(x) GENERIC x;{
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>1.0e2450L) {	/* x+x may overflow */
+		if (x > 1.0e2450L) {	/* x+x may overflow */
 			ss = -s-c;
 			cc =  s-c;
-		} else if(signbitl(s)!=signbitl(c)) {
+		} else if (signbitl(s) != signbitl(c)) {
 			cc = s - c;
 			ss = cosl(x+x)/cc;
 		} else {
@@ -113,24 +115,34 @@ j1l(x) GENERIC x;{
 	 * j1(x) = 1/sqrt(pi*x) * (P(1,x)*cc - Q(1,x)*ss)
 	 * y1(x) = 1/sqrt(pi*x) * (P(1,x)*ss + Q(1,x)*cc)
 	 */
-                if(x>1.0e120L) return (invsqrtpi*cc)/sqrtl(x);
+                if (x > 1.0e120L)
+					return (invsqrtpi*cc)/sqrtl(x);
                 d =  invsqrtpi*(pone(x)*cc-qone(x)*ss)/sqrtl(x);
-		if(sgn==0) return d; else return -d;
+		if (sgn == 0)
+			return (d);
+		else
+			return (-d);
 	}
-	if(x<=small) {
-            if(x<=tiny) d = 0.5L*x;
+	if (x <= small) {
+            if (x <= tiny) d = 0.5L*x;
             else d =  x*(0.5L-x*x*0.125L);
-	    if(sgn==0) return d; else return -d;
+	    if (sgn == 0)
+			return (d);
+		else
+			return (-d);
         }
 	z = x*x;
-	    r = r0[6]; 
+	    r = r0[6];
 	    s = s0[6];
-	    for(i=5;i>=0;i--) {
+	    for (i = 5; i >= 0; i--) {
 		r = r*z + r0[i];
 		s = s*z + s0[i];
 	    }
 	d = x*0.5L+x*(z*(r/s));
-	if(sgn==0) return d; else return -d;
+	if (sgn == 0)
+		return (d);
+	else
+		return (-d);
 }
 
 static GENERIC u0[7] = {
@@ -154,22 +166,25 @@ static GENERIC v0[8] = {
 };
 
 GENERIC
-y1l(x) GENERIC x;{
+y1l(x) GENERIC x; {
 	GENERIC z, s, c, ss, cc, u, v;
 	int i;
 
-	if(isnanl(x)) return x+x;
-	if(x <= zero){
-		if(x==zero) 
-		    return -one/zero; 
-		else 
-		    return zero/zero;
+	if (isnanl(x))
+		return (x+x);
+	if (x <= zero) {
+		if (x == zero)
+		    return (-one/zero);
+		else
+		    return (zero/zero);
 	}
-	if(x > 1.28L){
-		if(!finitel(x)) return zero;
+	if (x > 1.28L) {
+		if (!finitel(x))
+			return (zero);
 		s = sinl(x);
 		c = cosl(x);
-	/* j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
+	/*
+	 * j1(x) = sqrt(2/(pi*x))*(p1(x)*cos(x0)-q1(x)*sin(x0))
 	 * where x0 = x-3pi/4
 	 * 	Better formula:
 	 *		cos(x0) = cos(x)cos(3pi/4)+sin(x)sin(3pi/4)
@@ -180,10 +195,10 @@ y1l(x) GENERIC x;{
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>1.0e2450L) {	/* x+x may overflow */
+		if (x > 1.0e2450L) {	/* x+x may overflow */
 			ss = -s-c;
 			cc =  s-c;
-		} else if(signbitl(s)!=signbitl(c)) {
+		} else if (signbitl(s) != signbitl(c)) {
 			cc = s - c;
 			ss = cosl(x+x)/cc;
 		} else {
@@ -194,19 +209,20 @@ y1l(x) GENERIC x;{
 	 * j1(x) = 1/sqrt(pi*x) * (P(1,x)*cc - Q(1,x)*ss)
 	 * y1(x) = 1/sqrt(pi*x) * (P(1,x)*ss + Q(1,x)*cc)
 	 */
-		if(x>1.0e91L) return (invsqrtpi*ss)/sqrtl(x);
-                return invsqrtpi*(pone(x)*ss+qone(x)*cc)/sqrtl(x);
+		if (x > 1.0e91L)
+			return (invsqrtpi*ss)/sqrtl(x);
+        return (invsqrtpi*(pone(x)*ss+qone(x)*cc)/sqrtl(x));
 	}
-        if(x<=tiny) {
-            return(-tpi/x);
+        if (x <= tiny) {
+            return (-tpi/x);
         }
 	z = x*x;
 	    u = u0[6]; v = v0[6]+z*v0[7];
-	    for(i=5;i>=0;i--){
+	    for (i = 5; i >= 0; i--) {
 		u = u*z + u0[i];
 		v = v*z + v0[i];
 	    }
-	return(x*(u/v) + tpi*(j1l(x)*logl(x)-one/x));
+	return (x*(u/v) + tpi*(j1l(x)*logl(x)-one/x));
 }
 
 static GENERIC pr0[12] = {
@@ -423,56 +439,57 @@ static GENERIC huge    = 1.0e30L;
 static GENERIC pone(x)
 GENERIC x;
 {
-	GENERIC s,r,t,z;
+	GENERIC s, r, t, z;
 	int i;
-	if(x>huge) return one;
+	if (x > huge)
+		return (one);
 	t = one/x; z = t*t;
-	if(x>sixteen) {
+	if (x > sixteen) {
 	    r = z*pr0[11]+pr0[10]; s = ps0[10];
-	    for(i=9;i>=0;i--) {
+	    for (i = 9; i >= 0; i--) {
 		r = z*r + pr0[i];
 		s = z*s + ps0[i];
 	    }
-	} else if(x>eight) {
+	} else if (x > eight) {
 	    r = pr1[11]; s = ps1[11]+z*(ps1[12]+z*ps1[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i = 10; i >= 0; i--) {
 		r = z*r + pr1[i];
 		s = z*s + ps1[i];
 	    }
-	} else if(x>five) {
+	} else if (x > five) {
 	    r = pr2[11]; s = ps2[11]+z*(ps2[12]+z*ps2[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i = 10; i >= 0; i--) {
 		r = z*r + pr2[i];
 		s = z*s + ps2[i];
 	    }
-        } else if( x>3.5L) {
+        } else if (x > 3.5L) {
             r = pr3[12]; s = ps3[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + pr3[i];
                 s = z*s + ps3[i];
             }
-        } else if( x>2.5L) {
+        } else if (x > 2.5L) {
             r = pr4[12]; s = ps4[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + pr4[i];
                 s = z*s + ps4[i];
             }
-        } else if( x> (1.0L/0.5625L)){
+        } else if (x > (1.0L/0.5625L)) {
             r = pr5[12]; s = ps5[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + pr5[i];
                 s = z*s + ps5[i];
             }
-        } else {        /* assume x > 1.28 */
+        } else {		/* assume x > 1.28 */
             r = pr6[12]; s = ps6[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + pr6[i];
                 s = z*s + ps6[i];
             }
         }
-	return r/s;
+	return (r/s);
 }
-		
+
 
 static GENERIC qr0[12] = {
    3.749999999999999999999999999999999971033e-0001L,
@@ -684,52 +701,53 @@ static GENERIC qs6[13] = {
 static GENERIC qone(x)
 GENERIC x;
 {
-	GENERIC s,r,t,z;
+	GENERIC s, r, t, z;
 	int i;
-	if(x>huge) return 0.375L/x;
+	if (x > huge)
+		return (0.375L/x);
 	t = one/x; z = t*t;
-	if(x>sixteen) {
+	if (x > sixteen) {
 	    r = z*qr0[11]+qr0[10]; s = qs0[10];
-	    for(i=9;i>=0;i--) {
+	    for (i = 9; i >= 0; i--) {
 		r = z*r + qr0[i];
 		s = z*s + qs0[i];
 	    }
-	} else if(x>eight) {
+	} else if (x > eight) {
 	    r = qr1[11]; s = qs1[11]+z*(qs1[12]+z*qs1[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i = 10; i >= 0; i--) {
 		r = z*r + qr1[i];
 		s = z*s + qs1[i];
 	    }
-	} else if (x>five) {	/* x > 5.0 */
+	} else if (x > five) {	/* x > 5.0 */
 	    r = qr2[11]; s = qs2[11]+z*(qs2[12]+z*qs2[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i = 10; i >= 0; i--) {
 		r = z*r + qr2[i];
 		s = z*s + qs2[i];
 	    }
-        } else if(x>3.5L) {
+        } else if (x > 3.5L) {
             r = qr3[12]; s = qs3[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + qr3[i];
                 s = z*s + qs3[i];
             }
-        } else if(x>2.5L) {
+        } else if (x > 2.5L) {
             r = qr4[12]; s = qs4[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + qr4[i];
                 s = z*s + qs4[i];
             }
-        } else if(x> (1.0L/0.5625L)) {
+        } else if (x > (1.0L/0.5625L)) {
             r = qr5[12]; s = qs5[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + qr5[i];
                 s = z*s + qs5[i];
             }
-        } else {        /* assume x > 1.28 */
+        } else {		/* assume x > 1.28 */
             r = qr6[12]; s = qs6[12];
-            for(i=11;i>=0;i--) {
+            for (i = 11; i >= 0; i--) {
                 r = z*r + qr6[i];
                 s = z*s + qs6[i];
             }
         }
-	return t*(r/s);
+	return (t*(r/s));
 }
