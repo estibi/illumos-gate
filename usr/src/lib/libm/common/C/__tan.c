@@ -141,12 +141,12 @@ __k_tan(double x, double y, int k) {
 		if (k == 0)
 			return (w);
 		/*
-		* Compute -1/(x+T) with great care
-		* Let r = -1/(x+T), rh = r chopped to 20 bits.
-		* Also let xh	= x+T chopped to 20 bits, xl = (x-xh)+T. Then
-		*   -1/(x+T)	= rh + (-1/(x+T)-rh) = rh + r*(1+rh*(x+T))
-		*		= rh + r*((1+rh*xh)+rh*xl).
-		*/
+		 * Compute -1/(x+T) with great care
+		 * Let r = -1/(x+T), rh = r chopped to 20 bits.
+		 * Also let xh	= x+T chopped to 20 bits, xl = (x-xh)+T. Then
+		 *   -1/(x+T)	= rh + (-1/(x+T)-rh) = rh + r*(1+rh*(x+T))
+		 *		= rh + r*((1+rh*xh)+rh*xl).
+		 */
 		rh = r = -one / w;
 		((int *) &rh)[LOWORD] = 0;
 		xh = w;
@@ -174,15 +174,15 @@ __k_tan(double x, double y, int k) {
 		c = w + _TBL_tan_lo[i];
 		t = a * s - t;
 		/*
-		* Now try to compute [(1-T)/(a+c)] accurately
-		*
-		* Let r = 1/(a+c), rh = (1-T)*r chopped to 20 bits.
-		* Also let xh = a+c chopped to 20 bits, xl = (a-xh)+c. Then
-		*	(1-T)/(a+c) = rh + ((1-T)/(a+c)-rh)
-		*		= rh + r*(1-T-rh*(a+c))
-		*		= rh + r*((1-T-rh*xh)-rh*xl)
-		*		= rh + r*(((1-rh*xh)-T)-rh*xl)
-		*/
+		 * Now try to compute [(1-T)/(a+c)] accurately
+		 *
+		 * Let r = 1/(a+c), rh = (1-T)*r chopped to 20 bits.
+		 * Also let xh = a+c chopped to 20 bits, xl = (a-xh)+c. Then
+		 *	(1-T)/(a+c) = rh + ((1-T)/(a+c)-rh)
+		 *		= rh + r*(1-T-rh*(a+c))
+		 *		= rh + r*((1-T-rh*xh)-rh*xl)
+		 *		= rh + r*(((1-rh*xh)-T)-rh*xl)
+		 */
 		r = one / (a + c);
 		rh = (one - t) * r;
 		((int *) &rh)[LOWORD] = 0;
