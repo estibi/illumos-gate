@@ -20,6 +20,9 @@
  */
 
 /*
+ * Copyright 2011, Richard Lowe.
+ */
+/*
  * Copyright 2010 Sun Microsystems, Inc.  All rights reserved.
  * Use is subject to license terms.
  */
@@ -33,7 +36,7 @@
  */
 
 /* If you modify this file, you must increment CW_VERSION */
-#define	CW_VERSION	"1.29"
+#define	CW_VERSION	"1.30"
 
 /*
  * -#		Verbose mode
