@@ -133,9 +133,25 @@ __swap87RD(enum fp_direction_type i)
 extern __inline__ double
 ceil(double d)
 {
+	/*
+	 * Let's set a Rounding Control (RC) bits from x87 FPU Control Word
+	 * to fp_positive and save old bits in rd.
+	 */
 	short rd = __swap87RD(fp_positive);
 
-	__asm__ __volatile__("frndint" : "+t" (d), "+r" (rd) : : "cc");
+	/*
+	 * The FRNDINT instruction returns a floating-point value that is the
+	 * integral value closest to the source value in the direction of the
+	 * rounding mode specified in the RC field of the x87 FPU control word.
+	 *
+	 * Rounds the source value in the ST(0) register to the nearest
+	 * integral value, depending on the current rounding mode
+	 * (setting of the RC field of the FPU control word),
+	 * and stores the result in ST(0).
+	 */
+	__asm__ __volatile__("frndint" : "+t" (d) : : "cc");
+
+	/* restore old RC bits */
 	__swap87RD(rd);
 
 	return (d);
