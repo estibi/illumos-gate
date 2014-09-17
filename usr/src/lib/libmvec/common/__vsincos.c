@@ -99,6 +99,7 @@ __vsincos( int n, double * restrict x, int stridex,
 			*xsave, *ysave, *csave;
 	unsigned	hx0, hx1, hx2, xsb0, xsb1, xsb2;
 	int		i, biguns, nsave, sxsave, sysave, scsave;
+	volatile int	v __GNU_UNUSED;
 	nsave = n;
 	xsave = x;
 	sxsave = stridex;
@@ -128,6 +129,7 @@ LOOP0:  /* Find first arg in right range. */
 		}
 		if ( hx0 < 0x3e400000 ) {
 			/* Too small.  cos x ~ 1, sin x ~ x. */
+			v = *x;
 			*c = 1.0;
 			*y = *x;
 			x += stridex;
@@ -164,6 +166,7 @@ LOOP1: /* Get second arg, same as above. */
 		}
 		if ( hx1 < 0x3e400000 )
 		{
+			v = *x;
 			*c = 1.0;
 			*y = *x;
 			x += stridex;
@@ -200,6 +203,7 @@ LOOP2: /* Get third arg, same as above. */
 		}
 		if ( hx2 < 0x3e400000 )
 		{
+			v = *x;
 			*c = 1.0;
 			*y = *x;
 			x += stridex;
