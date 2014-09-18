@@ -177,17 +177,17 @@ __swapEX(int i)
 	uint32_t tmp1, tmp2;
 
 	__asm__ __volatile__(
-	    "and  %4,0x1f,%3\n\t"
-	    "sll  %3,5,%3\n\t"	/* shift input to aexc bit location */
+	    "and  %4,0x1f,%2\n\t" /* tmp1 = %2 = %o1 */
+	    "sll  %2,5,%2\n\t"	/* shift input to aexc bit location */
 	    ".volatile\n\t"
 	    "st   %%fsr,%1\n\t"
 	    "ld   %1,%0\n\t"	/* %0 = fsr */
-	    "andn %0,0x3e0,%4\n\t"
-	    "or   %3,%4,%3\n\t"	/* %3 = new fsr */
-	    "st	  %3,%1\n\t"
+	    "andn %0,0x3e0,%3\n\t" /* tmp2 = %3 = %o2 */
+	    "or   %2,%3,%2\n\t"	/* %2 = new fsr */
+	    "st	  %2,%1\n\t"
 	    "ld	  %1,%%fsr\n\t"
 	    "srl  %0,5,%0\n\t"
-	    "and  %0,0x1f,%0\n\t"
+	    "and  %0,0x1f,%0\n\t" /* %0 = ret = %o0 */
 	    ".nonvolatile\n\t"
 	    : "=r" (ret), "=m" (fsr), "=r" (tmp1), "=r" (tmp2)
 	    : "r" (i)
