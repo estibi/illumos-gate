@@ -247,8 +247,8 @@ __swapTE(int i)
 	    ".volatile\n\t"
 	    "st   %%fsr,%1\n\t"
 	    "ld	  %1,%0\n\t"		/* %0 = fsr */
-	    "set  0x0f800000,%%o4\n\t"	/* mask of TEM (Trap Enable Mode bits) */
-	    "andn %0,%%o4,%3\n\t"
+	    "set  0x0f800000,%3\n\t"	/* mask of TEM (Trap Enable Mode bits) */
+	    "andn %0,%3,%3\n\t"
 	    "or   %2,%3,%2\n\t"		/* %2 = new fsr */
 	    "st	  %2,%1\n\t"
 	    "ld	  %1,%%fsr\n\t"
