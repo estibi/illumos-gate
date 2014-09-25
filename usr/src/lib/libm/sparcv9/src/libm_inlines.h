@@ -85,8 +85,8 @@ fp_classf(float f)
 	    "nop\n\t"
 	    "or	    %%g0,5,%0\n\t" /* signalling NaN */
 	    "2:\n\t"
-	    : "=r" (ret), "=m" (fint), "=r" (tmp)
-	    : "f" (f)
+	    : "=r" (ret), "=m" (fint), "=r" (tmp), "+f" (f)
+	    :
 	    : "cc");
 
 	return (ret);
@@ -137,8 +137,8 @@ fp_class(double d)
 	    "nop\n\t"
 	    "or	    %%g0,5,%0\n\t"
 	    "2:\n\t"
-	    : "=r" (ret), "=m" (dint), "=r" (tmp)
-	    : "e" (d)
+	    : "=r" (ret), "=m" (dint), "=r" (tmp), "+e" (d)
+	    :
 	    : "cc");
 
 	return (ret);
