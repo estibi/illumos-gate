@@ -26,8 +26,8 @@
  * Use is subject to license terms.
  */
 
-#ifndef _LIBM_PROTOS_H
-#define	_LIBM_PROTOS_H
+#ifndef _C_LIBM_PROTOS_H
+#define	_C_LIBM_PROTOS_H
 
 #ifdef LIBMOPT_BUILD
 #define	_TBL_cos	__libmopt_TBL_cos
@@ -213,6 +213,6 @@ extern long long int llrintl __P((long double));
 extern long long int llround __P((double));
 extern long long int llroundf __P((float));
 extern long long int llroundl __P((long double));
-#endif	/* !defined(_ASM) */
+#endif	/* _ASM */
 
-#endif	/* !defined(_LIBM_PROTOS_H) */
+#endif	/* _C_LIBM_PROTOS_H */

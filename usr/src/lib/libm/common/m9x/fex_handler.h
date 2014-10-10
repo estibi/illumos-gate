@@ -27,6 +27,9 @@
  * Use is subject to license terms.
  */
 
+#ifndef	_M9X_FEX_HANDLER_H
+#define	_M9X_FEX_HANDLER_H
+
 /* the following enums must match the bit positions in fenv.h */
 enum fex_exception {
 	fex_inexact		= 0,
@@ -210,3 +213,5 @@ extern void __fex_st_simd_result(ucontext_t *, sseinst_t *,
 #else
 #error Unknown architecture
 #endif
+
+#endif	/* _M9X_FEX_HANDLER_H */

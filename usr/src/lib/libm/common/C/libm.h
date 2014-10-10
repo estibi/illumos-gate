@@ -206,4 +206,4 @@ sym	= __/**/sym
 
 #endif	/* defined(_ASM) */
 
-#endif	/* defined(_LIBM_H) */
+#endif	/* _LIBM_H */

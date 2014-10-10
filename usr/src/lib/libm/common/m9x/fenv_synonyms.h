@@ -27,6 +27,9 @@
  * Use is subject to license terms.
  */
 
+#ifndef	_M9X_FENV_SYNONYMS_H
+#define	_M9X_FENV_SYNONYMS_H
+
 #include <sys/isa_defs.h>
 
 /* feexcept.c */
@@ -101,3 +104,5 @@
 #define sqrt			__sqrt
 #define sqrtf			__sqrtf
 #endif
+
+#endif	/* _M9X_FENV_SYNONYMS_H */

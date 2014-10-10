@@ -76,4 +76,4 @@
 #error Unknown architecture
 #endif
 
-#endif	/* !defined(_LIBM_MACROS_H) */
+#endif	/* _LIBM_MACROS_H */
