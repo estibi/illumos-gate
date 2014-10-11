@@ -95,7 +95,7 @@ cacosl(ldcomplex z) {
 
 	/* |y| is inf or NaN */
 	if (iy >= 0x7fff0000) {
-		if (isinfl(y)) {	/* cacos( x + i inf ) =  pi/2 - i inf */
+		if (isinfl(y)) {	/* cacos(x + i inf) =  pi/2 - i inf */
 			LD_IM(ans) = -y;
 			if (ix < 0x7fff0000) {
 				LD_RE(ans) = pi_2 + pi_2_l;
@@ -107,7 +107,7 @@ cacosl(ldcomplex z) {
 			} else {
 				LD_RE(ans) = x;
 			}
-		} else {		/* cacos( x + i NaN ) = NaN  + i NaN */
+		} else {		/* cacos(x + i NaN) = NaN  + i NaN */
 			LD_RE(ans) = y + x;
 			if (isinfl(x))
 				LD_IM(ans) = -fabsl(x);
@@ -139,8 +139,8 @@ cacosl(ldcomplex z) {
 					LD_RE(ans) = y + y;
 			} else {
 				/* INDENT OFF */
-				/* cacos( inf + iy  ) = 0  - i inf */
-				/* cacos(-inf+ iy   ) = pi - i inf */
+				/* cacos(inf + iy ) = 0  - i inf */
+				/* cacos(-inf+ iy  ) = pi - i inf */
 				/* INDENT ON */
 				if (hx >= 0)
 					LD_RE(ans) = zero;

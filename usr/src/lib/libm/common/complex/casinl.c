@@ -106,7 +106,7 @@ casinl(ldcomplex z) {
 				LD_RE(ans) = x + x;
 			} else {
 				/* INDENT OFF */
-				/* casin(NaN + i y  ) = NaN  + i NaN */
+				/* casin(NaN + i y ) = NaN  + i NaN */
 				/* INDENT ON */
 				LD_IM(ans) = LD_RE(ans) = x + y;
 			}
@@ -123,10 +123,10 @@ casinl(ldcomplex z) {
 		return (z);
 
 	if (iy >= 0x7fff0000) {	/* y is inf or NaN */
-		if (isinfl(y)) {	/* casin( x + i inf ) = 0 + i inf */
+		if (isinfl(y)) {	/* casin(x + i inf) = 0 + i inf */
 			LD_IM(ans) = y;
 			LD_RE(ans) = zero;
-		} else {		/* casin( x + i NaN ) = NaN + i NaN */
+		} else {		/* casin(x + i NaN) = NaN + i NaN */
 			LD_IM(ans) = x + y;
 			if (x == zero)
 				LD_RE(ans) = x;

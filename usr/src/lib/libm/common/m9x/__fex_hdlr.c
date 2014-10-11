@@ -317,7 +317,7 @@ __fex_hdlr(int sig, siginfo_t *sip, ucontext_t *uap)
 		/* if we got here from feraiseexcept, pass dummy info */
 		addr = (unsigned long)sip->si_addr;
 		if (addr >= (unsigned long)feraiseexcept &&
-		    addr < (unsigned long)fetestexcept ) {
+		    addr < (unsigned long)fetestexcept) {
 			info.op = fex_other;
 			info.op1.type = info.op2.type = info.res.type =
 			    fex_nodata;
@@ -569,7 +569,7 @@ __fex_hdlr(int sig, siginfo_t *sip, ucontext_t *uap)
 			} else if (mode == FEX_CUSTOM) {
 				*ap = 0;
 				if (addr >= (unsigned long)feraiseexcept &&
-				    addr < (unsigned long)fetestexcept ) {
+				    addr < (unsigned long)fetestexcept) {
 					info.op = fex_other;
 					info.op1.type = info.op2.type =
 					    info.res.type = fex_nodata;
@@ -680,7 +680,7 @@ __fex_hdlr(int sig, siginfo_t *sip, ucontext_t *uap)
 	if (mode == FEX_CUSTOM) {
 		/* if we got here from feraiseexcept, pass dummy info */
 		if (addr >= (unsigned long)feraiseexcept &&
-		    addr < (unsigned long)fetestexcept ) {
+		    addr < (unsigned long)fetestexcept) {
 			info.op = fex_other;
 			info.op1.type = info.op2.type = info.res.type =
 			    fex_nodata;

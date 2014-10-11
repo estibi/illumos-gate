@@ -242,7 +242,7 @@ cacos(dcomplex z) {
 
 	/* |y| is inf or NaN */
 	if (iy >= 0x7ff00000) {
-		if (ISINF(iy, ly)) {	/* cacos( x + i inf ) = pi/2  - i inf */
+		if (ISINF(iy, ly)) {	/* cacos(x + i inf) = pi/2  - i inf */
 			D_IM(ans) = -y;
 			if (ix < 0x7ff00000) {
 				D_RE(ans) = pi_2 + pi_2_l;
@@ -254,7 +254,7 @@ cacos(dcomplex z) {
 			} else {
 				D_RE(ans) = x;
 			}
-		} else {		/* cacos( x + i NaN ) = NaN  + i NaN */
+		} else {		/* cacos(x + i NaN) = NaN  + i NaN */
 			D_RE(ans) = y + x;
 			if (ISINF(ix, lx))
 				D_IM(ans) = -fabs(x);
@@ -288,8 +288,8 @@ cacos(dcomplex z) {
 					D_RE(ans) = y + y;
 			} else
 				/* INDENT OFF */
-				/* cacos( inf + iy  ) = 0  - i inf */
-				/* cacos(-inf+ iy   ) = pi - i inf */
+				/* cacos(inf + iy ) = 0  - i inf */
+				/* cacos(-inf+ iy  ) = pi - i inf */
 				/* INDENT ON */
 			if (hx >= 0)
 				D_RE(ans) = zero;

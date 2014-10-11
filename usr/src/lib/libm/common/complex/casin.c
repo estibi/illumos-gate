@@ -254,7 +254,7 @@ casin(dcomplex z) {
 				D_IM(ans) = y + y;
 				D_RE(ans) = x + x;
 			} else {
-				/* casin(NaN + i y  ) = NaN  + i NaN */
+				/* casin(NaN + i y ) = NaN  + i NaN */
 				D_IM(ans) = D_RE(ans) = x + y;
 			}
 		}
@@ -265,15 +265,15 @@ casin(dcomplex z) {
 		return (ans);
 	}
 
-	/* casin(+0 + i 0   ) =  0   + i 0. */
+	/* casin(+0 + i 0  ) =  0   + i 0. */
 	if ((ix | lx | iy | ly) == 0)
 		return (z);
 
 	if (iy >= 0x7ff00000) {	/* y is inf or NaN */
-		if (ISINF(iy, ly)) {	/* casin( x + i inf ) =  0   + i inf */
+		if (ISINF(iy, ly)) {	/* casin(x + i inf) =  0   + i inf */
 			D_IM(ans) = y;
 			D_RE(ans) = zero;
-		} else {		/* casin( x + i NaN ) = NaN  + i NaN */
+		} else {		/* casin(x + i NaN) = NaN  + i NaN */
 			D_IM(ans) = x + y;
 			if ((ix | lx) == 0)
 				D_RE(ans) = x;
