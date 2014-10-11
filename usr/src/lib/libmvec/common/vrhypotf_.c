@@ -29,14 +29,14 @@
 
 #include "libm_inlines.h"
 
-extern void __vrhypotf( int, float *, int, float *, int, float *, int );
+extern void __vrhypotf(int, float *, int, float *, int, float *, int);
 
 #pragma weak vrhypotf_ = __vrhypotf_
 
 /* just invoke the serial function */
 void
-__vrhypotf_( int *n, float *x, int *stridex, float *y, int *stridey,
-	float *z, int *stridez )
+__vrhypotf_(int *n, float *x, int *stridex, float *y, int *stridey,
+	float *z, int *stridez)
 {
-	__vrhypotf( *n, x, *stridex, y, *stridey, z, *stridez );
+	__vrhypotf(*n, x, *stridex, y, *stridey, z, *stridez);
 }

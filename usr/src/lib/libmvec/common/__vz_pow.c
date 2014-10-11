@@ -33,24 +33,24 @@
 #define restrict
 #endif
 
-extern void __vz_exp( int, double *, int, double *, int, double * );
-extern void __vz_log( int, double *, int, double *, int );
+extern void __vz_exp(int, double *, int, double *, int, double *);
+extern void __vz_log(int, double *, int, double *, int);
 
 void
-__vz_pow( int n, double * restrict x, int stridex, double * restrict y,
-	int stridey, double * restrict z, int stridez, double * restrict tmp )
+__vz_pow(int n, double * restrict x, int stridex, double * restrict y,
+	int stridey, double * restrict z, int stridez, double * restrict tmp)
 {
 	double	r;
 	int		i, j, k;
 
-	__vz_log( n, x, stridex, tmp, 1 );
+	__vz_log(n, x, stridex, tmp, 1);
 	stridey <<= 1;
-	for ( i = j = 0; i < n; i++, j += stridey )
+	for (i = j = 0; i < n; i++, j += stridey)
 	{
 		k = i << 1;
 		r = y[j] * tmp[k] - y[j+1] * tmp[k+1];
 		tmp[k+1] = y[j+1] * tmp[k] + y[j] * tmp[k+1];
 		tmp[k] = r;
 	}
-	__vz_exp( n, tmp, 1, z, stridez, tmp + n + n );
+	__vz_exp(n, tmp, 1, z, stridez, tmp + n + n);
 }

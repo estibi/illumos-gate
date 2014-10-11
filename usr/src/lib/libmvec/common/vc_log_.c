@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vc_log( int, float *, int, float *, int );
+extern void __vc_log(int, float *, int, float *, int);
 
 #pragma weak vc_log_ = __vc_log_
 
 /* just invoke the serial function */
 void
-__vc_log_( int *n, float *x, int *stridex, float *y, int *stridey )
+__vc_log_(int *n, float *x, int *stridex, float *y, int *stridey)
 {
-	__vc_log( *n, x, *stridex, y, *stridey );
+	__vc_log(*n, x, *stridex, y, *stridey);
 }

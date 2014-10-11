@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vsincosf( int, float *, int, float *, int, float *, int );
+extern void __vsincosf(int, float *, int, float *, int, float *, int);
 
 #pragma weak vsincosf_ = __vsincosf_
 
 /* just invoke the serial function */
 void
-__vsincosf_( int *n, float *x, int *stridex, float *s, int *strides,
-	float *c, int *stridec )
+__vsincosf_(int *n, float *x, int *stridex, float *s, int *strides,
+	float *c, int *stridec)
 {
-	__vsincosf( *n, x, *stridex, s, *strides, c, *stridec );
+	__vsincosf(*n, x, *stridex, s, *strides, c, *stridec);
 }

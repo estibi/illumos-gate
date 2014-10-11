@@ -118,14 +118,14 @@ static const union {
 	value = x[0];								\
 	x += stridex;								\
 	exp##N = (ival##N >> 23) - 127;						\
-	if ( (ival##N & 0x7fffffff) >= 0x7f800000 ) /* X = NaN or Inf */	\
+	if ((ival##N & 0x7fffffff) >= 0x7f800000) /* X = NaN or Inf */	\
 	{									\
 		y[index] = value + INF;						\
 		goto label;							\
 	}									\
-	if ( ival##N < 0x00800000 )						\
+	if (ival##N < 0x00800000)						\
 	{									\
-		if ( ival##N > 0 )	/* X = denormal */			\
+		if (ival##N > 0)	/* X = denormal */			\
 		{								\
 			value = (float) ival##N;				\
 			ival##N = *(int*) &value;				\
@@ -141,8 +141,8 @@ static const union {
 	}
 
 void
-__vlogf( int n, float * restrict x, int stridex, float * restrict y,
-	int stridey )
+__vlogf(int n, float * restrict x, int stridex, float * restrict y,
+	int stridey)
 {
 	double	LN2 = __TBL_logf[64];		/* log(2) = 0.6931471805599453094 	*/
 	double	yy0, yy1, yy2, yy3, yy4;
@@ -155,32 +155,32 @@ __vlogf( int n, float * restrict x, int stridex, float * restrict y,
 
 	y -= stridey;
 
-	for ( ; ; )
+	for (; ;)
 	{
 begin:
 		y += stridey;
 
-		if ( --n < 0 )
+		if (--n < 0)
 			break;
 
 		PREPROCESS(0, 0, begin)
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process1;
 
 		PREPROCESS(1, stridey, process1)
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process2;
 
 		PREPROCESS(2, (stridey << 1), process2)
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process3;
 
 		PREPROCESS(3, (stridey << 1) + stridey, process3)
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process4;
 
 		PREPROCESS(4, (stridey << 2), process4)

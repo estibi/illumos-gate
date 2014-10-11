@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vexp( int, double *, int, double *, int );
+extern void __vexp(int, double *, int, double *, int);
 
 #pragma weak vexp_ = __vexp_
 
 /* just invoke the serial function */
 void
-__vexp_( int *n, double *x, int *stridex, double *y, int *stridey )
+__vexp_(int *n, double *x, int *stridex, double *y, int *stridey)
 {
-	__vexp( *n, x, *stridex, y, *stridey );
+	__vexp(*n, x, *stridex, y, *stridey);
 }

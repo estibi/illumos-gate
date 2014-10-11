@@ -33,12 +33,12 @@
 #define restrict
 #endif
 
-extern void __vhypot( int, double *, int, double *, int, double *, int );
+extern void __vhypot(int, double *, int, double *, int, double *, int);
 
 void
-__vz_abs( int n, double * restrict x, int stridex, double * restrict y,
-	int stridey )
+__vz_abs(int n, double * restrict x, int stridex, double * restrict y,
+	int stridey)
 {
 	stridex <<= 1;
-	__vhypot( n, x, stridex, x + 1, stridex, y, stridey );
+	__vhypot(n, x, stridex, x + 1, stridex, y, stridey);
 }

@@ -27,15 +27,15 @@
  * Use is subject to license terms.
  */
 
-extern void __vz_pow( int, double *, int, double *, int, double *, int,
-	double * );
+extern void __vz_pow(int, double *, int, double *, int, double *, int,
+	double *);
 
 #pragma weak vz_pow_ = __vz_pow_
 
 /* just invoke the serial function */
 void
-__vz_pow_( int *n, double *x, int *stridex, double *y, int *stridey,
-	double *z, int *stridez, double *tmp )
+__vz_pow_(int *n, double *x, int *stridex, double *y, int *stridey,
+	double *z, int *stridez, double *tmp)
 {
-	__vz_pow( *n, x, *stridex, y, *stridey, z, *stridez, tmp );
+	__vz_pow(*n, x, *stridex, y, *stridey, z, *stridez, tmp);
 }

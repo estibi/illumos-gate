@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vatanf( int, float *, int, float *, int );
+extern void __vatanf(int, float *, int, float *, int);
 
 #pragma weak vatanf_ = __vatanf_
 
 /* just invoke the serial function */
 void
-__vatanf_( int *n, float *x, int *stridex, float *y, int *stridey )
+__vatanf_(int *n, float *x, int *stridex, float *y, int *stridey)
 {
-	__vatanf( *n, x, *stridex, y, *stridey );
+	__vatanf(*n, x, *stridex, y, *stridey);
 }

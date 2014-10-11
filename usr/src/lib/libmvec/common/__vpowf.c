@@ -105,14 +105,14 @@
  *	results.
  */
 
-static void __vpowfx( int n, float * restrict px, float * restrict py,
-	int stridey, float * restrict pz, int stridez );
+static void __vpowfx(int n, float * restrict px, float * restrict py,
+	int stridey, float * restrict pz, int stridez);
 
-static void __vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
-	int stridey, float * restrict pz, int stridez );
+static void __vpowf_n(int n, float * restrict px, int stridex, float * restrict py,
+	int stridey, float * restrict pz, int stridez);
 
-static void __vpowfx_n( int n, double yy, float * restrict py,
-	int stridey, float * restrict pz, int stridez );
+static void __vpowfx_n(int n, double yy, float * restrict py,
+	int stridey, float * restrict pz, int stridez);
 
 #pragma no_inline(__vpowfx)
 #pragma no_inline(__vpowf_n)
@@ -412,7 +412,7 @@ static const double
 	px += stridex;						\
 	py += stridey;						\
 	pz += stridez;						\
-	if ( n_n == 0 )						\
+	if (n_n == 0)						\
 	{							\
 		spx = px; spy = py; spz = pz;			\
 		continue;					\
@@ -422,8 +422,8 @@ static const double
 }
 
 void
-__vpowf( int n, float * restrict px, int stridex, float * restrict py,
-	int stridey, float * restrict pz, int stridez )
+__vpowf(int n, float * restrict px, int stridex, float * restrict py,
+	int stridey, float * restrict pz, int stridez)
 {
 	float		*spx, *spy, *spz;
 	double		y0, yy0;
@@ -432,27 +432,27 @@ __vpowf( int n, float * restrict px, int stridex, float * restrict py,
 	int		exp, i0, ind0, exp0, yisint0, n_n;
 
 #ifndef NOPOWFIX
-	if ( stridex == 0 )
+	if (stridex == 0)
 	{
 		unsigned	hx = *(unsigned*)px;
 
-		if ( (hx >= 0x00800000) &&	/* x not zero or subnormal		*/
+		if ((hx >= 0x00800000) &&	/* x not zero or subnormal		*/
 		(hx < 0x7f800000) &&		/* x not inf, nan or negative sign bit	*/
-		(hx != 0x3f800000) )		/* x not 1				*/
+		(hx != 0x3f800000))		/* x not 1				*/
 		{
-			__vpowfx( n, px, py, stridey, pz, stridez );
+			__vpowfx(n, px, py, stridey, pz, stridez);
 			return;
 		}
 	}
 #endif
 
-	while ( n > 0 )
+	while (n > 0)
 	{
 		n_n = 0;
 		spx = px;
 		spy = py;
 		spz = pz;
-		for ( ; n > 0 ; n-- )
+		for (; n > 0 ; n--)
 		{
 			uy = *(unsigned int*)py;
 			ux = *(unsigned int*)px;
@@ -462,75 +462,75 @@ __vpowf( int n, float * restrict px, int stridex, float * restrict py,
 			yisint0 = 0;	/* Y - non-integer */
 
 			/* |X| or |Y| = Inf,Nan */
-			if ( ax0 >= 0x7f800000 || ay >= 0x7f800000 )
+			if (ax0 >= 0x7f800000 || ay >= 0x7f800000)
 			{
-				if ( ay == 0 )
-					RETURN( 1.0f )	/* pow(X,0) */
+				if (ay == 0)
+					RETURN(1.0f)	/* pow(X,0) */
 				/* |X| or |Y| = Nan */
-				if ( ax0 > 0x7f800000 || ay > 0x7f800000 )
-					RETURN ( *px + *py )
-				if ( ay == 0x7f800000 )		/* |Y| = Inf */
+				if (ax0 > 0x7f800000 || ay > 0x7f800000)
+					RETURN (*px + *py)
+				if (ay == 0x7f800000)		/* |Y| = Inf */
 				{
 					float fy;
-					if ( ax0 == 0x3f800000 )
+					if (ax0 == 0x3f800000)
 						fy = *py - *py;		/* +-1 ** +-Inf = NaN */
 					else
-						fy = ( (ax0 < 0x3f800000) != (uy >> 31) ) ? 0.0f : *(float*) &ay;
-					RETURN( fy )
+						fy = ((ax0 < 0x3f800000) != (uy >> 31)) ? 0.0f : *(float*) &ay;
+					RETURN(fy)
 				}
-				if ( sx )	/* X = -Inf */
+				if (sx)	/* X = -Inf */
 				{
 					exp = ay >> 23;
-					if ( exp >= 0x97 )	/* |Y| >= 2^24 */
+					if (exp >= 0x97)	/* |Y| >= 2^24 */
 						yisint0 = 2;	/* Y - even */
-					else if ( exp >= 0x7f )	/* |Y| >= 1 */
+					else if (exp >= 0x7f)	/* |Y| >= 1 */
 					{
 						i0 = ay >> ((0x7f + 23) - exp);
-						if ( (i0 << ((0x7f + 23) - exp)) == ay )
+						if ((i0 << ((0x7f + 23) - exp)) == ay)
 							yisint0 = 2 - (i0 & 1);
 					}
 				}
-				if ( uy >> 31 )
+				if (uy >> 31)
 					ax0 = 0;
 				ax0 += yisint0 << 31;
-				RETURN( *(float*)&ax0 )
+				RETURN(*(float*)&ax0)
 			}
 
-			if ( (int)ux < 0x00800000 )	/* X = denormal or negative */
+			if ((int)ux < 0x00800000)	/* X = denormal or negative */
 			{
-				if ( ay == 0 )
-					RETURN( 1.0f )	/* pow(X,0) */
+				if (ay == 0)
+					RETURN(1.0f)	/* pow(X,0) */
 				exp0 = (ax0 >> 23) - 127;
 
-				if ( (int)ax0 < 0x00800000 )	/* X = denormal */
+				if ((int)ax0 < 0x00800000)	/* X = denormal */
 				{
 					*((float*) &ax0) = (float) (int)ax0;
 					exp0 = (ax0 >> 23) - (127 + 149);
 				}
 
-				if ( (int)ux <= 0 )	/* X <= 0 */
+				if ((int)ux <= 0)	/* X <= 0 */
 				{
 					exp = ay >> 23;
-					if ( exp >= 0x97 )	/* |Y| >= 2^24 */
+					if (exp >= 0x97)	/* |Y| >= 2^24 */
 						yisint0 = 2;	/* Y - even */
-					else if ( exp >= 0x7f )	/* |Y| >= 1 */
+					else if (exp >= 0x7f)	/* |Y| >= 1 */
 					{
 						i0 = ay >> ((0x7f + 23) - exp);
-						if ( (i0 << ((0x7f + 23) - exp)) == ay )
+						if ((i0 << ((0x7f + 23) - exp)) == ay)
 							yisint0 = 2 - (i0 & 1);
 					}
 
-					if ( ax0 == 0 )		/* pow(0,Y) */
+					if (ax0 == 0)		/* pow(0,Y) */
 					{
 						float fy;
 						fy = (uy >> 31) ? 1.0f / 0.0f : 0.0f;
-						if ( sx & yisint0 )
+						if (sx & yisint0)
 							fy = -fy;
-						RETURN( fy )
+						RETURN(fy)
 					}
 
-					if ( yisint0 == 0 )	/* pow(neg,non-integer) */
-						RETURN( 0.0f / 0.0f )	/* NaN */
+					if (yisint0 == 0)	/* pow(neg,non-integer) */
+						RETURN(0.0f / 0.0f)	/* NaN */
 				}
 
 				/* perform yy0 = 256*log2(xi)*yi */
@@ -544,31 +544,31 @@ __vpowf( int n, float * restrict px, int stridex, float * restrict py,
 				yy0 = (double)py[0] * yy0;
 
 				/* perform 2 ** (yy0/256) */
-				if ( yy0 >= HTHRESH )
+				if (yy0 >= HTHRESH)
 					yy0 = HTHRESH;
-				if ( yy0 <= LTHRESH )
+				if (yy0 <= LTHRESH)
 					yy0 = LTHRESH;
 				ind0 = (int) yy0;
 				y0 = yy0 - (double)ind0;
 				yy0 = (KB2 * y0 + KB1) * y0 + DONE;
 				di0 = ((long long)((ind0 >> 8) + (yisint0 << 11))) << 52;
 				di0 += ((long long*)__TBL_exp2f)[ind0 & 255];
-				RETURN( (float) (yy0 * *(double*)&di0) )
+				RETURN((float) (yy0 * *(double*)&di0))
 			}
 			px += stridex;
 			py += stridey;
 			pz += stridez;
 			n_n++;
 		}
-		if ( n_n > 0 )
-			__vpowf_n( n_n, spx, stridex, spy, stridey, spz, stridez );
+		if (n_n > 0)
+			__vpowf_n(n_n, spx, stridex, spy, stridey, spz, stridez);
 	}
 }
 
 
 static void
-__vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
-	int stridey, float * restrict pz, int stridez )
+__vpowf_n(int n, float * restrict px, int stridex, float * restrict py,
+	int stridey, float * restrict pz, int stridez)
 {
 	double		y0, yy0;
 	double		di0;
@@ -583,7 +583,7 @@ __vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
 	int		ind2, i2, exp2;
 	unsigned	ax2;
 
-	for ( ; n > 2 ; n -= 3 )
+	for (; n > 2 ; n -= 3)
 	{
 		/* perform yy0 = 256*log2(xi)*yi */
 		ax0 = ((int*)px)[0];
@@ -624,17 +624,17 @@ __vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
 		py += stridey;
 
 		/* perform 2 ** (yy0/256) */
-		if ( yy0 >= HTHRESH )
+		if (yy0 >= HTHRESH)
 			yy0 = HTHRESH;
-		if ( yy0 <= LTHRESH )
+		if (yy0 <= LTHRESH)
 			yy0 = LTHRESH;
-		if ( yy1 >= HTHRESH )
+		if (yy1 >= HTHRESH)
 			yy1 = HTHRESH;
-		if ( yy1 <= LTHRESH )
+		if (yy1 <= LTHRESH)
 			yy1 = LTHRESH;
-		if ( yy2 >= HTHRESH )
+		if (yy2 >= HTHRESH)
 			yy2 = HTHRESH;
-		if ( yy2 <= LTHRESH )
+		if (yy2 <= LTHRESH)
 			yy2 = LTHRESH;
 
 		ind0 = (int) yy0;
@@ -660,7 +660,7 @@ __vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
 		pz += stridez;
 	}
 
-	for ( ; n > 0 ; n-- )
+	for (; n > 0 ; n--)
 	{
 		/* perform yy0 = 256*log2(xi)*yi */
 		ax0 = ((int*)px)[0];
@@ -675,9 +675,9 @@ __vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
 		yy0 = (double)py[0] * yy0;
 
 		/* perform 2 ** (yy0/256) */
-		if ( yy0 >= HTHRESH )
+		if (yy0 >= HTHRESH)
 			yy0 = HTHRESH;
-		if ( yy0 <= LTHRESH )
+		if (yy0 <= LTHRESH)
 			yy0 = LTHRESH;
 		ind0 = (int) yy0;
 		y0 = yy0 - (double)ind0;
@@ -693,8 +693,8 @@ __vpowf_n( int n, float * restrict px, int stridex, float * restrict py,
 
 
 static void
-__vpowfx( int n, float * restrict px, float * restrict py,
-	int stridey, float * restrict pz, int stridez )
+__vpowfx(int n, float * restrict px, float * restrict py,
+	int stridey, float * restrict pz, int stridez)
 {
 	float		*spy, *spz;
 	double		yy, y0;
@@ -713,27 +713,27 @@ __vpowfx( int n, float * restrict px, float * restrict py,
 	yy = __TBL_log2f[ind0] + (double) (exp0 << 8);
 	yy += (((KA3 * y0 + KA2) * y0 + KA1) * y0 + KA0) * y0;
 
-	while ( n > 0 )
+	while (n > 0)
 	{
 		n_n = 0;
 		spy = py;
 		spz = pz;
-		for ( ; n > 0 ; n-- )
+		for (; n > 0 ; n--)
 		{
 			uy = *(unsigned int*)py;
 			ay = uy & 0x7fffffff;
 
-			if ( ay >= 0x7f800000 )		/* |Y| = Inf or Nan */
+			if (ay >= 0x7f800000)		/* |Y| = Inf or Nan */
 			{
 				float fy;
-				if ( ay > 0x7f800000 )
+				if (ay > 0x7f800000)
 					fy = *py + *py;	/* |Y| = Nan */
 				else
-					fy = ( (ax < 0x3f800000) != (uy >> 31) ) ? 0.0f : *(float*)&ay;
+					fy = ((ax < 0x3f800000) != (uy >> 31)) ? 0.0f : *(float*)&ay;
 				*pz = fy;
 				py += stridey;
 				pz += stridez;
-				if ( n_n == 0 )
+				if (n_n == 0)
 				{
 					spy = py;
 					spz = pz;
@@ -746,22 +746,22 @@ __vpowfx( int n, float * restrict px, float * restrict py,
 			pz += stridez;
 			n_n++;
 		}
-		if ( n_n > 0 )
-			__vpowfx_n( n_n, yy, spy, stridey, spz, stridez );
+		if (n_n > 0)
+			__vpowfx_n(n_n, yy, spy, stridey, spz, stridez);
 	}
 }
 
 
 static void
-__vpowfx_n( int n, double yy, float * restrict py,
-	int stridey, float * restrict pz, int stridez )
+__vpowfx_n(int n, double yy, float * restrict py,
+	int stridey, float * restrict pz, int stridez)
 {
 	double		y0, yy0, di0;
 	double		y1, yy1, di1;
 	double		y2, yy2, di2;
 	int		ind0, ind1, ind2;
 
-	for ( ; n > 2 ; n-= 3 )
+	for (; n > 2 ; n-= 3)
 	{
 		/* perform 2 ** (yy/256) */
 		yy0 = (double)py[0] * yy;
@@ -770,17 +770,17 @@ __vpowfx_n( int n, double yy, float * restrict py,
 		py += stridey;
 		yy2 = (double)py[0] * yy;
 		py += stridey;
-		if ( yy0 >= HTHRESH )
+		if (yy0 >= HTHRESH)
 			yy0 = HTHRESH;
-		if ( yy0 <= LTHRESH )
+		if (yy0 <= LTHRESH)
 			yy0 = LTHRESH;
-		if ( yy1 >= HTHRESH )
+		if (yy1 >= HTHRESH)
 			yy1 = HTHRESH;
-		if ( yy1 <= LTHRESH )
+		if (yy1 <= LTHRESH)
 			yy1 = LTHRESH;
-		if ( yy2 >= HTHRESH )
+		if (yy2 >= HTHRESH)
 			yy2 = HTHRESH;
-		if ( yy2 <= LTHRESH )
+		if (yy2 <= LTHRESH)
 			yy2 = LTHRESH;
 		ind0 = (int) yy0;
 		ind1 = (int) yy1;
@@ -804,13 +804,13 @@ __vpowfx_n( int n, double yy, float * restrict py,
 		pz[0] = (float) (yy2 * di2);
 		pz += stridez;
 	}
-	for ( ; n > 0 ; n-- )
+	for (; n > 0 ; n--)
 	{
 		/* perform 2 ** (yy/256) */
 		yy0 = (double)py[0] * yy;
-		if ( yy0 >= HTHRESH )
+		if (yy0 >= HTHRESH)
 			yy0 = HTHRESH;
-		if ( yy0 <= LTHRESH )
+		if (yy0 <= LTHRESH)
 			yy0 = LTHRESH;
 		ind0 = (int) yy0;
 		y0 = yy0 - (double)ind0;

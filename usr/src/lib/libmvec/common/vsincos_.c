@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vsincos( int, double *, int, double *, int, double *, int );
+extern void __vsincos(int, double *, int, double *, int, double *, int);
 
 #pragma weak vsincos_ = __vsincos_
 
 /* just invoke the serial function */
 void
-__vsincos_( int *n, double *x, int *stridex, double *s, int *strides,
-	double *c, int *stridec )
+__vsincos_(int *n, double *x, int *stridex, double *s, int *strides,
+	double *c, int *stridec)
 {
-	__vsincos( *n, x, *stridex, s, *strides, c, *stridec );
+	__vsincos(*n, x, *stridex, s, *strides, c, *stridec);
 }

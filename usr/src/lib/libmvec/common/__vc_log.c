@@ -33,17 +33,17 @@
 #define restrict
 #endif
 
-extern void __vatan2f( int, float *, int, float *, int, float *, int );
-extern void __vhypotf( int, float *, int, float *, int, float *, int );
-extern void __vlogf( int, float *, int, float *, int );
+extern void __vatan2f(int, float *, int, float *, int, float *, int);
+extern void __vhypotf(int, float *, int, float *, int, float *, int);
+extern void __vlogf(int, float *, int, float *, int);
 
 void
-__vc_log( int n, float * restrict x, int stridex, float * restrict y,
-	int stridey )
+__vc_log(int n, float * restrict x, int stridex, float * restrict y,
+	int stridey)
 {
 	stridex <<= 1;
 	stridey <<= 1;
-	__vhypotf( n, x, stridex, x + 1, stridex, y + 1, stridey );
-	__vlogf( n, y + 1, stridey, y, stridey );
-	__vatan2f( n, x + 1, stridex, x, stridex, y + 1, stridey );
+	__vhypotf(n, x, stridex, x + 1, stridex, y + 1, stridey);
+	__vlogf(n, y + 1, stridey, y, stridey);
+	__vatan2f(n, x + 1, stridex, x, stridex, y + 1, stridey);
 }

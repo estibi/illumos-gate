@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vsinf( int, float *, int, float *, int );
+extern void __vsinf(int, float *, int, float *, int);
 
 #pragma weak vsinf_ = __vsinf_
 
 /* just invoke the serial function */
 void
-__vsinf_( int *n, float *x, int *stridex, float *y, int *stridey )
+__vsinf_(int *n, float *x, int *stridex, float *y, int *stridey)
 {
-	__vsinf( *n, x, *stridex, y, *stridey );
+	__vsinf(*n, x, *stridex, y, *stridey);
 }

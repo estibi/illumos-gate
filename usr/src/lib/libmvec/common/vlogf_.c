@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vlogf( int, float *, int, float *, int );
+extern void __vlogf(int, float *, int, float *, int);
 
 #pragma weak vlogf_ = __vlogf_
 
 /* just invoke the serial function */
 void
-__vlogf_( int *n, float *x, int *stridex, float *y, int *stridey )
+__vlogf_(int *n, float *x, int *stridex, float *y, int *stridey)
 {
-	__vlogf( *n, x, *stridex, y, *stridey );
+	__vlogf(*n, x, *stridex, y, *stridey);
 }

@@ -27,15 +27,15 @@
  * Use is subject to license terms.
  */
 
-extern void __vc_pow( int, float *, int, float *, int, float *, int,
-	float * );
+extern void __vc_pow(int, float *, int, float *, int, float *, int,
+	float *);
 
 #pragma weak vc_pow_ = __vc_pow_
 
 /* just invoke the serial function */
 void
-__vc_pow_( int *n, float *x, int *stridex, float *y, int *stridey,
-	float *z, int *stridez, float *tmp )
+__vc_pow_(int *n, float *x, int *stridex, float *y, int *stridey,
+	float *z, int *stridez, float *tmp)
 {
-	__vc_pow( *n, x, *stridex, y, *stridey, z, *stridez, tmp );
+	__vc_pow(*n, x, *stridex, y, *stridey, z, *stridez, tmp);
 }

@@ -33,12 +33,12 @@
 #define restrict
 #endif
 
-extern void __vhypotf( int, float *, int, float *, int, float *, int );
+extern void __vhypotf(int, float *, int, float *, int, float *, int);
 
 void
-__vc_abs( int n, float * restrict x, int stridex, float * restrict y,
-	int stridey )
+__vc_abs(int n, float * restrict x, int stridex, float * restrict y,
+	int stridey)
 {
 	stridex <<= 1;
-	__vhypotf( n, x, stridex, x + 1, stridex, y, stridey );
+	__vhypotf(n, x, stridex, x + 1, stridex, y, stridey);
 }

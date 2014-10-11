@@ -27,7 +27,7 @@
  * Use is subject to license terms.
  */
 
-extern void __vsin( int, double *, int, double *, int );
+extern void __vsin(int, double *, int, double *, int);
 
 #if !defined(LIBMVEC_SO_BUILD)
 #if defined(ARCH_v8plusa) || defined(ARCH_v8plusb) || defined(ARCH_v9a) || defined(ARCH_v9b)
@@ -44,14 +44,14 @@ extern void __vsin( int, double *, int, double *, int );
 
 static int use_ultra3 = 0;
 
-extern void __vsin_ultra3( int, double *, int, double *, int );
+extern void __vsin_ultra3(int, double *, int, double *, int);
 #endif
 
 #pragma weak vsin_ = __vsin_
 
 /* just invoke the serial function */
 void
-__vsin_( int *n, double *x, int *stridex, double *y, int *stridey )
+__vsin_(int *n, double *x, int *stridex, double *y, int *stridey)
 {
 #ifdef CHECK_ULTRA3
 	int		u;
@@ -67,8 +67,8 @@ __vsin_( int *n, double *x, int *stridex, double *y, int *stridey )
 		use_ultra3 = u;
 	}
 	if (u & 2)
-		__vsin_ultra3( *n, x, *stridex, y, *stridey );
+		__vsin_ultra3(*n, x, *stridex, y, *stridey);
 	else
 #endif
-	__vsin( *n, x, *stridex, y, *stridey );
+	__vsin(*n, x, *stridex, y, *stridey);
 }

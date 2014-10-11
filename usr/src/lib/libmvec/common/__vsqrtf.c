@@ -38,12 +38,12 @@
 
 #define sqrtf __sqrtf
 
-extern float sqrtf( float );
+extern float sqrtf(float);
 
 void
-__vsqrtf( int n, float * restrict x, int stridex, float * restrict y, int stridey )
+__vsqrtf(int n, float * restrict x, int stridex, float * restrict y, int stridey)
 {
-	for( ; n > 0 ; n-- )
+	for(; n > 0 ; n--)
 	{
 		*y = sqrtf(*x);
 		x += stridex;

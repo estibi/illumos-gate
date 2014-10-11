@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vz_abs( int, double *, int, double *, int );
+extern void __vz_abs(int, double *, int, double *, int);
 
 #pragma weak vz_abs_ = __vz_abs_
 
 /* just invoke the serial function */
 void
-__vz_abs_( int *n, double *x, int *stridex, double *y, int *stridey )
+__vz_abs_(int *n, double *x, int *stridex, double *y, int *stridey)
 {
-	__vz_abs( *n, x, *stridex, y, *stridey );
+	__vz_abs(*n, x, *stridex, y, *stridey);
 }

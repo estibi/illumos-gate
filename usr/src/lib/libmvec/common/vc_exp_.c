@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vc_exp( int, float *, int, float *, int, float * );
+extern void __vc_exp(int, float *, int, float *, int, float *);
 
 #pragma weak vc_exp_ = __vc_exp_
 
 /* just invoke the serial function */
 void
-__vc_exp_( int *n, float *x, int *stridex, float *y, int *stridey,
-	float *tmp )
+__vc_exp_(int *n, float *x, int *stridex, float *y, int *stridey,
+	float *tmp)
 {
-	__vc_exp( *n, x, *stridex, y, *stridey, tmp );
+	__vc_exp(*n, x, *stridex, y, *stridey, tmp);
 }

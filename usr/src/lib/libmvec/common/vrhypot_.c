@@ -29,14 +29,14 @@
 
 #include "libm_inlines.h"
 
-extern void __vrhypot( int, double *, int, double *, int, double *, int );
+extern void __vrhypot(int, double *, int, double *, int, double *, int);
 
 #pragma weak vrhypot_ = __vrhypot_
 
 /* just invoke the serial function */
 void
-__vrhypot_( int *n, double *x, int *stridex, double *y, int *stridey,
-	double *z, int *stridez )
+__vrhypot_(int *n, double *x, int *stridex, double *y, int *stridey,
+	double *z, int *stridez)
 {
-	__vrhypot( *n, x, *stridex, y, *stridey, z, *stridez );
+	__vrhypot(*n, x, *stridex, y, *stridey, z, *stridez);
 }

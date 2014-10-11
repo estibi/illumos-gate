@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vrsqrtf( int, float *, int, float *, int );
+extern void __vrsqrtf(int, float *, int, float *, int);
 
 #pragma weak vrsqrtf_ = __vrsqrtf_
 
 /* just invoke the serial function */
 void
-__vrsqrtf_( int *n, float *x, int *stridex, float *y, int *stridey )
+__vrsqrtf_(int *n, float *x, int *stridex, float *y, int *stridey)
 {
-	__vrsqrtf( *n, x, *stridex, y, *stridey );
+	__vrsqrtf(*n, x, *stridex, y, *stridey);
 }

@@ -221,7 +221,7 @@ static const double __vlibm_TBL_rhypotf[] = {
 
 #define	fabsf	__fabsf
 
-extern float fabsf( float );
+extern float fabsf(float);
 
 static const double
 	A0 = 9.99999997962321453275e-01,
@@ -230,8 +230,8 @@ static const double
 	A3 =-3.12560092408808548438e-01;
 
 static void
-__vrhypotf_n( int n, float * restrict px, int stridex, float * restrict py,
-	int stridey, float * restrict pz, int stridez );
+__vrhypotf_n(int n, float * restrict px, int stridex, float * restrict py,
+	int stridey, float * restrict pz, int stridez);
 
 #pragma no_inline(__vrhypotf_n)
 
@@ -239,7 +239,7 @@ __vrhypotf_n( int n, float * restrict px, int stridex, float * restrict py,
 {								\
 	*pz = (ret);						\
 	pz += stridez;						\
-	if ( n_n == 0 )						\
+	if (n_n == 0)						\
 	{							\
 		spx = px; spy = py; spz = pz;			\
 		ay0 = *(int*)py;				\
@@ -251,14 +251,14 @@ __vrhypotf_n( int n, float * restrict px, int stridex, float * restrict py,
 
 
 void
-__vrhypotf( int n, float * restrict px, int stridex, float * restrict py,
-	int stridey, float * restrict pz, int stridez )
+__vrhypotf(int n, float * restrict px, int stridex, float * restrict py,
+	int stridey, float * restrict pz, int stridez)
 {
 	float		*spx, *spy, *spz;
 	int		ax0, ay0, n_n;
 	float		res, x0, y0;
 
-	while ( n > 1 )
+	while (n > 1)
 	{
 		n_n = 0;
 		spx = px;
@@ -266,42 +266,42 @@ __vrhypotf( int n, float * restrict px, int stridex, float * restrict py,
 		spz = pz;
 		ax0 = *(int*)px;
 		ay0 = *(int*)py;
-		for ( ; n > 1 ; n-- )
+		for (; n > 1 ; n--)
 		{
 			ax0 &= 0x7fffffff;
 			ay0 &= 0x7fffffff;
 
 			px += stridex;
 
-			if ( ax0 >= 0x7f800000 || ay0 >= 0x7f800000 )	/* X or Y = NaN or Inf	*/
+			if (ax0 >= 0x7f800000 || ay0 >= 0x7f800000)	/* X or Y = NaN or Inf	*/
 			{
 				x0 = *(px - stridex);
 				y0 = *py;
 				res = fabsf(x0) + fabsf(y0);
-				if( ax0 == 0x7f800000 ) res = 0.0f;
-				else if( ay0 == 0x7f800000 ) res = 0.0f;
+				if(ax0 == 0x7f800000) res = 0.0f;
+				else if(ay0 == 0x7f800000) res = 0.0f;
 				ax0 = *(int*)px;
 				py += stridey;
-				RETURN ( res )
+				RETURN (res)
 			}
 			ax0 = *(int*)px;
 			py += stridey;
-			if ( ay0 == 0 )		/* Y = 0	*/
+			if (ay0 == 0)		/* Y = 0	*/
 			{
 				int tx = *(int*)(px - stridex) & 0x7fffffff;
-				if ( tx == 0 )	/* X = 0	*/
+				if (tx == 0)	/* X = 0	*/
 				{
-					RETURN ( 1.0f / 0.0f )
+					RETURN (1.0f / 0.0f)
 				}
 			}
 			pz += stridez;
 			n_n++;
 			ay0 = *(int*)py;
 		}
-		if ( n_n > 0 )
-			__vrhypotf_n( n_n, spx, stridex, spy, stridey, spz, stridez );
+		if (n_n > 0)
+			__vrhypotf_n(n_n, spx, stridex, spy, stridey, spz, stridez);
 	}
-	if ( n > 0 )
+	if (n > 0)
 	{
 		ax0 = *(int*)px;
 		ay0 = *(int*)py;
@@ -311,14 +311,14 @@ __vrhypotf( int n, float * restrict px, int stridex, float * restrict py,
 		ax0 &= 0x7fffffff;
 		ay0 &= 0x7fffffff;
 
-		if ( ax0 >= 0x7f800000 || ay0 >= 0x7f800000 )	/* X or Y = NaN or Inf	*/
+		if (ax0 >= 0x7f800000 || ay0 >= 0x7f800000)	/* X or Y = NaN or Inf	*/
 		{
 			res = fabsf(x0) + fabsf(y0);
-			if( ax0 == 0x7f800000 ) res = 0.0f;
-			else if( ay0 == 0x7f800000 ) res = 0.0f;
+			if(ax0 == 0x7f800000) res = 0.0f;
+			else if(ay0 == 0x7f800000) res = 0.0f;
 			*pz = res;
 		}
-		else if ( ax0 == 0 && ay0 == 0 )	/* X and Y = 0	*/
+		else if (ax0 == 0 && ay0 == 0)	/* X and Y = 0	*/
 		{
 			*pz = 1.0f / 0.0f;
 		}
@@ -351,8 +351,8 @@ __vrhypotf( int n, float * restrict px, int stridex, float * restrict py,
 }
 
 static void
-__vrhypotf_n( int n, float * restrict px, int stridex, float * restrict py,
-	int stridey, float * restrict pz, int stridez )
+__vrhypotf_n(int n, float * restrict px, int stridex, float * restrict py,
+	int stridey, float * restrict pz, int stridez)
 {
 	double		xx0, res0, hyp0, h_hi0 = 0, dbase0 = 0;
 	double		xx1, res1, hyp1, h_hi1 = 0, dbase1 = 0;
@@ -364,7 +364,7 @@ __vrhypotf_n( int n, float * restrict px, int stridex, float * restrict py,
 	int		ibase1, si1, hyp1h;
 	int		ibase2, si2, hyp2h;
 
-	for ( ; n > 2 ; n -= 3 )
+	for (; n > 2 ; n -= 3)
 	{
 		x0 = *px;
 		px += stridex;
@@ -432,7 +432,7 @@ __vrhypotf_n( int n, float * restrict px, int stridex, float * restrict py,
 		pz += stridez;
 	}
 
-	for ( ; n > 0 ; n-- )
+	for (; n > 0 ; n--)
 	{
 		x0 = *px;
 		px += stridex;

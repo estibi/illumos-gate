@@ -62,11 +62,11 @@ p3		= -1.42856965565428636896183013324727205980484158356e-0001,
 p4		=  1.10894981496317081405107718475040168084164825641e-0001;
 
 /* Don't __ the following; acomp will handle it */
-extern double fabs( double );
+extern double fabs(double);
 
 void
-__vatan2( int n, double * restrict y, int stridey, double * restrict x,
-	int stridex, double * restrict z, int stridez )
+__vatan2(int n, double * restrict y, int stridey, double * restrict x,
+	int stridex, double * restrict z, int stridez)
 {
 	double		x0, x1, x2, y0, y1, y2, *pz0, *pz1, *pz2;
 	double		ah0, ah1, ah2, al0, al1, al2, t0, t1, t2;
@@ -79,20 +79,20 @@ loop0:
 		hy = HI(y);
 		sy = hy & 0x80000000;
 		hy &= ~0x80000000;
-		sign0 = ( sy )? -one : one;
+		sign0 = (sy)? -one : one;
 
 		hx = HI(x);
 		sx = hx & 0x80000000;
 		hx &= ~0x80000000;
 
-		if ( hy > hx || ( hy == hx && LO(y) > LO(x) ) )
+		if (hy > hx || (hy == hx && LO(y) > LO(x)))
 		{
 			i = hx;
 			hx = hy;
 			hy = i;
-			x0 = fabs( *y );
-			y0 = fabs( *x );
-			if ( sx )
+			x0 = fabs(*y);
+			y0 = fabs(*x);
+			if (sx)
 			{
 				ah0 = pio2;
 				al0 = pio2_lo;
@@ -106,9 +106,9 @@ loop0:
 		}
 		else
 		{
-			x0 = fabs( *x );
-			y0 = fabs( *y );
-			if ( sx )
+			x0 = fabs(*x);
+			y0 = fabs(*y);
+			if (sx)
 			{
 				ah0 = -pi;
 				al0 = -pi_lo;
@@ -118,33 +118,33 @@ loop0:
 				ah0 = al0 = zero;
 		}
 
-		if ( hx >= 0x7fe00000 || hx - hy >= 0x03600000 )
+		if (hx >= 0x7fe00000 || hx - hy >= 0x03600000)
 		{
-			if ( hx >= 0x7ff00000 )
+			if (hx >= 0x7ff00000)
 			{
-				if ( ( hx ^ 0x7ff00000 ) | LO(&x0) ) /* nan */
+				if ((hx ^ 0x7ff00000) | LO(&x0)) /* nan */
 					ah0 =  x0 + y0;
-				else if ( hy >= 0x7ff00000 )
+				else if (hy >= 0x7ff00000)
 					ah0 += pio4;
 				*z = sign0 * ah0;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 0;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop0;
 			}
-			if ( hx - hy >= 0x03600000 )
+			if (hx - hy >= 0x03600000)
 			{
-				if ( (int) ah0 == 0 )
+				if ((int) ah0 == 0)
 					ah0 = y0 / x0;
 				*z = sign0 * ah0;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 0;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop0;
 			}
@@ -153,16 +153,16 @@ loop0:
 			hy -= 0x00300000;
 			hx -= 0x00300000;
 		}
-		else if ( hy < 0x00100000 )
+		else if (hy < 0x00100000)
 		{
-			if ( ( hy | LO(&y0) ) == 0 )
+			if ((hy | LO(&y0)) == 0)
 			{
 				*z = sign0 * ah0;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 0;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop0;
 			}
@@ -172,8 +172,8 @@ loop0:
 			hx = HI(&x0);
 		}
 
-		k = ( ( ( hx - hy ) + 0x00004000 ) >> 13 ) & ~0x3;
-		if ( k > 644 )
+		k = (((hx - hy) + 0x00004000) >> 13) & ~0x3;
+		if (k > 644)
 			k = 644;
 		ah0 += __vlibm_TBL_atan2[k];
 		al0 += __vlibm_TBL_atan2[k+1];
@@ -181,33 +181,33 @@ loop0:
 
 		xh = x0;
 		LO(&xh) = 0;
-		z0 = ( ( y0 - t0 * xh ) - t0 * ( x0 - xh ) ) / ( x0 + y0 * t0 );
+		z0 = ((y0 - t0 * xh) - t0 * (x0 - xh)) / (x0 + y0 * t0);
 		pz0 = z;
 		x += stridex;
 		y += stridey;
 		z += stridez;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 loop1:
 		hy = HI(y);
 		sy = hy & 0x80000000;
 		hy &= ~0x80000000;
-		sign1 = ( sy )? -one : one;
+		sign1 = (sy)? -one : one;
 
 		hx = HI(x);
 		sx = hx & 0x80000000;
 		hx &= ~0x80000000;
 
-		if ( hy > hx || ( hy == hx && LO(y) > LO(x) ) )
+		if (hy > hx || (hy == hx && LO(y) > LO(x)))
 		{
 			i = hx;
 			hx = hy;
 			hy = i;
-			x1 = fabs( *y );
-			y1 = fabs( *x );
-			if ( sx )
+			x1 = fabs(*y);
+			y1 = fabs(*x);
+			if (sx)
 			{
 				ah1 = pio2;
 				al1 = pio2_lo;
@@ -221,9 +221,9 @@ loop1:
 		}
 		else
 		{
-			x1 = fabs( *x );
-			y1 = fabs( *y );
-			if ( sx )
+			x1 = fabs(*x);
+			y1 = fabs(*y);
+			if (sx)
 			{
 				ah1 = -pi;
 				al1 = -pi_lo;
@@ -233,33 +233,33 @@ loop1:
 				ah1 = al1 = zero;
 		}
 
-		if ( hx >= 0x7fe00000 || hx - hy >= 0x03600000 )
+		if (hx >= 0x7fe00000 || hx - hy >= 0x03600000)
 		{
-			if ( hx >= 0x7ff00000 )
+			if (hx >= 0x7ff00000)
 			{
-				if ( ( hx ^ 0x7ff00000 ) | LO(&x1) ) /* nan */
+				if ((hx ^ 0x7ff00000) | LO(&x1)) /* nan */
 					ah1 =  x1 + y1;
-				else if ( hy >= 0x7ff00000 )
+				else if (hy >= 0x7ff00000)
 					ah1 += pio4;
 				*z = sign1 * ah1;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 1;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop1;
 			}
-			if ( hx - hy >= 0x03600000 )
+			if (hx - hy >= 0x03600000)
 			{
-				if ( (int) ah1 == 0 )
+				if ((int) ah1 == 0)
 					ah1 = y1 / x1;
 				*z = sign1 * ah1;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 1;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop1;
 			}
@@ -268,16 +268,16 @@ loop1:
 			hy -= 0x00300000;
 			hx -= 0x00300000;
 		}
-		else if ( hy < 0x00100000 )
+		else if (hy < 0x00100000)
 		{
-			if ( ( hy | LO(&y1) ) == 0 )
+			if ((hy | LO(&y1)) == 0)
 			{
 				*z = sign1 * ah1;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 1;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop1;
 			}
@@ -287,8 +287,8 @@ loop1:
 			hx = HI(&x1);
 		}
 
-		k = ( ( ( hx - hy ) + 0x00004000 ) >> 13 ) & ~0x3;
-		if ( k > 644 )
+		k = (((hx - hy) + 0x00004000) >> 13) & ~0x3;
+		if (k > 644)
 			k = 644;
 		ah1 += __vlibm_TBL_atan2[k];
 		al1 += __vlibm_TBL_atan2[k+1];
@@ -296,33 +296,33 @@ loop1:
 
 		xh = x1;
 		LO(&xh) = 0;
-		z1 = ( ( y1 - t1 * xh ) - t1 * ( x1 - xh ) ) / ( x1 + y1 * t1 );
+		z1 = ((y1 - t1 * xh) - t1 * (x1 - xh)) / (x1 + y1 * t1);
 		pz1 = z;
 		x += stridex;
 		y += stridey;
 		z += stridez;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 loop2:
 		hy = HI(y);
 		sy = hy & 0x80000000;
 		hy &= ~0x80000000;
-		sign2 = ( sy )? -one : one;
+		sign2 = (sy)? -one : one;
 
 		hx = HI(x);
 		sx = hx & 0x80000000;
 		hx &= ~0x80000000;
 
-		if ( hy > hx || ( hy == hx && LO(y) > LO(x) ) )
+		if (hy > hx || (hy == hx && LO(y) > LO(x)))
 		{
 			i = hx;
 			hx = hy;
 			hy = i;
-			x2 = fabs( *y );
-			y2 = fabs( *x );
-			if ( sx )
+			x2 = fabs(*y);
+			y2 = fabs(*x);
+			if (sx)
 			{
 				ah2 = pio2;
 				al2 = pio2_lo;
@@ -336,9 +336,9 @@ loop2:
 		}
 		else
 		{
-			x2 = fabs( *x );
-			y2 = fabs( *y );
-			if ( sx )
+			x2 = fabs(*x);
+			y2 = fabs(*y);
+			if (sx)
 			{
 				ah2 = -pi;
 				al2 = -pi_lo;
@@ -348,33 +348,33 @@ loop2:
 				ah2 = al2 = zero;
 		}
 
-		if ( hx >= 0x7fe00000 || hx - hy >= 0x03600000 )
+		if (hx >= 0x7fe00000 || hx - hy >= 0x03600000)
 		{
-			if ( hx >= 0x7ff00000 )
+			if (hx >= 0x7ff00000)
 			{
-				if ( ( hx ^ 0x7ff00000 ) | LO(&x2) ) /* nan */
+				if ((hx ^ 0x7ff00000) | LO(&x2)) /* nan */
 					ah2 =  x2 + y2;
-				else if ( hy >= 0x7ff00000 )
+				else if (hy >= 0x7ff00000)
 					ah2 += pio4;
 				*z = sign2 * ah2;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 2;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop2;
 			}
-			if ( hx - hy >= 0x03600000 )
+			if (hx - hy >= 0x03600000)
 			{
-				if ( (int) ah2 == 0 )
+				if ((int) ah2 == 0)
 					ah2 = y2 / x2;
 				*z = sign2 * ah2;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 2;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop2;
 			}
@@ -383,16 +383,16 @@ loop2:
 			hy -= 0x00300000;
 			hx -= 0x00300000;
 		}
-		else if ( hy < 0x00100000 )
+		else if (hy < 0x00100000)
 		{
-			if ( ( hy | LO(&y2) ) == 0 )
+			if ((hy | LO(&y2)) == 0)
 			{
 				*z = sign2 * ah2;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 2;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop2;
 			}
@@ -402,8 +402,8 @@ loop2:
 			hx = HI(&x2);
 		}
 
-		k = ( ( ( hx - hy ) + 0x00004000 ) >> 13 ) & ~0x3;
-		if ( k > 644 )
+		k = (((hx - hy) + 0x00004000) >> 13) & ~0x3;
+		if (k > 644)
 			k = 644;
 		ah2 += __vlibm_TBL_atan2[k];
 		al2 += __vlibm_TBL_atan2[k+1];
@@ -411,19 +411,19 @@ loop2:
 
 		xh = x2;
 		LO(&xh) = 0;
-		z2 = ( ( y2 - t2 * xh ) - t2 * ( x2 - xh ) ) / ( x2 + y2 * t2 );
+		z2 = ((y2 - t2 * xh) - t2 * (x2 - xh)) / (x2 + y2 * t2);
 		pz2 = z;
 
 		x0 = z0 * z0;
 		x1 = z1 * z1;
 		x2 = z2 * z2;
 
-		t0 = ah0 + ( z0 + ( al0 + ( z0 * x0 ) * ( p1 + x0 *
-			( p2 + x0 * ( p3 + x0 * p4 ) ) ) ) );
-		t1 = ah1 + ( z1 + ( al1 + ( z1 * x1 ) * ( p1 + x1 *
-			( p2 + x1 * ( p3 + x1 * p4 ) ) ) ) );
-		t2 = ah2 + ( z2 + ( al2 + ( z2 * x2 ) * ( p1 + x2 *
-			( p2 + x2 * ( p3 + x2 * p4 ) ) ) ) );
+		t0 = ah0 + (z0 + (al0 + (z0 * x0) * (p1 + x0 *
+			(p2 + x0 * (p3 + x0 * p4)))));
+		t1 = ah1 + (z1 + (al1 + (z1 * x1) * (p1 + x1 *
+			(p2 + x1 * (p3 + x1 * p4)))));
+		t2 = ah2 + (z2 + (al2 + (z2 * x2) * (p1 + x2 *
+			(p2 + x2 * (p3 + x2 * p4)))));
 
 		*pz0 = sign0 * t0;
 		*pz1 = sign1 * t1;
@@ -433,21 +433,21 @@ loop2:
 		y += stridey;
 		z += stridez;
 		i = 0;
-	} while ( --n > 0 );
+	} while (--n > 0);
 
-	if ( i > 0 )
+	if (i > 0)
 	{
-		if ( i > 1 )
+		if (i > 1)
 		{
 			x1 = z1 * z1;
-			t1 = ah1 + ( z1 + ( al1 + ( z1 * x1 ) * ( p1 + x1 *
-				( p2 + x1 * ( p3 + x1 * p4 ) ) ) ) );
+			t1 = ah1 + (z1 + (al1 + (z1 * x1) * (p1 + x1 *
+				(p2 + x1 * (p3 + x1 * p4)))));
 			*pz1 = sign1 * t1;
 		}
 
 		x0 = z0 * z0;
-		t0 = ah0 + ( z0 + ( al0 + ( z0 * x0 ) * ( p1 + x0 *
-			( p2 + x0 * ( p3 + x0 * p4 ) ) ) ) );
+		t0 = ah0 + (z0 + (al0 + (z0 * x0) * (p1 + x0 *
+			(p2 + x0 * (p3 + x0 * p4)))));
 		*pz0 = sign0 * t0;
 	}
 }
