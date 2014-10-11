@@ -74,17 +74,17 @@ __k_lgammal(long double x, int *signgamlp) {
 	int i;
 
     /* purge off +-inf, NaN and negative arguments */
-	if(!finitel(x)) return x*x;
+	if (!finitel(x)) return x*x;
 	*signgamlp = 1;
-	if(signbitl(x)) return(neg(x,signgamlp));
+	if (signbitl(x)) return(neg(x,signgamlp));
 
     /* for x < 8.0 */
-	if(x<8.0L) {
+	if (x<8.0L) {
 	    y = anintl(x);
 	    i = (int) y;
 	    switch(i) {
 	    case 0:
-		if(x<1.0e-40L) return -logl(x); else
+		if (x<1.0e-40L) return -logl(x); else
 		return (primary(x)-log1pl(x))-logl(x);
 	    case 1:
 		return primary(x-y)-logl(x);
@@ -374,9 +374,9 @@ neg(long double z, int *signgamlp) {
       *		t = sinpi(z); ...note that when z>2**112, z is an int
       *		and hence t=0.
       *
-      *		if(t==0.0) return 1.0/0.0;
-      *		if(t< 0.0) *signgamlp = -1; else t= -t;
-      *		if(z<1.0e-40)	...tiny z
+      *		if (t==0.0) return 1.0/0.0;
+      *		if (t< 0.0) *signgamlp = -1; else t= -t;
+      *		if (z<1.0e-40)	...tiny z
       *		    return -log(z);
       *		else
       *		    return log(pi/(t*z))-lgamma(z);
@@ -388,10 +388,10 @@ neg(long double z, int *signgamlp) {
 	    return c1/c0;
 
 	z = -z;
-	if(z<=tiny)
+	if (z<=tiny)
 	    p = -logl(z);
 	else
       	    p = logl(pi/(fabsl(t)*z))-__k_lgammal(z,signgamlp);
-	if(t<c0) *signgamlp = -1;
+	if (t<c0) *signgamlp = -1;
 	return p;
 }

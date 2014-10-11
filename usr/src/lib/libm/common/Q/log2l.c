@@ -34,7 +34,7 @@
  * Method:
  *	purge off 0,INF, and NaN.
  *	n = ilogb(x)
- *	if(n<0) n+=1
+ *	if (n<0) n+=1
  *	z = scalbn(x,-n)
  *	LOG2(x) = n + (1/ln2)*log(x)
  */

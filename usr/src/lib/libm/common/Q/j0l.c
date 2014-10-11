@@ -80,10 +80,10 @@ j0l(x) GENERIC x;{
 	GENERIC z, s,c,ss,cc,r,u,v;
 	int i;
 
-	if(isnanl(x)) return x+x;
+	if (isnanl(x)) return x+x;
 	x = fabsl(x);
-	if(x > 1.28L){
-		if(!finitel(x)) return zero;
+	if (x > 1.28L){
+		if (!finitel(x)) return zero;
 		s = sinl(x);
 		c = cosl(x);
 	/*
@@ -98,7 +98,7 @@ j0l(x) GENERIC x;{
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>1.0e2450L) {	/* x+x may overflow */
+		if (x>1.0e2450L) {	/* x+x may overflow */
 			ss = s-c;
 			cc = s+c;
 		} else if (signbitl(s)!=signbitl(c)) {
@@ -112,11 +112,11 @@ j0l(x) GENERIC x;{
 	 * j0(x) = 1/sqrt(pi) * (P(0,x)*cc - Q(0,x)*ss) / sqrt(x)
 	 * y0(x) = 1/sqrt(pi) * (P(0,x)*ss + Q(0,x)*cc) / sqrt(x)
 	 */
-		if(x>1.0e120L) return (invsqrtpi*cc)/sqrtl(x);
+		if (x>1.0e120L) return (invsqrtpi*cc)/sqrtl(x);
 		u = pzero(x); v = qzero(x);
 		return invsqrtpi*(u*cc-v*ss)/sqrtl(x);
 	}
-	if(x<=small) {
+	if (x<=small) {
 	    if (x<=tiny) return one-x;
 	    else return one-x*x*0.25L;
 	}
@@ -156,9 +156,9 @@ y0l(x) GENERIC x;{
 	int i;
 	volatile GENERIC d;
 
-	if(isnanl(x)) return x+x;
-	if(x <= zero){
-		if(x==zero)
+	if (isnanl(x)) return x+x;
+	if (x <= zero){
+		if (x==zero)
 		    d= -one/(x-x);
 		else
 		    d = zero/(x-x);
@@ -166,8 +166,8 @@ y0l(x) GENERIC x;{
 #ifdef lint
 	d = d;
 #endif
-	if(x > 1.28L){
-		if(!finitel(x)) return zero;
+	if (x > 1.28L){
+		if (!finitel(x)) return zero;
 		s = sinl(x);
 		c = cosl(x);
 	/*
@@ -182,7 +182,7 @@ y0l(x) GENERIC x;{
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>1.0e2450L) {	/* x+x may overflow */
+		if (x>1.0e2450L) {	/* x+x may overflow */
 			ss = s-c;
 			cc = s+c;
 		} else if (signbitl(s)!=signbitl(c)) {
@@ -196,11 +196,11 @@ y0l(x) GENERIC x;{
 	 * j0(x) = 1/sqrt(pi*x) * (P(0,x)*cc - Q(0,x)*ss)
 	 * y0(x) = 1/sqrt(pi*x) * (P(0,x)*ss + Q(0,x)*cc)
 	 */
-		if(x>1.0e120L) return (invsqrtpi*ss)/sqrtl(x);
+		if (x>1.0e120L) return (invsqrtpi*ss)/sqrtl(x);
 		return invsqrtpi*(pzero(x)*ss+qzero(x)*cc)/sqrtl(x);
 
 	}
-	if(x<=tiny) {
+	if (x<=tiny) {
 	    return(u0[0] + tpi*logl(x));
 	}
 	z = x*x;
@@ -427,9 +427,9 @@ GENERIC x;
 {
 	GENERIC s,r,t,z;
 	int i;
-	if(x>huge) return one;
+	if (x>huge) return one;
 	t = one/x; z = t*t;
-	if(x>sixteen) {
+	if (x>sixteen) {
 	    r = z*pr0[11]+pr0[10]; s = ps0[10];
 	    for(i=9;i>=0;i--) {
 		r = z*r + pr0[i];
@@ -689,9 +689,9 @@ GENERIC x;
 {
 	GENERIC s,r,t,z;
 	int i;
-	if(x>huge) return -0.125L/x;
+	if (x>huge) return -0.125L/x;
 	t = one/x; z = t*t;
-	if(x>sixteen) {
+	if (x>sixteen) {
 	    r = z*qr0[11]+qr0[10]; s = qs0[10];
 	    for(i=9;i>=0;i--) {
 		r = z*r + qr0[i];
