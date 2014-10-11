@@ -1390,7 +1390,7 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 		}
 #ifdef DEBUG
 		else if (ex != FPE_FLTRES)
-			printf( "No result supplied, stack may be hosed\n" );
+			printf("No result supplied, stack may be hosed\n");
 #endif
 		return;
 	}

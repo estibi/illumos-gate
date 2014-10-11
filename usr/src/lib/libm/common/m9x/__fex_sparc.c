@@ -551,89 +551,89 @@ __fex_st_result(siginfo_t *sip, ucontext_t *uap, fex_info_t *info)
 		switch (opf) {
 		case 0x41: /* add single */
 			info->res.type = fex_float;
-			info->res.val.f = fscl * ( fscl * info->op1.val.f +
-				fscl * info->op2.val.f );
+			info->res.val.f = fscl * (fscl * info->op1.val.f +
+				fscl * info->op2.val.f);
 			break;
 
 		case 0x42: /* add double */
 			info->res.type = fex_double;
-			info->res.val.d = dscl * ( dscl * info->op1.val.d +
-				dscl * info->op2.val.d );
+			info->res.val.d = dscl * (dscl * info->op1.val.d +
+				dscl * info->op2.val.d);
 			break;
 
 		case 0x43: /* add quad */
 			info->res.type = fex_ldouble;
-			info->res.val.q = qscl * ( qscl * info->op1.val.q +
-				qscl * info->op2.val.q );
+			info->res.val.q = qscl * (qscl * info->op1.val.q +
+				qscl * info->op2.val.q);
 			break;
 
 		case 0x45: /* subtract single */
 			info->res.type = fex_float;
-			info->res.val.f = fscl * ( fscl * info->op1.val.f -
-				fscl * info->op2.val.f );
+			info->res.val.f = fscl * (fscl * info->op1.val.f -
+				fscl * info->op2.val.f);
 			break;
 
 		case 0x46: /* subtract double */
 			info->res.type = fex_double;
-			info->res.val.d = dscl * ( dscl * info->op1.val.d -
-				dscl * info->op2.val.d );
+			info->res.val.d = dscl * (dscl * info->op1.val.d -
+				dscl * info->op2.val.d);
 			break;
 
 		case 0x47: /* subtract quad */
 			info->res.type = fex_ldouble;
-			info->res.val.q = qscl * ( qscl * info->op1.val.q -
-				qscl * info->op2.val.q );
+			info->res.val.q = qscl * (qscl * info->op1.val.q -
+				qscl * info->op2.val.q);
 			break;
 
 		case 0x49: /* multiply single */
 			info->res.type = fex_float;
-			info->res.val.f = ( fscl * info->op1.val.f ) *
-				( fscl * info->op2.val.f );
+			info->res.val.f = (fscl * info->op1.val.f) *
+				(fscl * info->op2.val.f);
 			break;
 
 		case 0x4a: /* multiply double */
 			info->res.type = fex_double;
-			info->res.val.d = ( dscl * info->op1.val.d ) *
-				( dscl * info->op2.val.d );
+			info->res.val.d = (dscl * info->op1.val.d) *
+				(dscl * info->op2.val.d);
 			break;
 
 		case 0x4b: /* multiply quad */
 			info->res.type = fex_ldouble;
-			info->res.val.q = ( qscl * info->op1.val.q ) *
-				( qscl * info->op2.val.q );
+			info->res.val.q = (qscl * info->op1.val.q) *
+				(qscl * info->op2.val.q);
 			break;
 
 		case 0x4d: /* divide single */
 			info->res.type = fex_float;
-			info->res.val.f = ( fscl * info->op1.val.f ) /
-				( info->op2.val.f / fscl );
+			info->res.val.f = (fscl * info->op1.val.f) /
+				(info->op2.val.f / fscl);
 			break;
 
 		case 0x4e: /* divide double */
 			info->res.type = fex_double;
-			info->res.val.d = ( dscl * info->op1.val.d ) /
-				( info->op2.val.d / dscl );
+			info->res.val.d = (dscl * info->op1.val.d) /
+				(info->op2.val.d / dscl);
 			break;
 
 		case 0x4f: /* divide quad */
 			info->res.type = fex_ldouble;
-			info->res.val.q = ( qscl * info->op1.val.q ) /
-				( info->op2.val.q / qscl );
+			info->res.val.q = (qscl * info->op1.val.q) /
+				(info->op2.val.q / qscl);
 			break;
 
 		case 0xc6: /* convert double to single */
 			info->res.type = fex_float;
-			info->res.val.f = (float) ( fscl * ( fscl * info->op1.val.d ) );
+			info->res.val.f = (float) (fscl * (fscl * info->op1.val.d));
 			break;
 
 		case 0xc7: /* convert quad to single */
 			info->res.type = fex_float;
-			info->res.val.f = (float) ( fscl * ( fscl * info->op1.val.q ) );
+			info->res.val.f = (float) (fscl * (fscl * info->op1.val.q));
 			break;
 
 		case 0xcb: /* convert quad to double */
 			info->res.type = fex_double;
-			info->res.val.d = (double) ( dscl * ( dscl * info->op1.val.q ) );
+			info->res.val.d = (double) (dscl * (dscl * info->op1.val.q));
 			break;
 		}
 

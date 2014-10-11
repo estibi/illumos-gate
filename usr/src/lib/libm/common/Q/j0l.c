@@ -447,19 +447,19 @@ GENERIC x;
 		r = z*r + pr2[i];
 		s = z*s + ps2[i];
 	    }
-	} else if( x>3.5L) {
+	} else if(x>3.5L) {
 	    r = pr3[12]; s = ps3[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + pr3[i];
 		s = z*s + ps3[i];
 	    }
-	} else if( x>2.5L) {
+	} else if(x>2.5L) {
 	    r = pr4[12]; s = ps4[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + pr4[i];
 		s = z*s + ps4[i];
 	    }
-	} else if( x> (1.0L/0.5625L)){
+	} else if(x> (1.0L/0.5625L)){
 	    r = pr5[12]; s = ps5[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + pr5[i];
