@@ -179,7 +179,7 @@ static const float extreme[2] = { 1.0e30f, 1.0e-30f };
 
 #ifdef __sparc
 
-#define PREPROCESS(N , index, label)				\
+#define PREPROCESS(N, index, label)				\
 	xi = *(int *)x;						\
 	ax = xi & ~0x80000000;					\
 	fx = *x;						\
@@ -207,7 +207,7 @@ static const float extreme[2] = { 1.0e30f, 1.0e-30f };
 
 #else
 
-#define PREPROCESS(N , index, label)				\
+#define PREPROCESS(N, index, label)				\
 	xi = *(int *)x;						\
 	ax = xi & ~0x80000000;					\
 	fx = *x;						\

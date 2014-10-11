@@ -105,6 +105,6 @@ log10l(long double x) {
 		return (z);
 	} else if (x == zero)	/* -INF */
 		return (-one / zero);
-	else			/* x <0 , return NaN */
+	else			/* x <0, return NaN */
 		return (zero / zero);
 }

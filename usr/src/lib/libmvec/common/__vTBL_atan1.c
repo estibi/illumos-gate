@@ -30,7 +30,7 @@
 #pragma align 32 (__vlibm_TBL_atan1)
 const double __vlibm_TBL_atan1[] = {
 
-/* i=  -2 conup conlo = 0.0      */                    0.0 ,                     0.0 ,
+/* i=  -2 conup conlo = 0.0      */                    0.0,                     0.0 ,
 /* i=  -1 PI/2 upper, lower      */ 1.570796326794896558E+00, 6.123233995736765886e-17,
                                  /*        3ff921fb54442d18,         3c91a62633145c07, */
 
