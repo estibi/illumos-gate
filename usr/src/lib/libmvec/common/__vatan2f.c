@@ -48,8 +48,8 @@ q2      =  1.9999999186853752618e-01f,
 twop24  =  16777216.0f;
 
 void
-__vatan2f( int n, float * restrict y, int stridey, float * restrict x,
-	int stridex, float * restrict z, int stridez )
+__vatan2f(int n, float * restrict y, int stridey, float * restrict x,
+	int stridex, float * restrict z, int stridez)
 {
 	float		x0, x1, x2, y0, y1, y2, *pz0 = 0, *pz1, *pz2;
 	double		ah0, ah1, ah2;
@@ -77,19 +77,19 @@ loop0:
 		sx = hx & 0x80000000;
 		hx &= ~0x80000000;
 
-		if ( hy0 > hx )
+		if (hy0 > hx)
 		{
 			x0 = *y;
 			y0 = *x;
 			i = hx;
 			hx = hy0;
 			hy0 = i;
-			if ( sy ) 
+			if (sy) 
 			{
 				x0 = -x0;
 				sign0 = -sign0;
 			}
-			if ( sx )
+			if (sx)
 			{
 				y0 = -y0;
 				ah0 = pio2;
@@ -104,12 +104,12 @@ loop0:
 		{
 			y0 = *y;
 			x0 = *x;
-			if ( sy ) 
+			if (sy) 
 			{
 				y0 = -y0;
 				sign0 = -sign0;
 			}
-			if ( sx )
+			if (sx)
 			{
 				x0 = -x0;
 				ah0 = -pi;
@@ -119,16 +119,16 @@ loop0:
 				ah0 = zero;
 		}
 
-		if ( hx >= 0x7f800000 || hx - hy0 >= 0x0c800000 )
+		if (hx >= 0x7f800000 || hx - hy0 >= 0x0c800000)
 		{
-			if ( hx >= 0x7f800000 )
+			if (hx >= 0x7f800000)
 			{
-				if ( hx ^ 0x7f800000 ) /* nan */
+				if (hx ^ 0x7f800000) /* nan */
 					ah0 =  x0 + y0;
-				else if ( hy0 >= 0x7f800000 )
+				else if (hy0 >= 0x7f800000)
 					ah0 += pio4;
 			}
-			else if ( (int) ah0 == 0 )
+			else if ((int) ah0 == 0)
 				ah0 = y0 / x0;
 			*z = (sign0 == one) ? ah0 : -ah0; 
 /* sign0*ah0 would change nan behavior relative to previous release */
@@ -136,19 +136,19 @@ loop0:
 			y += stridey;
 			z += stridez;
 			i = 0;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop0;
 		}
 		if (hy0 < 0x00800000) {
-			if ( hy0 == 0 )
+			if (hy0 == 0)
 			{
 				*z = sign0 * (float) ah0;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 0;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop0;
 			}
@@ -159,8 +159,8 @@ loop0:
 		}
 		pz0 = z;
 
-		k0 = ( hy0 - hx + 0x3f800000 ) & 0xfff80000;
-		if( k0 >= 0x3C800000 )          /* if |x| >= (1/64)... */
+		k0 = (hy0 - hx + 0x3f800000) & 0xfff80000;
+		if(k0 >= 0x3C800000)          /* if |x| >= (1/64)... */
     		{ 
 			*(int*)&base0 = k0;
        		 	k0 = (k0 - 0x3C800000) >> 18; /* (index >> 19) << 1) */
@@ -177,7 +177,7 @@ loop0:
 		y += stridey;
 		z += stridez;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 
@@ -191,19 +191,19 @@ loop1:
 		sx = hx & 0x80000000;
 		hx &= ~0x80000000;
 
-		if ( hy1 > hx )
+		if (hy1 > hx)
 		{
 			x1 = *y;
 			y1 = *x;
 			i = hx;
 			hx = hy1;
 			hy1 = i;
-			if ( sy ) 
+			if (sy) 
 			{
 				x1 = -x1;
 				sign1 = -sign1;
 			}
-			if ( sx )
+			if (sx)
 			{
 				y1 = -y1;
 				ah1 = pio2;
@@ -218,12 +218,12 @@ loop1:
 		{
 			y1 = *y;
 			x1 = *x;
-			if ( sy ) 
+			if (sy) 
 			{
 				y1 = -y1;
 				sign1 = -sign1;
 			}
-			if ( sx )
+			if (sx)
 			{
 				x1 = -x1;
 				ah1 = -pi;
@@ -233,35 +233,35 @@ loop1:
 				ah1 = zero;
 		}
 
-		if ( hx >= 0x7f800000 || hx - hy1 >= 0x0c800000 )
+		if (hx >= 0x7f800000 || hx - hy1 >= 0x0c800000)
 		{
-			if ( hx >= 0x7f800000 )
+			if (hx >= 0x7f800000)
 			{
-				if ( hx ^ 0x7f800000 ) /* nan */
+				if (hx ^ 0x7f800000) /* nan */
 					ah1 =  x1 + y1;
-				else if ( hy1 >= 0x7f800000 )
+				else if (hy1 >= 0x7f800000)
 					ah1 += pio4;
 			}
-			else if ( (int) ah1 == 0 )
+			else if ((int) ah1 == 0)
 				ah1 = y1 / x1;
 			*z = (sign1 == one)? ah1 : -ah1;
 			x += stridex;
 			y += stridey;
 			z += stridez;
 			i = 1;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop1;
 		}
 		if (hy1 < 0x00800000) {
-			if ( hy1 == 0 )
+			if (hy1 == 0)
 			{
 				*z = sign1 * (float) ah1;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 1;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop1;
 			}
@@ -272,8 +272,8 @@ loop1:
 		}
 		pz1 = z;
 
-		k1 = ( hy1 - hx + 0x3f800000 ) & 0xfff80000;
-		if( k1 >= 0x3C800000 )          /* if |x| >= (1/64)... */
+		k1 = (hy1 - hx + 0x3f800000) & 0xfff80000;
+		if(k1 >= 0x3C800000)          /* if |x| >= (1/64)... */
     		{ 
 			*(int*)&base1 = k1;
        		 	k1 = (k1 - 0x3C800000) >> 18; /* (index >> 19) << 1) */
@@ -290,7 +290,7 @@ loop1:
 		y += stridey;
 		z += stridez;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 loop2:
@@ -303,19 +303,19 @@ loop2:
 		sx = hx & 0x80000000;
 		hx &= ~0x80000000;
 
-		if ( hy2 > hx )
+		if (hy2 > hx)
 		{
 			x2 = *y;
 			y2 = *x;
 			i = hx;
 			hx = hy2;
 			hy2 = i;
-			if ( sy ) 
+			if (sy) 
 			{
 				x2 = -x2;
 				sign2 = -sign2;
 			}
-			if ( sx )
+			if (sx)
 			{
 				y2 = -y2;
 				ah2 = pio2;
@@ -330,12 +330,12 @@ loop2:
 		{
 			y2 = *y;
 			x2 = *x;
-			if ( sy ) 
+			if (sy) 
 			{
 				y2 = -y2;
 				sign2 = -sign2;
 			}
-			if ( sx )
+			if (sx)
 			{
 				x2 = -x2;
 				ah2 = -pi;
@@ -345,35 +345,35 @@ loop2:
 				ah2 = zero;
 		}
 
-		if ( hx >= 0x7f800000 || hx - hy2 >= 0x0c800000 )
+		if (hx >= 0x7f800000 || hx - hy2 >= 0x0c800000)
 		{
-			if ( hx >= 0x7f800000 )
+			if (hx >= 0x7f800000)
 			{
-				if ( hx ^ 0x7f800000 ) /* nan */
+				if (hx ^ 0x7f800000) /* nan */
 					ah2 =  x2 + y2;
-				else if ( hy2 >= 0x7f800000 )
+				else if (hy2 >= 0x7f800000)
 					ah2 += pio4;
 			}
-			else if ( (int) ah2 == 0 )
+			else if ((int) ah2 == 0)
 				ah2 = y2 / x2;
 			*z = (sign2 == one)? ah2 : -ah2;
 			x += stridex;
 			y += stridey;
 			z += stridez;
 			i = 2;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop2;
 		}
 		if (hy2 < 0x00800000) {
-			if ( hy2 == 0 )
+			if (hy2 == 0)
 			{
 				*z = sign2 * (float) ah2;
 				x += stridex;
 				y += stridey;
 				z += stridez;
 				i = 2;
-				if ( --n <= 0 )
+				if (--n <= 0)
 					break;
 				goto loop2;
 			}
@@ -385,8 +385,8 @@ loop2:
 
 		pz2 = z;
 
-		k2 = ( hy2 - hx + 0x3f800000 ) & 0xfff80000;
-		if( k2 >= 0x3C800000 )          /* if |x| >= (1/64)... */
+		k2 = (hy2 - hx + 0x3f800000) & 0xfff80000;
+		if(k2 >= 0x3C800000)          /* if |x| >= (1/64)... */
     		{ 
 			*(int*)&base2 = k2;
        		 	k2 = (k2 - 0x3C800000) >> 18; /* (index >> 19) << 1) */
@@ -434,9 +434,9 @@ endloop:
 		sx1 = t1 * t1;
 		sx0 = t0 * t0;
  
-		t2 += t2 * sx2 * ( q1 + sx2 * q2 );
- 		t1 += t1 * sx1 * ( q1 + sx1 * q2 );
- 		t0 += t0 * sx0 * ( q1 + sx0 * q2 );
+		t2 += t2 * sx2 * (q1 + sx2 * q2);
+ 		t1 += t1 * sx1 * (q1 + sx1 * q2);
+ 		t0 += t0 * sx0 * (q1 + sx0 * q2);
 
 		t2 += ah2;
 		t1 += ah1;
@@ -450,26 +450,26 @@ endloop:
 		y += stridey;
 		z += stridez;
 		i = 0;
-	} while ( --n > 0 );
+	} while (--n > 0);
 
-	if ( i > 1 )
+	if (i > 1)
 	{
 		ah1 += __vlibm_TBL_atan1[k1];	
-		t1 = ( y1 - x1 * (double)base1 ) / 
-			( x1 + y1 * (double)base1 );
+		t1 = (y1 - x1 * (double)base1) / 
+			(x1 + y1 * (double)base1);
 		sx1 = t1 * t1;
- 		t1 += t1 * sx1 * ( q1 + sx1 * q2 );
+ 		t1 += t1 * sx1 * (q1 + sx1 * q2);
 		t1 += ah1;
 		*pz1 = sign1 * t1;
 	}
 
-	if ( i > 0 )
+	if (i > 0)
 	{
 		ah0 += __vlibm_TBL_atan1[k0];	
-		t0 = ( y0 - x0 * (double)base0 ) / 
-			( x0 + y0 * (double)base0 );
+		t0 = (y0 - x0 * (double)base0) / 
+			(x0 + y0 * (double)base0);
 		sx0 = t0 * t0;
- 		t0 += t0 * sx0 * ( q1 + sx0 * q2 );
+ 		t0 += t0 * sx0 * (q1 + sx0 * q2);
 		t0 += ah0;
 		*pz0 = sign0 * t0;
 	}

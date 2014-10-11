@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vhypotf( int, float *, int, float *, int, float *, int );
+extern void __vhypotf(int, float *, int, float *, int, float *, int);
 
 #pragma weak vhypotf_ = __vhypotf_
 
 /* just invoke the serial function */
 void
-__vhypotf_( int *n, float *x, int *stridex, float *y, int *stridey,
-	float *z, int *stridez )
+__vhypotf_(int *n, float *x, int *stridex, float *y, int *stridey,
+	float *z, int *stridez)
 {
-	__vhypotf( *n, x, *stridex, y, *stridey, z, *stridez );
+	__vhypotf(*n, x, *stridex, y, *stridey, z, *stridez);
 }

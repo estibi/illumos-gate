@@ -33,20 +33,20 @@
 #define restrict
 #endif
 
-extern void __vexp( int, double *, int, double *, int );
-extern void __vsincos( int, double *, int, double *, int, double *, int );
+extern void __vexp(int, double *, int, double *, int);
+extern void __vsincos(int, double *, int, double *, int, double *, int);
 
 void
-__vz_exp( int n, double * restrict x, int stridex, double * restrict y,
-	int stridey, double * restrict tmp )
+__vz_exp(int n, double * restrict x, int stridex, double * restrict y,
+	int stridey, double * restrict tmp)
 {
 	int		i, j;
 
 	stridex <<= 1;
 	stridey <<= 1;
-	__vexp( n, x, stridex, tmp, 1 );
-	__vsincos( n, x + 1, stridex, y + 1, stridey, y, stridey );
-	for ( i = j = 0; i < n; i++, j += stridey )
+	__vexp(n, x, stridex, tmp, 1);
+	__vsincos(n, x + 1, stridex, y + 1, stridey, y, stridey);
+	for (i = j = 0; i < n; i++, j += stridey)
 	{
 		y[j] *= tmp[i];
 		y[j+1] *= tmp[i];

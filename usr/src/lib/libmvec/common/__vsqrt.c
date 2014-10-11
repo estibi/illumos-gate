@@ -38,12 +38,12 @@
 
 #define sqrt __sqrt
 
-extern double sqrt( double );
+extern double sqrt(double);
 
 void
-__vsqrt( int n, double * restrict x, int stridex, double * restrict y, int stridey )
+__vsqrt(int n, double * restrict x, int stridex, double * restrict y, int stridey)
 {
-	for( ; n > 0 ; n-- )
+	for(; n > 0 ; n--)
 	{
 		*y = sqrt(*x);
 		x += stridex;

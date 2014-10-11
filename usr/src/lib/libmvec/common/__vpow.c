@@ -116,8 +116,8 @@
  */
 
 static void
-__vpowx( int n, double * restrict px, double * restrict py,
-	int stridey, double * restrict pz, int stridez );
+__vpowx(int n, double * restrict px, double * restrict py,
+	int stridey, double * restrict pz, int stridez);
 
 static const double __TBL_exp2[] = {
 	/* __TBL_exp2[2*i] = high order bits 2^(i/256), i = [0, 255] */
@@ -504,7 +504,7 @@ static const unsigned long long LCONST[] = {
 	px += stridex;										\
 	py += stridey;										\
 	pz += stridez;										\
-	if ( --n <= 0 )										\
+	if (--n <= 0)										\
 		break;										\
 	goto start##I;
 
@@ -525,18 +525,18 @@ hx &= 0x7fffffff;										\
 hy &= 0x7fffffff;										\
 ull_y0 = *(unsigned long long*)px;								\
 												\
-if ( hy < 0x3bf00000 )		/* |Y| < 2^(-64) */						\
+if (hy < 0x3bf00000)		/* |Y| < 2^(-64) */						\
 {												\
 	y0 = *px;										\
-	if ( (hy | ly) == 0 )	/* pow(X,0) */							\
+	if ((hy | ly) == 0)	/* pow(X,0) */							\
 		RETURN (I, DONE)								\
-	if ( hx > 0x7ff00000 || (hx == 0x7ff00000 && lx != 0) )		/* |X| = Nan */		\
+	if (hx > 0x7ff00000 || (hx == 0x7ff00000 && lx != 0))		/* |X| = Nan */		\
 		*pz = y0 + y0;									\
-	else if ( (hx | lx) == 0 || (hx == 0x7ff00000 && lx == 0) )	/* X = 0 or Inf */	\
+	else if ((hx | lx) == 0 || (hx == 0x7ff00000 && lx == 0))	/* X = 0 or Inf */	\
 	{											\
 		HI(pz) = hx;								\
 		LO(pz) = lx;								\
-		if ( sy )									\
+		if (sy)									\
 			*pz = DONE / *pz;							\
 	}											\
 	else											\
@@ -550,17 +550,17 @@ ull_x##I = (ull_y0 | LDONE);									\
 x##I = *(double*)&ull_x##I;									\
 ull_ax##I = ((ull_x##I + LMROUND) & LMHI20);							\
 ax##I = *(double*)&ull_ax##I;									\
-if ( hx >= 0x7ff00000 || exp >= 0x43e )		/* X=Inf,Nan or |Y|>2^63,Inf,Nan */		\
+if (hx >= 0x7ff00000 || exp >= 0x43e)		/* X=Inf,Nan or |Y|>2^63,Inf,Nan */		\
 {												\
 	y0 = *px;										\
-	if ( hx > 0x7ff00000 || (hx == 0x7ff00000 && lx != 0) ||				\
-	hy > 0x7ff00000 || (hy == 0x7ff00000 && ly != 0) )	/* |X| or |Y| = Nan */		\
+	if (hx > 0x7ff00000 || (hx == 0x7ff00000 && lx != 0) ||				\
+	hy > 0x7ff00000 || (hy == 0x7ff00000 && ly != 0))	/* |X| or |Y| = Nan */		\
 		RETURN (I, y0 + *py)								\
-	if ( hy == 0x7ff00000 && (ly == 0) )			/* |Y| = Inf */			\
+	if (hy == 0x7ff00000 && (ly == 0))			/* |Y| = Inf */			\
 	{											\
-		if ( hx == 0x3ff00000 && (lx == 0) )		/* +-1 ** +-Inf */		\
+		if (hx == 0x3ff00000 && (lx == 0))		/* +-1 ** +-Inf */		\
 			*pz = *py - *py;							\
-		else if ( (hx < 0x3ff00000) != sy )						\
+		else if ((hx < 0x3ff00000) != sy)						\
 			*pz = DZERO;								\
 		else										\
 		{										\
@@ -569,32 +569,32 @@ if ( hx >= 0x7ff00000 || exp >= 0x43e )		/* X=Inf,Nan or |Y|>2^63,Inf,Nan */		\
 		}										\
 		RET_SC(I)									\
 	}											\
-	if ( exp < 0x43e )	/* |Y| < 2^63   */						\
+	if (exp < 0x43e)	/* |Y| < 2^63   */						\
 	{											\
-		if ( sx )	/* X = -Inf     */						\
+		if (sx)	/* X = -Inf     */						\
 		{										\
-			if ( exp >= 0x434 )	/* |Y| >= 2^53  */				\
+			if (exp >= 0x434)	/* |Y| >= 2^53  */				\
 				yisint##I = 2;	/* Y - even     */				\
 			else									\
 			{									\
-				if ( exp >= 0x3ff )	/* |Y| >= 1     */			\
+				if (exp >= 0x3ff)	/* |Y| >= 1     */			\
 				{								\
-					if ( exp > (20 + 0x3ff) )				\
+					if (exp > (20 + 0x3ff))				\
 					{							\
 						i0 = ly >> (52 - (exp - 0x3ff));		\
-						if ( (i0 << (52 - (exp - 0x3ff))) == ly )	\
+						if ((i0 << (52 - (exp - 0x3ff))) == ly)	\
 							yisint##I = 2 - (i0 & 1);		\
 					}							\
-					else if ( ly == 0 )					\
+					else if (ly == 0)					\
 					{							\
 						i0 = hy >> (20 - (exp - 0x3ff));		\
-						if ( (i0 << (20 - (exp - 0x3ff))) == hy )	\
+						if ((i0 << (20 - (exp - 0x3ff))) == hy)	\
 							yisint##I = 2 - (i0 & 1);		\
 					}							\
 				}								\
 			}									\
 		}										\
-		if ( sy )									\
+		if (sy)									\
 			hx = lx = 0;								\
 		hx += yisint##I << 31;								\
 		HI(pz) = hx;								\
@@ -604,53 +604,53 @@ if ( hx >= 0x7ff00000 || exp >= 0x43e )		/* X=Inf,Nan or |Y|>2^63,Inf,Nan */		\
 	else	/* |Y| >= 2^63   */								\
 	{											\
 		/* |X| = 0, 1, Inf */								\
-		if ( lx == 0 && (hx == 0 || hx == 0x3ff00000 || hx == 0x7ff00000) )		\
+		if (lx == 0 && (hx == 0 || hx == 0x3ff00000 || hx == 0x7ff00000))		\
 		{										\
 			HI(pz) = hx;							\
 			LO(pz) = lx;							\
-			if ( sy )								\
+			if (sy)								\
 				*pz = DONE / *pz;						\
 		}										\
 		else										\
 		{										\
-			y0 = ( (hx < 0x3ff00000) != sy ) ? _TINY : _HUGE;			\
+			y0 = ((hx < 0x3ff00000) != sy) ? _TINY : _HUGE;			\
 			*pz = y0 * y0;								\
 		}										\
 		RET_SC(I)									\
 	}											\
 }												\
-if ( (sx || (hx | lx)) == 0 )	/* X <= 0      */						\
+if ((sx || (hx | lx)) == 0)	/* X <= 0      */						\
 {												\
-	if ( exp >= 0x434 )	/* |Y| >= 2^53 */						\
+	if (exp >= 0x434)	/* |Y| >= 2^53 */						\
 		yisint##I = 2;	/* Y - even    */						\
 	else											\
 	{											\
-		if ( exp >= 0x3ff )	/* |Y| >= 1    */					\
+		if (exp >= 0x3ff)	/* |Y| >= 1    */					\
 		{										\
-			if ( exp > (20 + 0x3ff) )						\
+			if (exp > (20 + 0x3ff))						\
 			{									\
 				i0 = ly >> (52 - (exp - 0x3ff));				\
-				if ( (i0 << (52 - (exp - 0x3ff))) == ly )			\
+				if ((i0 << (52 - (exp - 0x3ff))) == ly)			\
 					yisint##I = 2 - (i0 & 1);				\
 			}									\
-			else if ( ly == 0 )							\
+			else if (ly == 0)							\
 			{									\
 				i0 = hy >> (20 - (exp - 0x3ff));				\
-				if ( (i0 << (20 - (exp - 0x3ff))) == hy )			\
+				if ((i0 << (20 - (exp - 0x3ff))) == hy)			\
 					yisint##I = 2 - (i0 & 1);				\
 			}									\
 		}										\
 	}											\
-	if ( (hx | lx) == 0 )		/* X == 0  */						\
+	if ((hx | lx) == 0)		/* X == 0  */						\
 	{											\
 		y0 = DZERO;									\
-		if ( sy )									\
+		if (sy)									\
 			y0 = DONE / y0;								\
-		if ( sx & yisint##I )								\
+		if (sx & yisint##I)								\
 			y0 = -y0;								\
 		RETURN (I, y0)									\
 	}											\
-	if ( yisint##I == 0 )			/* pow(neg,non-integer) */			\
+	if (yisint##I == 0)			/* pow(neg,non-integer) */			\
 		RETURN (I, DZERO / DZERO)	/* NaN */					\
 }												\
 exp = (hx >> 20);										\
@@ -658,7 +658,7 @@ exp##I = exp - 2046;										\
 py##I = py;											\
 pz##I = pz;											\
 ux##I = x##I + ax##I;										\
-if ( !exp )											\
+if (!exp)											\
 {												\
 	ax##I = (double) ull_y0;								\
 	ull_ax##I = *(unsigned long long*)&ax##I;						\
@@ -675,8 +675,8 @@ hx##I = HI(&ull_ax##I);									\
 yd##I = DONE / ux##I;
 
 void
-__vpow( int n, double * restrict px, int stridex, double * restrict py,
-	int stridey, double * restrict pz, int stridez )
+__vpow(int n, double * restrict px, int stridex, double * restrict py,
+	int stridey, double * restrict pz, int stridez)
 {
 	double			*py0 = 0, *py1 = 0, *py2;
 	double			*pz0 = 0, *pz1 = 0, *pz2;
@@ -724,7 +724,7 @@ __vpow( int n, double * restrict px, int stridex, double * restrict py,
 		if (hx >= 0x00100000 && hx < 0x7ff00000 &&
 			(hx != 0x3ff00000 || lx != 0))
 		{
-			__vpowx( n, px, py, stridey, pz, stridez );
+			__vpowx(n, px, py, stridey, pz, stridez);
 			return;
 		}
 	}
@@ -738,7 +738,7 @@ start0:
 		py += stridey;
 		pz += stridez;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 start1:
@@ -747,7 +747,7 @@ start1:
 		py += stridey;
 		pz += stridez;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 start2:
@@ -853,35 +853,35 @@ start2:
 		s2 = s_h2 * s2;
 
 		/* perform 2 ** ((si+ydi)/256) */
-		if ( s0 > HTHRESH )
+		if (s0 > HTHRESH)
 		{
 			s0 = HTHRESH;
 			yd0 = DZERO;
 		}
-		if ( s1 > HTHRESH )
+		if (s1 > HTHRESH)
 		{
 			s1 = HTHRESH;
 			yd1 = DZERO;
 		}
-		if ( s2 > HTHRESH )
+		if (s2 > HTHRESH)
 		{
 			s2 = HTHRESH;
 			yd2 = DZERO;
 		}
 
-		if ( s0 < LTHRESH )
+		if (s0 < LTHRESH)
 		{
 			s0 = LTHRESH;
 			yd0 = DZERO;
 		}
 		ind0 = (int) (s0 + yd0);
-		if ( s1 < LTHRESH )
+		if (s1 < LTHRESH)
 		{
 			s1 = LTHRESH;
 			yd1 = DZERO;
 		}
 		ind1 = (int) (s1 + yd1);
-		if ( s2 < LTHRESH )
+		if (s2 < LTHRESH)
 		{
 			s2 = LTHRESH;
 			yd2 = DZERO;
@@ -950,9 +950,9 @@ start2:
 		pz += stridez;
 		i = 0;
 
-	} while ( --n > 0 );
+	} while (--n > 0);
 
-	if ( i > 0 )
+	if (i > 0)
 	{
 		/* perform si + ydi = 256*log2(xi)*yi */
 		u0 = x0 - ax0;
@@ -982,12 +982,12 @@ start2:
 		s0 = s_h0 * s0;
 
 		/* perform 2 ** ((si+ydi)/256) */
-		if ( s0 > HTHRESH )
+		if (s0 > HTHRESH)
 		{
 			s0 = HTHRESH;
 			yd0 = DZERO;
 		}
-		if ( s0 < LTHRESH )
+		if (s0 < LTHRESH)
 		{
 			s0 = LTHRESH;
 			yd0 = DZERO;
@@ -1010,7 +1010,7 @@ start2:
 
 		*pz0 = u0 * SCALE_ARR[eflag0 - gflag0];
 
-		if ( i > 1 )
+		if (i > 1)
 		{
 			/* perform si + ydi = 256*log2(xi)*yi */
 			u0 = x1 - ax1;
@@ -1039,12 +1039,12 @@ start2:
 			yd0 = (yd0 - s0) * s_h0 + yd0 * y0;
 			s0 = s_h0 * s0;
 			/* perform 2 ** ((si+ydi)/256) */
-			if ( s0 > HTHRESH )
+			if (s0 > HTHRESH)
 			{
 				s0 = HTHRESH;
 				yd0 = DZERO;
 			}
-			if ( s0 < LTHRESH )
+			if (s0 < LTHRESH)
 			{
 				s0 = LTHRESH;
 				yd0 = DZERO;
@@ -1073,7 +1073,7 @@ start2:
 #define RET_SC(I)							\
 	py += stridey;							\
 	pz += stridez;							\
-	if ( --n <= 0 )							\
+	if (--n <= 0)							\
 		break;							\
 	goto start##I;
 
@@ -1084,16 +1084,16 @@ sy = hy >> 31;								\
 hy &= 0x7fffffff;							\
 py##I = py;								\
 									\
-if ( hy < 0x3bf00000 )		/* |Y| < 2^(-64) */			\
+if (hy < 0x3bf00000)		/* |Y| < 2^(-64) */			\
 	RETURN (I, DONE)						\
 pz##I = pz;								\
-if ( hy >= 0x43e00000 )		/* |Y|>2^63,Inf,Nan */			\
+if (hy >= 0x43e00000)		/* |Y|>2^63,Inf,Nan */			\
 {									\
-	if ( hy >= 0x7ff00000 )		/* |Y|=Inf,Nan */		\
+	if (hy >= 0x7ff00000)		/* |Y|=Inf,Nan */		\
 	{								\
-		if ( hy == 0x7ff00000 && ly == 0 )	/* |Y|=Inf */	\
+		if (hy == 0x7ff00000 && ly == 0)	/* |Y|=Inf */	\
 		{							\
-			if ( (hx < 0x3ff00000) != sy )			\
+			if ((hx < 0x3ff00000) != sy)			\
 				*pz = DZERO;				\
 			else						\
 			{						\
@@ -1106,7 +1106,7 @@ if ( hy >= 0x43e00000 )		/* |Y|>2^63,Inf,Nan */			\
 	}								\
 	else	/* |Y|>2^63 */						\
 	{								\
-		y0 = ( (hx < 0x3ff00000) != sy ) ? _TINY : _HUGE;	\
+		y0 = ((hx < 0x3ff00000) != sy) ? _TINY : _HUGE;	\
 		*pz = y0 * y0;						\
 	}								\
 	RET_SC(I)							\
@@ -1126,8 +1126,8 @@ if ( hy >= 0x43e00000 )		/* |Y|>2^63,Inf,Nan */			\
 
 
 static void
-__vpowx( int n, double * restrict px, double * restrict py,
-	int stridey, double * restrict pz, int stridez )
+__vpowx(int n, double * restrict px, double * restrict py,
+	int stridey, double * restrict pz, int stridez)
 {
 	double			*py0, *py1 = 0, *py2;
 	double			*pz0, *pz1 = 0, *pz2;
@@ -1193,7 +1193,7 @@ start0:
 		py += stridey;
 		pz += stridez;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 start1:
@@ -1201,7 +1201,7 @@ start1:
 		py += stridey;
 		pz += stridez;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 start2:
@@ -1223,35 +1223,35 @@ start2:
 		s1 = s_h0 * s1;
 		s2 = s_h0 * s2;
 
-		if ( s0 > HTHRESH )
+		if (s0 > HTHRESH)
 		{
 			s0 = HTHRESH;
 			yd0 = DZERO;
 		}
-		if ( s1 > HTHRESH )
+		if (s1 > HTHRESH)
 		{
 			s1 = HTHRESH;
 			yd1 = DZERO;
 		}
-		if ( s2 > HTHRESH )
+		if (s2 > HTHRESH)
 		{
 			s2 = HTHRESH;
 			yd2 = DZERO;
 		}
 
-		if ( s0 < LTHRESH )
+		if (s0 < LTHRESH)
 		{
 			s0 = LTHRESH;
 			yd0 = DZERO;
 		}
 		ind0 = (int) (s0 + yd0);
-		if ( s1 < LTHRESH )
+		if (s1 < LTHRESH)
 		{
 			s1 = LTHRESH;
 			yd1 = DZERO;
 		}
 		ind1 = (int) (s1 + yd1);
-		if ( s2 < LTHRESH )
+		if (s2 < LTHRESH)
 		{
 			s2 = LTHRESH;
 			yd2 = DZERO;
@@ -1317,21 +1317,21 @@ start2:
 		pz += stridez;
 		i = 0;
 
-	} while ( --n > 0 );
+	} while (--n > 0);
 
-	if ( i > 0 )
+	if (i > 0)
 	{
 		/* perform 2 ** ((s_h0+yr)*yi/256) */
 		s0 = y0 = *py0;
 		LO(&s0) = 0;
 		yd0 = (y0 - s0) * s_h0 + y0 * yr;
 		s0 = s_h0 * s0;
-		if ( s0 > HTHRESH )
+		if (s0 > HTHRESH)
 		{
 			s0 = HTHRESH;
 			yd0 = DZERO;
 		}
-		if ( s0 < LTHRESH )
+		if (s0 < LTHRESH)
 		{
 			s0 = LTHRESH;
 			yd0 = DZERO;
@@ -1353,19 +1353,19 @@ start2:
 		u0 = *(double*)&ull_x0;
 		*pz0 = u0 * SCALE_ARR[eflag0 - gflag0];
 
-		if ( i > 1 )
+		if (i > 1)
 		{
 			/* perform 2 ** ((s_h0+yr)*yi/256) */
 			s0 = y0 = *py1;
 			LO(&s0) = 0;
 			yd0 = (y0 - s0) * s_h0 + y0 * yr;
 			s0 = s_h0 * s0;
-			if ( s0 > HTHRESH )
+			if (s0 > HTHRESH)
 			{
 				s0 = HTHRESH;
 				yd0 = DZERO;
 			}
-			if ( s0 < LTHRESH )
+			if (s0 < LTHRESH)
 			{
 				s0 = LTHRESH;
 				yd0 = DZERO;

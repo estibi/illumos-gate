@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vatan2f( int, float *, int, float *, int, float *, int );
+extern void __vatan2f(int, float *, int, float *, int, float *, int);
 
 #pragma weak vatan2f_ = __vatan2f_
 
 /* just invoke the serial function */
 void
-__vatan2f_( int *n, float *y, int *stridey, float *x, int *stridex,
-	float *z, int *stridez )
+__vatan2f_(int *n, float *y, int *stridey, float *x, int *stridex,
+	float *z, int *stridez)
 {
-	__vatan2f( *n, y, *stridey, x, *stridex, z, *stridez );
+	__vatan2f(*n, y, *stridey, x, *stridex, z, *stridez);
 }

@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vpow( int, double *, int, double *, int, double *, int );
+extern void __vpow(int, double *, int, double *, int, double *, int);
 
 #pragma weak vpow_ = __vpow_
 
 /* just invoke the serial function */
 void
-__vpow_( int *n, double *x, int *stridex, double *y, int *stridey,
-	double *z, int *stridez )
+__vpow_(int *n, double *x, int *stridex, double *y, int *stridey,
+	double *z, int *stridez)
 {
-	__vpow( *n, x, *stridex, y, *stridey, z, *stridez );
+	__vpow(*n, x, *stridex, y, *stridey, z, *stridez);
 }

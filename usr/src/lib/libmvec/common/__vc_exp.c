@@ -33,20 +33,20 @@
 #define restrict
 #endif
 
-extern void __vexpf( int, float *, int, float *, int );
-extern void __vsincosf( int, float *, int, float *, int, float *, int );
+extern void __vexpf(int, float *, int, float *, int);
+extern void __vsincosf(int, float *, int, float *, int, float *, int);
 
 void
-__vc_exp( int n, float * restrict x, int stridex, float * restrict y,
-	int stridey, float * restrict tmp )
+__vc_exp(int n, float * restrict x, int stridex, float * restrict y,
+	int stridey, float * restrict tmp)
 {
 	int		i, j;
 
 	stridex <<= 1;
 	stridey <<= 1;
-	__vexpf( n, x, stridex, tmp, 1 );
-	__vsincosf( n, x + 1, stridex, y + 1, stridey, y, stridey );
-	for ( i = j = 0; i < n; i++, j += stridey )
+	__vexpf(n, x, stridex, tmp, 1);
+	__vsincosf(n, x + 1, stridex, y + 1, stridey, y, stridey);
+	for (i = j = 0; i < n; i++, j += stridey)
 	{
 		y[j] *= tmp[i];
 		y[j+1] *= tmp[i];

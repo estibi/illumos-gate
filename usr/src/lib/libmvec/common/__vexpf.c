@@ -184,12 +184,12 @@ static const float extreme[2] = { 1.0e30f, 1.0e-30f };
 	ax = xi & ~0x80000000;					\
 	fx = *x;						\
 	x += stridex;						\
-	if ( ax >= 0x42aeac50 )	/* log(2^126) = 87.3365... */	\
+	if (ax >= 0x42aeac50)	/* log(2^126) = 87.3365... */	\
 	{							\
 		sign = (unsigned)xi >> 31;			\
-		if ( ax >= 0x7f800000 )	/* |x| = inf or nan */	\
+		if (ax >= 0x7f800000)	/* |x| = inf or nan */	\
 		{						\
-			if ( ax > 0x7f800000 )	/* nan */	\
+			if (ax > 0x7f800000)	/* nan */	\
 			{					\
 				y[index] = fx * fx;		\
 				goto label;			\
@@ -197,7 +197,7 @@ static const float extreme[2] = { 1.0e30f, 1.0e-30f };
 			y[index] = (sign) ? 0.0f : fx;		\
 			goto label;				\
 		}						\
-		if ( sign || ax > 0x42b17218 ) {		\
+		if (sign || ax > 0x42b17218) {		\
 			fx = extreme[sign];			\
 			y[index] = fx * fx;			\
 			goto label;				\
@@ -212,12 +212,12 @@ static const float extreme[2] = { 1.0e30f, 1.0e-30f };
 	ax = xi & ~0x80000000;					\
 	fx = *x;						\
 	x += stridex;						\
-	if ( ax > 0x42cff1b4 )	/* 103.972076f */		\
+	if (ax > 0x42cff1b4)	/* 103.972076f */		\
 	{							\
 		sign = (unsigned)xi >> 31;			\
-		if ( ax >= 0x7f800000 )	/* |x| = inf or nan */	\
+		if (ax >= 0x7f800000)	/* |x| = inf or nan */	\
 		{						\
-			if ( ax > 0x7f800000 )	/* nan */	\
+			if (ax > 0x7f800000)	/* nan */	\
 			{					\
 				y[index] = fx * fx;		\
 				goto label;			\
@@ -234,8 +234,8 @@ static const float extreme[2] = { 1.0e30f, 1.0e-30f };
 #endif
 
 void
-__vexpf( int n, float * restrict x, int stridex, float * restrict y,
-	int stridey )
+__vexpf(int n, float * restrict x, int stridex, float * restrict y,
+	int stridey)
 {
 	double		x0, x1, x2, x3, x4;
 	double		res0, res1, res2, res3, res4;
@@ -246,31 +246,31 @@ __vexpf( int n, float * restrict x, int stridex, float * restrict y,
 
 	y -= stridey;
 
-	for ( ; ; )
+	for (; ;)
 	{
 begin:
-		if ( --n < 0 )
+		if (--n < 0)
 			break;
 		y += stridey;
 
 		PREPROCESS(0, 0, begin);
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process1;
 
 		PREPROCESS(1, stridey, process1);
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process2;
 
 		PREPROCESS(2, stridey << 1, process2);
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process3;
 
 		PREPROCESS(3, (stridey << 1) + stridey, process3);
 
-		if ( --n < 0 )
+		if (--n < 0)
 			goto process4;
 
 		PREPROCESS(4, (stridey << 2), process4);

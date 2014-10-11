@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vz_exp( int, double *, int, double *, int, double * );
+extern void __vz_exp(int, double *, int, double *, int, double *);
 
 #pragma weak vz_exp_ = __vz_exp_
 
 /* just invoke the serial function */
 void
-__vz_exp_( int *n, double *x, int *stridex, double *y, int *stridey,
-	double *tmp )
+__vz_exp_(int *n, double *x, int *stridex, double *y, int *stridey,
+	double *tmp)
 {
-	__vz_exp( *n, x, *stridex, y, *stridey, tmp );
+	__vz_exp(*n, x, *stridex, y, *stridey, tmp);
 }

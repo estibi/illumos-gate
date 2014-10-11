@@ -27,13 +27,13 @@
  * Use is subject to license terms.
  */
 
-extern void __vz_log( int, double *, int, double *, int );
+extern void __vz_log(int, double *, int, double *, int);
 
 #pragma weak vz_log_ = __vz_log_
 
 /* just invoke the serial function */
 void
-__vz_log_( int *n, double *x, int *stridex, double *y, int *stridey )
+__vz_log_(int *n, double *x, int *stridex, double *y, int *stridey)
 {
-	__vz_log( *n, x, *stridex, y, *stridey );
+	__vz_log(*n, x, *stridex, y, *stridey);
 }

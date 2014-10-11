@@ -27,14 +27,14 @@
  * Use is subject to license terms.
  */
 
-extern void __vhypot( int, double *, int, double *, int, double *, int );
+extern void __vhypot(int, double *, int, double *, int, double *, int);
 
 #pragma weak vhypot_ = __vhypot_
 
 /* just invoke the serial function */
 void
-__vhypot_( int *n, double *x, int *stridex, double *y, int *stridey,
-	double *z, int *stridez )
+__vhypot_(int *n, double *x, int *stridex, double *y, int *stridey,
+	double *z, int *stridez)
 {
-	__vhypot( *n, x, *stridex, y, *stridey, z, *stridez );
+	__vhypot(*n, x, *stridex, y, *stridey, z, *stridez);
 }

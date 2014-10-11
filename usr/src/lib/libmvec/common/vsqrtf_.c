@@ -27,7 +27,7 @@
  * Use is subject to license terms.
  */
 
-extern void __vsqrtf( int, float *, int, float *, int );
+extern void __vsqrtf(int, float *, int, float *, int);
 
 #if !defined(LIBMVEC_SO_BUILD)
 #if defined(ARCH_v8plusa) || defined(ARCH_v8plusb) || defined(ARCH_v9a) || defined(ARCH_v9b)
@@ -44,14 +44,14 @@ extern void __vsqrtf( int, float *, int, float *, int );
 
 static int use_ultra3 = 0;
 
-extern void __vsqrtf_ultra3( int, float *, int, float *, int );
+extern void __vsqrtf_ultra3(int, float *, int, float *, int);
 #endif
 
 #pragma weak vsqrtf_ = __vsqrtf_
 
 /* just invoke the serial function */
 void
-__vsqrtf_( int *n, float *x, int *stridex, float *y, int *stridey )
+__vsqrtf_(int *n, float *x, int *stridex, float *y, int *stridey)
 {
 #ifdef CHECK_ULTRA3
 	int		u;
@@ -67,8 +67,8 @@ __vsqrtf_( int *n, float *x, int *stridex, float *y, int *stridey )
 		use_ultra3 = u;
 	}
 	if (u & 2)
-		__vsqrtf_ultra3( *n, x, *stridex, y, *stridey );
+		__vsqrtf_ultra3(*n, x, *stridex, y, *stridey);
 	else
 #endif
-	__vsqrtf( *n, x, *stridex, y, *stridey );
+	__vsqrtf(*n, x, *stridex, y, *stridey);
 }

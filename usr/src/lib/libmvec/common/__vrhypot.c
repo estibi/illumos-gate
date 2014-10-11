@@ -69,9 +69,9 @@
 
 #define sqrt __sqrt
 
-extern double sqrt( double );
+extern double sqrt(double);
 
-extern double fabs( double );
+extern double fabs(double);
 
 static const int __vlibm_TBL_rhypot[] = {
 /* i = [0,127]
@@ -122,7 +122,7 @@ static const unsigned long long LCONST[] = {
 	px += stridex;										\
 	py += stridey;										\
 	pz += stridez;										\
-	if ( --n <= 0 )										\
+	if (--n <= 0)										\
 		break;										\
 	goto start##I;
 
@@ -138,14 +138,14 @@ hy##I = HI(py);										\
 hx##I &= 0x7fffffff;										\
 hy##I &= 0x7fffffff;										\
 pz##I = pz;											\
-if ( hx##I >= 0x7ff00000 || hy##I >= 0x7ff00000 )	/* |X| or |Y| = Inf,NaN */		\
+if (hx##I >= 0x7ff00000 || hy##I >= 0x7ff00000)	/* |X| or |Y| = Inf,NaN */		\
 {												\
 	lx = LO(px);									\
 	ly = LO(py);									\
 	x = *px;										\
 	y = *py;										\
-	if ( hx##I == 0x7ff00000 && lx == 0 ) res0 = 0.0;		/* |X| = Inf */		\
-	else if ( hy##I == 0x7ff00000 && ly == 0 ) res0 = 0.0;	/* |Y| = Inf */		\
+	if (hx##I == 0x7ff00000 && lx == 0) res0 = 0.0;		/* |X| = Inf */		\
+	else if (hy##I == 0x7ff00000 && ly == 0) res0 = 0.0;	/* |Y| = Inf */		\
 	else res0 = fabs(x) + fabs(y);								\
 												\
 	RETURN (I, res0)									\
@@ -154,14 +154,14 @@ x##I = *px;											\
 y##I = *py;											\
 diff0 = hy##I - hx##I;										\
 j0 = diff0 >> 31;										\
-if ( hx##I < 0x00100000 && hy##I < 0x00100000 )	/* |X| and |Y| = subnormal or zero */		\
+if (hx##I < 0x00100000 && hy##I < 0x00100000)	/* |X| and |Y| = subnormal or zero */		\
 {												\
 	lx = LO(px);									\
 	ly = LO(py);									\
 	x = x##I;										\
 	y = y##I;										\
 												\
-	if ( (hx##I | hy##I | lx | ly) == 0 )	/* |X| and |Y| = 0 */				\
+	if ((hx##I | hy##I | lx | ly) == 0)	/* |X| and |Y| = 0 */				\
 		RETURN (I, DONE / 0.0)							\
 												\
 	x = fabs(x);										\
@@ -173,8 +173,8 @@ if ( hx##I < 0x00100000 && hy##I < 0x00100000 )	/* |X| and |Y| = subnormal or ze
 	x *= D2ONM52;										\
 	y *= D2ONM52;										\
 												\
-	x_hi0 = ( x + D2ON36 ) - D2ON36;							\
-	y_hi0 = ( y + D2ON36 ) - D2ON36;							\
+	x_hi0 = (x + D2ON36) - D2ON36;							\
+	y_hi0 = (y + D2ON36) - D2ON36;							\
 	x_lo0 = x - x_hi0;									\
 	y_lo0 = y - y_hi0;									\
 	res0_hi = (x_hi0 * x_hi0 + y_hi0 * y_hi0);						\
@@ -198,7 +198,7 @@ if ( hx##I < 0x00100000 && hy##I < 0x00100000 )	/* |X| and |Y| = subnormal or ze
 	HI(&res0) = HI(&dres0) & 0xffffff00;					\
 	LO(&res0) = 0;								\
 	res0 += (DONE - res0_hi * res0 - res0_lo * res0) * dres0;				\
-	res0 = sqrt ( res0 );									\
+	res0 = sqrt (res0);									\
 												\
 	res0 = D2ON1022 * res0;									\
 	RETURN (I, res0)									\
@@ -208,8 +208,8 @@ j0 &= 0x7ff00000;										\
 HI(&scl##I) = 0x7ff00000 - j0;
 
 void
-__vrhypot( int n, double * restrict px, int stridex, double * restrict py,
-	int stridey, double * restrict pz, int stridez )
+__vrhypot(int n, double * restrict px, int stridex, double * restrict py,
+	int stridey, double * restrict pz, int stridez)
 {
 	int		i = 0;
 	double		x, y;
@@ -248,7 +248,7 @@ start0:
 		py += stridey;
 		pz += stridez;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 start1:
@@ -257,7 +257,7 @@ start1:
 		py += stridey;
 		pz += stridez;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 start2:
@@ -270,12 +270,12 @@ start2:
 		x2 *= scl2;
 		y2 *= scl2;
 
-		x_hi0 = ( x0 + D2ON36 ) - D2ON36;
-		y_hi0 = ( y0 + D2ON36 ) - D2ON36;
-		x_hi1 = ( x1 + D2ON36 ) - D2ON36;
-		y_hi1 = ( y1 + D2ON36 ) - D2ON36;
-		x_hi2 = ( x2 + D2ON36 ) - D2ON36;
-		y_hi2 = ( y2 + D2ON36 ) - D2ON36;
+		x_hi0 = (x0 + D2ON36) - D2ON36;
+		y_hi0 = (y0 + D2ON36) - D2ON36;
+		x_hi1 = (x1 + D2ON36) - D2ON36;
+		y_hi1 = (y1 + D2ON36) - D2ON36;
+		x_hi2 = (x2 + D2ON36) - D2ON36;
+		y_hi2 = (y2 + D2ON36) - D2ON36;
 		x_lo0 = x0 - x_hi0;
 		y_lo0 = y0 - y_hi0;
 		x_lo1 = x1 - x_hi1;
@@ -335,9 +335,9 @@ start2:
 		res0 += (DONE - res0_hi * res0 - res0_lo * res0) * dres0;
 		res1 += (DONE - res1_hi * res1 - res1_lo * res1) * dres1;
 		res2 += (DONE - res2_hi * res2 - res2_lo * res2) * dres2;
-		res0 = sqrt ( res0 );
-		res1 = sqrt ( res1 );
-		res2 = sqrt ( res2 );
+		res0 = sqrt (res0);
+		res1 = sqrt (res1);
+		res2 = sqrt (res2);
 
 		res0 = scl0 * res0;
 		res1 = scl1 * res1;
@@ -352,15 +352,15 @@ start2:
 		pz += stridez;
 		i = 0;
 
-	} while ( --n > 0 );
+	} while (--n > 0);
 
-	if ( i > 0 )
+	if (i > 0)
 	{
 		x0 *= scl0;
 		y0 *= scl0;
 
-		x_hi0 = ( x0 + D2ON36 ) - D2ON36;
-		y_hi0 = ( y0 + D2ON36 ) - D2ON36;
+		x_hi0 = (x0 + D2ON36) - D2ON36;
+		y_hi0 = (y0 + D2ON36) - D2ON36;
 		x_lo0 = x0 - x_hi0;
 		y_lo0 = y0 - y_hi0;
 		res0_hi = (x_hi0 * x_hi0 + y_hi0 * y_hi0);
@@ -384,19 +384,19 @@ start2:
 		HI(&res0) = HI(&dres0) & 0xffffff00;
 		LO(&res0) = 0;
 		res0 += (DONE - res0_hi * res0 - res0_lo * res0) * dres0;
-		res0 = sqrt ( res0 );
+		res0 = sqrt (res0);
 
 		res0 = scl0 * res0;
 
 		*pz0 = res0;
 
-		if ( i > 1 )
+		if (i > 1)
 		{
 			x1 *= scl1;
 			y1 *= scl1;
 
-			x_hi1 = ( x1 + D2ON36 ) - D2ON36;
-			y_hi1 = ( y1 + D2ON36 ) - D2ON36;
+			x_hi1 = (x1 + D2ON36) - D2ON36;
+			y_hi1 = (y1 + D2ON36) - D2ON36;
 			x_lo1 = x1 - x_hi1;
 			y_lo1 = y1 - y_hi1;
 			res1_hi = (x_hi1 * x_hi1 + y_hi1 * y_hi1);
@@ -420,7 +420,7 @@ start2:
 			HI(&res1) = HI(&dres1) & 0xffffff00;
 			LO(&res1) = 0;
 			res1 += (DONE - res1_hi * res1 - res1_lo * res1) * dres1;
-			res1 = sqrt ( res1 );
+			res1 = sqrt (res1);
 
 			res1 = scl1 * res1;
 

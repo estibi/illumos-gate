@@ -44,7 +44,7 @@
 #endif
 
 extern const double __vlibm_TBL_sincos_hi[], __vlibm_TBL_sincos_lo[];
-extern int __vlibm_rem_pio2m( double *, double *, int, int, int );
+extern int __vlibm_rem_pio2m(double *, double *, int, int, int);
 
 static const double
 	zero	= 0.0,
@@ -64,11 +64,11 @@ static const double
 	q4		=  2.478519423681460796618128289454530524759e-0005;
 
 void
-__vlibm_vsincos_big( int n, double * restrict x, int stridex,
+__vlibm_vsincos_big(int n, double * restrict x, int stridex,
 	double * restrict ss, int stridess,
-	double * restrict cc, int stridecc, int thresh )
+	double * restrict cc, int stridecc, int thresh)
 {
-	for ( ; n--; x += stridex, ss += stridess, cc += stridecc )
+	for (; n--; x += stridex, ss += stridess, cc += stridecc)
 	{
 		double		ts, tc, tx, tt[3], ty[2], t, w, z, c, s;
 		unsigned	hx, xsb;
@@ -77,23 +77,23 @@ __vlibm_vsincos_big( int n, double * restrict x, int stridex,
 		hx = HI(x);
 		xsb = hx & 0x80000000;
 		hx &= ~0x80000000;
-		if ( hx <= thresh || hx >= 0x7ff00000 )
+		if (hx <= thresh || hx >= 0x7ff00000)
 			continue;
 
 		/*
 		 * Argument reduction part.
 		 */
-		e0 = ( hx >> 20 ) - 1046;
-		HI(&tx) = 0x41600000 | ( hx & 0xfffff );
+		e0 = (hx >> 20) - 1046;
+		HI(&tx) = 0x41600000 | (hx & 0xfffff);
 		LO(&tx) = LO(x);
-		tt[0] = (double)( (int) tx );
-		tx = ( tx - tt[0] ) * two24;
-		if ( tx != zero )
+		tt[0] = (double)((int) tx);
+		tx = (tx - tt[0]) * two24;
+		if (tx != zero)
 		{
 			nx = 2;
-			tt[1] = (double)( (int) tx );
-			tt[2] = ( tx - tt[1] ) * two24;
-			if ( tt[2] != zero )
+			tt[1] = (double)((int) tx);
+			tt[2] = (tx - tt[1]) * two24;
+			if (tt[2] != zero)
 				nx = 3;
 		}
 		else
@@ -101,8 +101,8 @@ __vlibm_vsincos_big( int n, double * restrict x, int stridex,
 			nx = 1;
 			tt[1] = tt[2] = zero;
 		}
-		nx = __vlibm_rem_pio2m( tt, ty, e0, nx, 2 );
-		if ( xsb )
+		nx = __vlibm_rem_pio2m(tt, ty, e0, nx, 2);
+		if (xsb)
 		{
 			nx = -nx;
 			ty[0] = -ty[0];
@@ -112,44 +112,44 @@ __vlibm_vsincos_big( int n, double * restrict x, int stridex,
 		/* now nx and ty[*] are the quadrant and reduced arg */
 		hx = HI(&ty[0]);
 		xsb = 0;
-		if ( hx & 0x80000000 )
+		if (hx & 0x80000000)
 		{
 			ty[0] = -ty[0];
 			ty[1] = -ty[1];
 			hx &= ~0x80000000;
 			xsb = 1;
 		}
-		if ( hx < 0x3fc40000 )
+		if (hx < 0x3fc40000)
 		{
 			z = ty[0] * ty[0];
-			t = z * ( q1 + z * ( q2 + z * ( q3 + z * q4 ) ) );
+			t = z * (q1 + z * (q2 + z * (q3 + z * q4)));
 			c = one + t;
-			t = z * ( p1 + z * ( p2 + z * ( p3 + z * p4 ) ) );
-			s = ty[0] + ( ty[1] + ty[0] * t );
+			t = z * (p1 + z * (p2 + z * (p3 + z * p4)));
+			s = ty[0] + (ty[1] + ty[0] * t);
 		}
 		else {
-			j = ( hx + 0x4000 ) & 0x7fff8000;
+			j = (hx + 0x4000) & 0x7fff8000;
 			HI(&t) = j;
 			LO(&t) = 0;
-			ty[0] = ( ty[0] - t ) + ty[1];
+			ty[0] = (ty[0] - t) + ty[1];
 			z = ty[0] * ty[0];
-			t = z * ( qq1 + z * qq2 );
-			w = ty[0] * ( one + z * ( pp1 + z * pp2 ) );
-			j = ( ( j - 0x3fc40000 ) >> 13 ) & ~3;
+			t = z * (qq1 + z * qq2);
+			w = ty[0] * (one + z * (pp1 + z * pp2));
+			j = ((j - 0x3fc40000) >> 13) & ~3;
 
 			c = __vlibm_TBL_sincos_hi[j+1];
-			tc = __vlibm_TBL_sincos_lo[j+1] - ( __vlibm_TBL_sincos_hi[j] * w - c * t );
+			tc = __vlibm_TBL_sincos_lo[j+1] - (__vlibm_TBL_sincos_hi[j] * w - c * t);
 			c += tc;
 
 			s = __vlibm_TBL_sincos_hi[j];
-			ts = ( __vlibm_TBL_sincos_hi[j+1] * w + s * t ) + __vlibm_TBL_sincos_lo[j];
+			ts = (__vlibm_TBL_sincos_hi[j+1] * w + s * t) + __vlibm_TBL_sincos_lo[j];
 			s += ts;
 		}
-		if ( xsb ) {
+		if (xsb) {
 			s = -s;
 		}
 
-		switch ( nx & 3 ) {
+		switch (nx & 3) {
 		case 0:
 			*ss = s;
 			*cc = c;

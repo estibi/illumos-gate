@@ -45,7 +45,7 @@
 #endif
 
 void
-__vatan( int n, double * restrict x, int stridex, double * restrict y, int stridey )
+__vatan(int n, double * restrict x, int stridex, double * restrict y, int stridey)
 {
   double  f , z, ans = 0.0L, ansu , ansl , tmp , poly , conup , conlo , dummy;
   double  f1,   ans1, ansu1, ansl1, tmp1, poly1, conup1, conlo1;
@@ -55,7 +55,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
   int index2, sign2 = 0;
   double *yaddr,*yaddr1 = 0,*yaddr2 = 0;
   extern const double __vlibm_TBL_atan1[];
-  extern double fabs( double );
+  extern double fabs(double);
 
 /*    Power series  atan(x) = x + p1*x**3 + p2*x**5 + p3*x**7
  *    Error =  -3.08254E-18   On the interval  |x| < 1/64 */
@@ -73,7 +73,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
    -1.0,				/* used to flip sign of answer 		*/
   };
 
-  if( n <= 0 ) return;		/* if no. of elements is 0 or neg, do nothing */
+  if(n <= 0) return;		/* if no. of elements is 0 or neg, do nothing */
   do
   {
   LOOP0:
@@ -84,19 +84,19 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     sign     = intf &  0x80000000;		/* sign of argument		*/
     intf     = intf & ~0x80000000;		/* abs(upper argument)		*/
   
-    if( (intf > 0x43600000) || (intf < 0x3e300000) ) /* filter out special cases */
+    if((intf > 0x43600000) || (intf < 0x3e300000)) /* filter out special cases */
     {
-      if(  (intf > 0x7ff00000) || ((intf == 0x7ff00000) &&  (intflo !=0) ) ) 
+      if( (intf > 0x7ff00000) || ((intf == 0x7ff00000) &&  (intflo !=0))) 
       {  
 	ans   = f - f; 				/* return NaN if x=NaN*/
       }
-      else if( intf < 0x3e300000 ) 		/* avoid underflow for small arg */
+      else if(intf < 0x3e300000) 		/* avoid underflow for small arg */
       {
         dummy = 1.0e37 + f;
         dummy = dummy;
 	ans   = f;
       }
-      else if( intf > 0x43600000 )		/* avoid underflow for big arg  */
+      else if(intf > 0x43600000)		/* avoid underflow for big arg  */
       {
         index = 2;
         ans   = __vlibm_TBL_atan1[index] + __vlibm_TBL_atan1[index+1];/* pi/2 up + pi/2 low   */
@@ -105,7 +105,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
       x      += stridex;
       y      += stridey;
       argcount = 0;				/* initialize argcount		*/
-      if ( --n <=0 ) break;			/* we are done 			*/
+      if (--n <=0) break;			/* we are done 			*/
       goto LOOP0;				/* otherwise, examine next arg  */
     }
   
@@ -114,7 +114,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     { f = -1.0/f;
       index  = 2; 				/* point to pi/2 upper, lower	*/
     }
-    else if( intf >= 0x3f900000 )		/* if |x| >= (1/64)... 		*/
+    else if(intf >= 0x3f900000)		/* if |x| >= (1/64)... 		*/
     {
       intz   = (intf + 0x00008000) & 0x7fff0000;/* round arg, keep upper	*/
       HI(&z)  = intz;				/* store as a double (z)	*/
@@ -127,7 +127,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     x       += stridex;				/* point to next arg		*/
     y       += stridey;				/* point to next result		*/
     argcount = 1;				/* we now have 1 good argument  */
-    if ( --n <=0 ) 
+    if (--n <=0) 
     {
       f1      = 0.0;				/* put dummy values in args 1,2 */
       f2      = 0.0;
@@ -148,19 +148,19 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     sign1    = intf &  0x80000000;		/* sign of argument		*/
     intf     = intf & ~0x80000000;		/* abs(upper argument)		*/
   
-    if( (intf > 0x43600000) || (intf < 0x3e300000) ) /* filter out special cases */
+    if((intf > 0x43600000) || (intf < 0x3e300000)) /* filter out special cases */
     {
-      if(  (intf > 0x7ff00000) || ((intf == 0x7ff00000) &&  (intflo !=0) ) ) 
+      if( (intf > 0x7ff00000) || ((intf == 0x7ff00000) &&  (intflo !=0))) 
       {  
 	ans   = f1 - f1;			/* return NaN if x=NaN*/
       }
-      else if( intf < 0x3e300000 ) 		/* avoid underflow for small arg */
+      else if(intf < 0x3e300000) 		/* avoid underflow for small arg */
       {
         dummy = 1.0e37 + f1;
         dummy = dummy;
 	ans   = f1;
       }
-      else if( intf > 0x43600000 )		/* avoid underflow for big arg  */
+      else if(intf > 0x43600000)		/* avoid underflow for big arg  */
       {
         index1 = 2;
         ans   = __vlibm_TBL_atan1[index1] + __vlibm_TBL_atan1[index1+1];/* pi/2 up + pi/2 low   */
@@ -169,7 +169,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
       x      += stridex;
       y      += stridey;
       argcount = 1;				/* we still have 1 good arg 	*/
-      if ( --n <=0 ) 
+      if (--n <=0) 
       {
         f1      = 0.0;				/* put dummy values in args 1,2 */
         f2      = 0.0;
@@ -185,7 +185,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     { f1 = -1.0/f1;
       index1 = 2; 				/* point to pi/2 upper, lower	*/
     }
-    else if( intf >= 0x3f900000 )		/* if |x| >= (1/64)... 		*/
+    else if(intf >= 0x3f900000)		/* if |x| >= (1/64)... 		*/
     {
       intz   = (intf + 0x00008000) & 0x7fff0000;/* round arg, keep upper	*/
       HI(&z) = intz;				/* store as a double (z)	*/
@@ -198,7 +198,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     x       += stridex;				/* point to next arg		*/
     y       += stridey;				/* point to next result		*/
     argcount = 2;				/* we now have 2 good arguments */
-    if ( --n <=0 ) 
+    if (--n <=0) 
     {
       f2      = 0.0;				/* put dummy value in arg 2 */
       index2  = 0;
@@ -217,19 +217,19 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     sign2    = intf &  0x80000000;		/* sign of argument		*/
     intf     = intf & ~0x80000000;		/* abs(upper argument)		*/
   
-    if( (intf > 0x43600000) || (intf < 0x3e300000) ) /* filter out special cases */
+    if((intf > 0x43600000) || (intf < 0x3e300000)) /* filter out special cases */
     {
-      if(  (intf > 0x7ff00000) || ((intf == 0x7ff00000) &&  (intflo !=0) ) ) 
+      if( (intf > 0x7ff00000) || ((intf == 0x7ff00000) &&  (intflo !=0))) 
       {  
 	ans   = f2 - f2;			/* return NaN if x=NaN*/
       }
-      else if( intf < 0x3e300000 ) 		/* avoid underflow for small arg */
+      else if(intf < 0x3e300000) 		/* avoid underflow for small arg */
       {
         dummy = 1.0e37 + f2;
         dummy = dummy;
 	ans   = f2;
       }
-      else if( intf > 0x43600000 )		/* avoid underflow for big arg  */
+      else if(intf > 0x43600000)		/* avoid underflow for big arg  */
       {
         index2 = 2;
         ans   = __vlibm_TBL_atan1[index2] + __vlibm_TBL_atan1[index2+1];/* pi/2 up + pi/2 low   */
@@ -238,7 +238,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
       x      += stridex;
       y      += stridey;
       argcount = 2;				/* we still have 2 good args 	*/
-      if ( --n <=0 ) 
+      if (--n <=0) 
       {
         f2      = 0.0;				/* put dummy value in arg 2 */
         index2  = 0;
@@ -252,7 +252,7 @@ __vatan( int n, double * restrict x, int stridex, double * restrict y, int strid
     { f2 = -1.0/f2;
       index2 = 2; 				/* point to pi/2 upper, lower	*/
     }
-    else if( intf >= 0x3f900000 )		/* if |x| >= (1/64)... 		*/
+    else if(intf >= 0x3f900000)		/* if |x| >= (1/64)... 		*/
     {
       intz   = (intf + 0x00008000) & 0x7fff0000;/* round arg, keep upper	*/
       HI(&z) = intz;				/* store as a double (z)	*/
@@ -294,7 +294,7 @@ UNROLL3:
     ansu1    = conup1 + f1;    			/* compute atan(f)  upper 	*/
     ansu2    = conup2 + f2;    			/* compute atan(f)  upper 	*/
 
-    ansl     = (((conup  - ansu ) + f ) + poly ) + conlo ;
+    ansl     = (((conup  - ansu) + f) + poly) + conlo ;
     ansl1    = (((conup1 - ansu1) + f1) + poly1) + conlo1;
     ansl2    = (((conup2 - ansu2) + f2) + poly2) + conlo2;
 

@@ -85,11 +85,11 @@
 
 #define sqrt __sqrt
 
-extern double sqrt ( double );
+extern double sqrt (double);
 extern const double __vlibm_TBL_rsqrt[];
 
 static void
-__vrsqrt_n( int n, double * restrict px, int stridex, double * restrict py, int stridey );
+__vrsqrt_n(int n, double * restrict px, int stridex, double * restrict py, int stridey);
 
 #pragma no_inline(__vrsqrt_n)
 
@@ -97,7 +97,7 @@ __vrsqrt_n( int n, double * restrict px, int stridex, double * restrict py, int 
 {								\
 	*py = (ret);						\
 	py += stridey;						\
-	if ( n_n == 0 )						\
+	if (n_n == 0)						\
 	{							\
 		spx = px; spy = py;				\
 		hx = HI(px);					\
@@ -117,41 +117,41 @@ static const double
 	K6 =  2.25606914648617522896e-01;
 
 void
-__vrsqrt( int n, double * restrict px, int stridex, double * restrict py, int stridey )
+__vrsqrt(int n, double * restrict px, int stridex, double * restrict py, int stridey)
 {
 	double		*spx, *spy;
 	int		ax, lx, hx, n_n;
 	double		res;
 
-	while ( n > 1 )
+	while (n > 1)
 	{
 		n_n = 0;
 		spx = px;
 		spy = py;
 		hx = HI(px);
-		for ( ; n > 1 ; n--)
+		for (; n > 1 ; n--)
 		{
 			px += stridex;
-			if ( hx >= 0x7ff00000 )		/* X = NaN or Inf	*/
+			if (hx >= 0x7ff00000)		/* X = NaN or Inf	*/
 			{
 				res = *(px - stridex);
-				RETURN ( DONE / res )
+				RETURN (DONE / res)
 			}
 
 			py += stridey;
 
-			if ( hx < 0x00100000 )		/* X = denormal, zero or negative	*/
+			if (hx < 0x00100000)		/* X = denormal, zero or negative	*/
 			{
 				py -= stridey;
 				ax = hx & 0x7fffffff;
 				lx = LO((px - stridex));
 				res = *(px - stridex);
 
-				if ( (ax | lx) == 0 )	/* |X| = zero	*/
+				if ((ax | lx) == 0)	/* |X| = zero	*/
 				{
-					RETURN ( DONE / res )
+					RETURN (DONE / res)
 				}
-				else if ( hx >= 0 )	/* X = denormal	*/
+				else if (hx >= 0)	/* X = denormal	*/
 				{
 					double		res_c0, dsqrt_exp0;
 					int		ind0, sqrt_exp0;
@@ -182,39 +182,39 @@ __vrsqrt( int n, double * restrict px, int stridex, double * restrict py, int st
 					LO(&dsqrt_exp0) = 0;
 					res *= dsqrt_exp0;
 
-					RETURN ( res )
+					RETURN (res)
 				}
 				else	/* X = negative	*/
 				{
-					RETURN ( sqrt(res) )
+					RETURN (sqrt(res))
 				}
 			}
 			n_n++;
 			hx = HI(px);
 		}
-		if ( n_n > 0 )
-			__vrsqrt_n( n_n, spx, stridex, spy, stridey );
+		if (n_n > 0)
+			__vrsqrt_n(n_n, spx, stridex, spy, stridey);
 	}
-	if ( n > 0 )
+	if (n > 0)
 	{
 		hx = HI(px);
 
-		if ( hx >= 0x7ff00000 )		/* X = NaN or Inf	*/
+		if (hx >= 0x7ff00000)		/* X = NaN or Inf	*/
 		{
 			res = *px;
 			*py = DONE / res;
 		}
-		else if ( hx < 0x00100000 )	/* X = denormal, zero or negative	*/
+		else if (hx < 0x00100000)	/* X = denormal, zero or negative	*/
 		{
 			ax = hx & 0x7fffffff;
 			lx = LO(px);
 			res = *px;
 
-			if ( (ax | lx) == 0 )	/* |X| = zero	*/
+			if ((ax | lx) == 0)	/* |X| = zero	*/
 			{
 				*py = DONE / res;
 			}
-			else if ( hx >= 0 )	/* X = denormal	*/
+			else if (hx >= 0)	/* X = denormal	*/
 			{
 				double		res_c0, dsqrt_exp0;
 				int		ind0, sqrt_exp0;
@@ -287,7 +287,7 @@ __vrsqrt( int n, double * restrict px, int stridex, double * restrict py, int st
 }
 
 static void
-__vrsqrt_n( int n, double * restrict px, int stridex, double * restrict py, int stridey )
+__vrsqrt_n(int n, double * restrict px, int stridex, double * restrict py, int stridey)
 {
 	double		res0, res_c0, dsqrt_exp0;
 	double		res1, res_c1, dsqrt_exp1;
@@ -309,7 +309,7 @@ __vrsqrt_n( int n, double * restrict px, int stridex, double * restrict py, int 
 	LO(&res_c1) = 0;
 	LO(&res_c2) = 0;
 
-	for( ; n > 2 ; n -= 3 )
+	for(; n > 2 ; n -= 3)
 	{
 		hx0 = HI(px);
 		LO(&res0) = LO(px);
@@ -380,7 +380,7 @@ __vrsqrt_n( int n, double * restrict px, int stridex, double * restrict py, int 
 		py += stridey;
 	}
 
-	for( ; n > 0 ; n-- )
+	for(; n > 0 ; n--)
 	{
 		hx0 = HI(px);
 

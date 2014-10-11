@@ -33,24 +33,24 @@
 #define restrict
 #endif
 
-extern void __vc_exp( int, float *, int, float *, int, float * );
-extern void __vc_log( int, float *, int, float *, int );
+extern void __vc_exp(int, float *, int, float *, int, float *);
+extern void __vc_log(int, float *, int, float *, int);
 
 void
-__vc_pow( int n, float * restrict x, int stridex, float * restrict y,
-	int stridey, float * restrict z, int stridez, float * restrict tmp )
+__vc_pow(int n, float * restrict x, int stridex, float * restrict y,
+	int stridey, float * restrict z, int stridez, float * restrict tmp)
 {
 	float	r;
 	int		i, j, k;
 
-	__vc_log( n, x, stridex, tmp, 1 );
+	__vc_log(n, x, stridex, tmp, 1);
 	stridey <<= 1;
-	for ( i = j = 0; i < n; i++, j += stridey )
+	for (i = j = 0; i < n; i++, j += stridey)
 	{
 		k = i << 1;
 		r = y[j] * tmp[k] - y[j+1] * tmp[k+1];
 		tmp[k+1] = y[j+1] * tmp[k] + y[j] * tmp[k+1];
 		tmp[k] = r;
 	}
-	__vc_exp( n, tmp, 1, z, stridez, tmp + n + n );
+	__vc_exp(n, tmp, 1, z, stridez, tmp + n + n);
 }

@@ -74,8 +74,8 @@ static const double
 				 2.478519423681460796618128289454530524759e-0005 };
 
 /* Don't __ the following; acomp will handle it */
-extern double fabs( double );
-extern void __vlibm_vsincos_big( int, double *, int, double *, int, double *, int, int );
+extern double fabs(double);
+extern void __vlibm_vsincos_big(int, double *, int, double *, int, double *, int, int);
 
 /*
  * y[i*stridey] := sin( x[i*stridex] ), for i = 0..n.
@@ -87,9 +87,9 @@ extern void __vlibm_vsincos_big( int, double *, int, double *, int, double *, in
  * elts < 2^-27 use the approximation 1.0 ~ cos(x).
  */
 void
-__vsincos( int n, double * restrict x, int stridex,
+__vsincos(int n, double * restrict x, int stridex,
 				double * restrict y, int stridey,
-				double * restrict c, int stridec )
+				double * restrict c, int stridec)
 {
 	double		x0_or_one[4], x1_or_one[4], x2_or_one[4];
 	double		y0_or_zero[4], y1_or_zero[4], y2_or_zero[4];
@@ -116,18 +116,18 @@ __vsincos( int n, double * restrict x, int stridex,
 LOOP0:  /* Find first arg in right range. */
 		xsb0 = HI(x); /* get most significant word */
 		hx0 = xsb0 & ~0x80000000; /* mask off sign bit */
-		if ( hx0 > 0x3fe921fb ) {
+		if (hx0 > 0x3fe921fb) {
 			/* Too big: arg reduction needed, so leave for second part */
 			biguns = 1;
 			x += stridex;
 			y += stridey;
 			c += stridec;
 			i = 0;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto LOOP0;
 		}
-		if ( hx0 < 0x3e400000 ) {
+		if (hx0 < 0x3e400000) {
 			/* Too small.  cos x ~ 1, sin x ~ x. */
 			v = *x;
 			*c = 1.0;
@@ -136,7 +136,7 @@ LOOP0:  /* Find first arg in right range. */
 			y += stridey;
 			c += stridec;
 			i = 0;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto LOOP0;
 		}
@@ -147,24 +147,24 @@ LOOP0:  /* Find first arg in right range. */
 		y += stridey;
 		c += stridec;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 LOOP1: /* Get second arg, same as above. */
 		xsb1 = HI(x);
 		hx1 = xsb1 & ~0x80000000;
-		if ( hx1 > 0x3fe921fb )
+		if (hx1 > 0x3fe921fb)
 		{
 			biguns = 1;
 			x += stridex;
 			y += stridey;
 			c += stridec;
 			i = 1;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto LOOP1;
 		}
-		if ( hx1 < 0x3e400000 )
+		if (hx1 < 0x3e400000)
 		{
 			v = *x;
 			*c = 1.0;
@@ -173,7 +173,7 @@ LOOP1: /* Get second arg, same as above. */
 			y += stridey;
 			c += stridec;
 			i = 1;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto LOOP1;
 		}
@@ -184,24 +184,24 @@ LOOP1: /* Get second arg, same as above. */
 		y += stridey;
 		c += stridec;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 LOOP2: /* Get third arg, same as above. */
 		xsb2 = HI(x);
 		hx2 = xsb2 & ~0x80000000;
-		if ( hx2 > 0x3fe921fb )
+		if (hx2 > 0x3fe921fb)
 		{
 			biguns = 1;
 			x += stridex;
 			y += stridey;
 			c += stridec;
 			i = 2;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto LOOP2;
 		}
-		if ( hx2 < 0x3e400000 )
+		if (hx2 < 0x3e400000)
 		{
 			v = *x;
 			*c = 1.0;
@@ -210,7 +210,7 @@ LOOP2: /* Get third arg, same as above. */
 			y += stridey;
 			c += stridec;
 			i = 2;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto LOOP2;
 		}
@@ -223,10 +223,10 @@ LOOP2: /* Get third arg, same as above. */
 		 * Get msb after subtraction.  Will be 1 only if
 		 * hx0 - 5/32 is negative.
 		 */
-		i = ( hx2 - 0x3fc40000 ) >> 31;
-		i |= ( ( hx1 - 0x3fc40000 ) >> 30 ) & 2;
-		i |= ( ( hx0 - 0x3fc40000 ) >> 29 ) & 4;
-		switch ( i )
+		i = (hx2 - 0x3fc40000) >> 31;
+		i |= ((hx1 - 0x3fc40000) >> 30) & 2;
+		i |= ((hx0 - 0x3fc40000) >> 29) & 4;
+		switch (i)
 		{
 			double		a1_0, a1_1, a1_2, a2_0, a2_1, a2_2;
 			double		w0, w1, w2;
@@ -235,9 +235,9 @@ LOOP2: /* Get third arg, same as above. */
 			unsigned	j0, j1, j2;
 
 		case 0: /* All are > 5/32 */
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 
 			HI(&t0) = j0;
 			HI(&t1) = j1;
@@ -254,21 +254,21 @@ LOOP2: /* Get third arg, same as above. */
 			z1 = x1 * x1;
 			z2 = x2 * x2;
 
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( qq1 + z2 * qq2 );
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (qq1 + z2 * qq2);
 
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
 
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
 
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			xsb1 = ( xsb1 >> 30 ) & 2;
-			xsb2 = ( xsb2 >> 30 ) & 2;
+			xsb0 = (xsb0 >> 30) & 2;
+			xsb1 = (xsb1 >> 30) & 2;
+			xsb2 = (xsb2 >> 30) & 2;
 
 			a1_0 = __vlibm_TBL_sincos_hi[j0+xsb0]; /* sin_hi(t) */
 			a1_1 = __vlibm_TBL_sincos_hi[j1+xsb1];
@@ -278,9 +278,9 @@ LOOP2: /* Get third arg, same as above. */
 			a2_1 = __vlibm_TBL_sincos_hi[j1+1];
 			a2_2 = __vlibm_TBL_sincos_hi[j2+1];
 				/* cos_lo(t) */
-			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - ( a1_0*w0 - a2_0*t0 );
-			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - ( a1_1*w1 - a2_1*t1 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - ( a1_2*w2 - a2_2*t2 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - (a1_0*w0 - a2_0*t0);
+			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - (a1_1*w1 - a2_1*t1);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - (a1_2*w2 - a2_2*t2);
 
 			*pc0 = a2_0 + t2_0;
 			*pc1 = a2_1 + t2_1;
@@ -301,8 +301,8 @@ LOOP2: /* Get third arg, same as above. */
 			break;
 
 		case 1:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			HI(&t1) = j1;
 			LO(&t0) = 0;
@@ -312,16 +312,16 @@ LOOP2: /* Get third arg, same as above. */
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( poly3[1] + z2 * poly4[1] );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			t2 = z2 * ( poly1[1] + z2 * ( poly2[1] + t2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			xsb1 = ( xsb1 >> 30 ) & 2;
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (poly3[1] + z2 * poly4[1]);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			t2 = z2 * (poly1[1] + z2 * (poly2[1] + t2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			xsb1 = (xsb1 >> 30) & 2;
 
 			a1_0 = __vlibm_TBL_sincos_hi[j0+xsb0]; /* sin_hi(t) */
 			a1_1 = __vlibm_TBL_sincos_hi[j1+xsb1];
@@ -329,8 +329,8 @@ LOOP2: /* Get third arg, same as above. */
 			a2_0 = __vlibm_TBL_sincos_hi[j0+1];	/* cos_hi(t) */
 			a2_1 = __vlibm_TBL_sincos_hi[j1+1];
 				/* cos_lo(t) */
-			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - ( a1_0*w0 - a2_0*t0 );
-			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - ( a1_1*w1 - a2_1*t1 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - (a1_0*w0 - a2_0*t0);
+			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - (a1_1*w1 - a2_1*t1);
 
 			*pc0 = a2_0 + t2_0;
 			*pc1 = a2_1 + t2_1;
@@ -338,11 +338,11 @@ LOOP2: /* Get third arg, same as above. */
 
 			t1_0 = a2_0*w0 + a1_0*t0;
 			t1_1 = a2_1*w1 + a1_1*t1;
-			t2 = z2 * ( poly3[0] + z2 * poly4[0] );
+			t2 = z2 * (poly3[0] + z2 * poly4[0]);
 
 			t1_0 += __vlibm_TBL_sincos_lo[j0+xsb0]; /* sin_lo(t) */
 			t1_1 += __vlibm_TBL_sincos_lo[j1+xsb1];
-			t2 = z2 * ( poly1[0] + z2 * ( poly2[0] + t2 ) );
+			t2 = z2 * (poly1[0] + z2 * (poly2[0] + t2));
 
 			*py0 = a1_0 + t1_0;
 			*py1 = a1_1 + t1_1;
@@ -352,8 +352,8 @@ LOOP2: /* Get third arg, same as above. */
 			break;
 
 		case 2:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			HI(&t2) = j2;
 			LO(&t0) = 0;
@@ -363,16 +363,16 @@ LOOP2: /* Get third arg, same as above. */
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( poly3[1] + z1 * poly4[1] );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			t1 = z1 * ( poly1[1] + z1 * ( poly2[1] + t1 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			xsb2 = ( xsb2 >> 30 ) & 2;
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (poly3[1] + z1 * poly4[1]);
+			t2 = z2 * (qq1 + z2 * qq2);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			t1 = z1 * (poly1[1] + z1 * (poly2[1] + t1));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			xsb2 = (xsb2 >> 30) & 2;
 
 			a1_0 = __vlibm_TBL_sincos_hi[j0+xsb0]; /* sin_hi(t) */
 			a1_2 = __vlibm_TBL_sincos_hi[j2+xsb2];
@@ -380,19 +380,19 @@ LOOP2: /* Get third arg, same as above. */
 			a2_0 = __vlibm_TBL_sincos_hi[j0+1];	/* cos_hi(t) */
 			a2_2 = __vlibm_TBL_sincos_hi[j2+1];
 				/* cos_lo(t) */
-			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - ( a1_0*w0 - a2_0*t0 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - ( a1_2*w2 - a2_2*t2 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - (a1_0*w0 - a2_0*t0);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - (a1_2*w2 - a2_2*t2);
 
 			*pc0 = a2_0 + t2_0;
 			*pc1 = one + t1;
 			*pc2 = a2_2 + t2_2;
 
 			t1_0 = a2_0*w0 + a1_0*t0;
-			t1 = z1 * ( poly3[0] + z1 * poly4[0] );
+			t1 = z1 * (poly3[0] + z1 * poly4[0]);
 			t1_2 = a2_2*w2 + a1_2*t2;
 
 			t1_0 += __vlibm_TBL_sincos_lo[j0+xsb0]; /* sin_lo(t) */
-			t1 = z1 * ( poly1[0] + z1 * ( poly2[0] + t1 ) );
+			t1 = z1 * (poly1[0] + z1 * (poly2[0] + t1));
 			t1_2 += __vlibm_TBL_sincos_lo[j2+xsb2];
 
 			*py0 = a1_0 + t1_0;
@@ -403,38 +403,38 @@ LOOP2: /* Get third arg, same as above. */
 			break;
 
 		case 3:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			LO(&t0) = 0;
 			x0 -= t0;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( poly3[1] + z1 * poly4[1] );
-			t2 = z2 * ( poly3[1] + z2 * poly4[1] );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			t1 = z1 * ( poly1[1] + z1 * ( poly2[1] + t1 ) );
-			t2 = z2 * ( poly1[1] + z2 * ( poly2[1] + t2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (poly3[1] + z1 * poly4[1]);
+			t2 = z2 * (poly3[1] + z2 * poly4[1]);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			t1 = z1 * (poly1[1] + z1 * (poly2[1] + t1));
+			t2 = z2 * (poly1[1] + z2 * (poly2[1] + t2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
 			a1_0 = __vlibm_TBL_sincos_hi[j0+xsb0]; /* sin_hi(t) */
 
 			a2_0 = __vlibm_TBL_sincos_hi[j0+1];	/* cos_hi(t) */
 
-			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - ( a1_0*w0 - a2_0*t0 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - (a1_0*w0 - a2_0*t0);
 
 			*pc0 = a2_0 + t2_0;
 			*pc1 = one + t1;
 			*pc2 = one + t2;
 
 			t1_0 = a2_0*w0 + a1_0*t0;
-			t1 = z1 * ( poly3[0] + z1 * poly4[0] );
-			t2 = z2 * ( poly3[0] + z2 * poly4[0] );
+			t1 = z1 * (poly3[0] + z1 * poly4[0]);
+			t2 = z2 * (poly3[0] + z2 * poly4[0]);
 
 			t1_0 += __vlibm_TBL_sincos_lo[j0+xsb0]; /* sin_lo(t) */
-			t1 = z1 * ( poly1[0] + z1 * ( poly2[0] + t1 ) );
-			t2 = z2 * ( poly1[0] + z2 * ( poly2[0] + t2 ) );
+			t1 = z1 * (poly1[0] + z1 * (poly2[0] + t1));
+			t2 = z2 * (poly1[0] + z2 * (poly2[0] + t2));
 
 			*py0 = a1_0 + t1_0;
 			t1 = x1 + x1 * t1;
@@ -445,8 +445,8 @@ LOOP2: /* Get third arg, same as above. */
 			break;
 
 		case 4:
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t1) = j1;
 			HI(&t2) = j2;
 			LO(&t1) = 0;
@@ -456,16 +456,16 @@ LOOP2: /* Get third arg, same as above. */
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[1] + z0 * poly4[1] );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			t0 = z0 * ( poly1[1] + z0 * ( poly2[1] + t0 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb1 = ( xsb1 >> 30 ) & 2;
-			xsb2 = ( xsb2 >> 30 ) & 2;
+			t0 = z0 * (poly3[1] + z0 * poly4[1]);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (qq1 + z2 * qq2);
+			t0 = z0 * (poly1[1] + z0 * (poly2[1] + t0));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb1 = (xsb1 >> 30) & 2;
+			xsb2 = (xsb2 >> 30) & 2;
 
 			a1_1 = __vlibm_TBL_sincos_hi[j1+xsb1];
 			a1_2 = __vlibm_TBL_sincos_hi[j2+xsb2];
@@ -473,18 +473,18 @@ LOOP2: /* Get third arg, same as above. */
 			a2_1 = __vlibm_TBL_sincos_hi[j1+1];
 			a2_2 = __vlibm_TBL_sincos_hi[j2+1];
 				/* cos_lo(t) */
-			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - ( a1_1*w1 - a2_1*t1 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - ( a1_2*w2 - a2_2*t2 );
+			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - (a1_1*w1 - a2_1*t1);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - (a1_2*w2 - a2_2*t2);
 
 			*pc0 = one + t0;
 			*pc1 = a2_1 + t2_1;
 			*pc2 = a2_2 + t2_2;
 
-			t0 = z0 * ( poly3[0] + z0 * poly4[0] );
+			t0 = z0 * (poly3[0] + z0 * poly4[0]);
 			t1_1 = a2_1*w1 + a1_1*t1;
 			t1_2 = a2_2*w2 + a1_2*t2;
 
-			t0 = z0 * ( poly1[0] + z0 * ( poly2[0] + t0 ) );
+			t0 = z0 * (poly1[0] + z0 * (poly2[0] + t0));
 			t1_1 += __vlibm_TBL_sincos_lo[j1+xsb1];
 			t1_2 += __vlibm_TBL_sincos_lo[j2+xsb2];
 
@@ -496,39 +496,39 @@ LOOP2: /* Get third arg, same as above. */
 			break;
 
 		case 5:
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
 			HI(&t1) = j1;
 			LO(&t1) = 0;
 			x1 -= t1;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[1] + z0 * poly4[1] );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( poly3[1] + z2 * poly4[1] );
-			t0 = z0 * ( poly1[1] + z0 * ( poly2[1] + t0 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			t2 = z2 * ( poly1[1] + z2 * ( poly2[1] + t2 ) );
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb1 = ( xsb1 >> 30 ) & 2;
+			t0 = z0 * (poly3[1] + z0 * poly4[1]);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (poly3[1] + z2 * poly4[1]);
+			t0 = z0 * (poly1[1] + z0 * (poly2[1] + t0));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			t2 = z2 * (poly1[1] + z2 * (poly2[1] + t2));
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb1 = (xsb1 >> 30) & 2;
 
 			a1_1 = __vlibm_TBL_sincos_hi[j1+xsb1];
 
 			a2_1 = __vlibm_TBL_sincos_hi[j1+1];
 
-			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - ( a1_1*w1 - a2_1*t1 );
+			t2_1 = __vlibm_TBL_sincos_lo[j1+1] - (a1_1*w1 - a2_1*t1);
 
 			*pc0 = one + t0;
 			*pc1 = a2_1 + t2_1;
 			*pc2 = one + t2;
 
-			t0 = z0 * ( poly3[0] + z0 * poly4[0] );
+			t0 = z0 * (poly3[0] + z0 * poly4[0]);
 			t1_1 = a2_1*w1 + a1_1*t1;
-			t2 = z2 * ( poly3[0] + z2 * poly4[0] );
+			t2 = z2 * (poly3[0] + z2 * poly4[0]);
 
-			t0 = z0 * ( poly1[0] + z0 * ( poly2[0] + t0 ) );
+			t0 = z0 * (poly1[0] + z0 * (poly2[0] + t0));
 			t1_1 += __vlibm_TBL_sincos_lo[j1+xsb1];
-			t2 = z2 * ( poly1[0] + z2 * ( poly2[0] + t2 ) );
+			t2 = z2 * (poly1[0] + z2 * (poly2[0] + t2));
 
 			t0 = x0 + x0 * t0;
 			*py0 = t0;
@@ -539,37 +539,37 @@ LOOP2: /* Get third arg, same as above. */
 			break;
 
 		case 6:
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t2) = j2;
 			LO(&t2) = 0;
 			x2 -= t2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[1] + z0 * poly4[1] );
-			t1 = z1 * ( poly3[1] + z1 * poly4[1] );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			t0 = z0 * ( poly1[1] + z0 * ( poly2[1] + t0 ) );
-			t1 = z1 * ( poly1[1] + z1 * ( poly2[1] + t1 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb2 = ( xsb2 >> 30 ) & 2;
+			t0 = z0 * (poly3[1] + z0 * poly4[1]);
+			t1 = z1 * (poly3[1] + z1 * poly4[1]);
+			t2 = z2 * (qq1 + z2 * qq2);
+			t0 = z0 * (poly1[1] + z0 * (poly2[1] + t0));
+			t1 = z1 * (poly1[1] + z1 * (poly2[1] + t1));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb2 = (xsb2 >> 30) & 2;
 			a1_2 = __vlibm_TBL_sincos_hi[j2+xsb2];
 
 			a2_2 = __vlibm_TBL_sincos_hi[j2+1];
 
-			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - ( a1_2*w2 - a2_2*t2 );
+			t2_2 = __vlibm_TBL_sincos_lo[j2+1] - (a1_2*w2 - a2_2*t2);
 
 			*pc0 = one + t0;
 			*pc1 = one + t1;
 			*pc2 = a2_2 + t2_2;
 
-			t0 = z0 * ( poly3[0] + z0 * poly4[0] );
-			t1 = z1 * ( poly3[0] + z1 * poly4[0] );
+			t0 = z0 * (poly3[0] + z0 * poly4[0]);
+			t1 = z1 * (poly3[0] + z1 * poly4[0]);
 			t1_2 = a2_2*w2 + a1_2*t2;
 
-			t0 = z0 * ( poly1[0] + z0 * ( poly2[0] + t0 ) );
-			t1 = z1 * ( poly1[0] + z1 * ( poly2[0] + t1 ) );
+			t0 = z0 * (poly1[0] + z0 * (poly2[0] + t0));
+			t1 = z1 * (poly1[0] + z1 * (poly2[0] + t1));
 			t1_2 += __vlibm_TBL_sincos_lo[j2+xsb2];
 
 			t0 = x0 + x0 * t0;
@@ -584,21 +584,21 @@ LOOP2: /* Get third arg, same as above. */
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[1] + z0 * poly4[1] );
-			t1 = z1 * ( poly3[1] + z1 * poly4[1] );
-			t2 = z2 * ( poly3[1] + z2 * poly4[1] );
-			t0 = z0 * ( poly1[1] + z0 * ( poly2[1] + t0 ) );
-			t1 = z1 * ( poly1[1] + z1 * ( poly2[1] + t1 ) );
-			t2 = z2 * ( poly1[1] + z2 * ( poly2[1] + t2 ) );
+			t0 = z0 * (poly3[1] + z0 * poly4[1]);
+			t1 = z1 * (poly3[1] + z1 * poly4[1]);
+			t2 = z2 * (poly3[1] + z2 * poly4[1]);
+			t0 = z0 * (poly1[1] + z0 * (poly2[1] + t0));
+			t1 = z1 * (poly1[1] + z1 * (poly2[1] + t1));
+			t2 = z2 * (poly1[1] + z2 * (poly2[1] + t2));
 			*pc0 = one + t0;
 			*pc1 = one + t1;
 			*pc2 = one + t2;
-			t0 = z0 * ( poly3[0] + z0 * poly4[0] );
-			t1 = z1 * ( poly3[0] + z1 * poly4[0] );
-			t2 = z2 * ( poly3[0] + z2 * poly4[0] );
-			t0 = z0 * ( poly1[0] + z0 * ( poly2[0] + t0 ) );
-			t1 = z1 * ( poly1[0] + z1 * ( poly2[0] + t1 ) );
-			t2 = z2 * ( poly1[0] + z2 * ( poly2[0] + t2 ) );
+			t0 = z0 * (poly3[0] + z0 * poly4[0]);
+			t1 = z1 * (poly3[0] + z1 * poly4[0]);
+			t2 = z2 * (poly3[0] + z2 * poly4[0]);
+			t0 = z0 * (poly1[0] + z0 * (poly2[0] + t0));
+			t1 = z1 * (poly1[0] + z1 * (poly2[0] + t1));
+			t2 = z2 * (poly1[0] + z2 * (poly2[0] + t2));
 			t0 = x0 + x0 * t0;
 			t1 = x1 + x1 * t1;
 			t2 = x2 + x2 * t2;
@@ -612,12 +612,12 @@ LOOP2: /* Get third arg, same as above. */
 		y += stridey;
 		c += stridec;
 		i = 0;
-	} while ( --n > 0 ); /* END MAIN LOOP */
+	} while (--n > 0); /* END MAIN LOOP */
 
 	/*
 	 * CLEAN UP last 0, 1, or 2 elts.
 	 */
-	if ( i > 0 ) /* Clean up elts at tail.  i < 3. */
+	if (i > 0) /* Clean up elts at tail.  i < 3. */
 	{
 		double		a1_0, a1_1, a2_0, a2_1;
 		double		w0, w1;
@@ -625,66 +625,66 @@ LOOP2: /* Get third arg, same as above. */
 		double		z0, z1;
 		unsigned	j0, j1;
 
-		if ( i > 1 )
+		if (i > 1)
 		{
-			if ( hx1 < 0x3fc40000 )
+			if (hx1 < 0x3fc40000)
 			{
 				z1 = x1 * x1;
-				t1 = z1 * ( poly3[1] + z1 * poly4[1] );
-				t1 = z1 * ( poly1[1] + z1 * ( poly2[1] + t1 ) );
+				t1 = z1 * (poly3[1] + z1 * poly4[1]);
+				t1 = z1 * (poly1[1] + z1 * (poly2[1] + t1));
 				t1 = one + t1;
 				*pc1 = t1;
-				t1 = z1 * ( poly3[0] + z1 * poly4[0] );
-				t1 = z1 * ( poly1[0] + z1 * ( poly2[0] + t1 ) );
+				t1 = z1 * (poly3[0] + z1 * poly4[0]);
+				t1 = z1 * (poly1[0] + z1 * (poly2[0] + t1));
 				t1 = x1 + x1 * t1;
 				*py1 = t1;
 			}
 			else
 			{
-				j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
+				j1 = (xsb1 + 0x4000) & 0xffff8000;
 				HI(&t1) = j1;
 				LO(&t1) = 0;
 				x1 -= t1;
 				z1 = x1 * x1;
-				t1 = z1 * ( qq1 + z1 * qq2 );
-				w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-				j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-				xsb1 = ( xsb1 >> 30 ) & 2;
+				t1 = z1 * (qq1 + z1 * qq2);
+				w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+				j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+				xsb1 = (xsb1 >> 30) & 2;
 				a1_1 = __vlibm_TBL_sincos_hi[j1+xsb1];
 				a2_1 = __vlibm_TBL_sincos_hi[j1+1];
-				t2_1 = __vlibm_TBL_sincos_lo[j1+1] - ( a1_1*w1 - a2_1*t1 );
+				t2_1 = __vlibm_TBL_sincos_lo[j1+1] - (a1_1*w1 - a2_1*t1);
 				*pc1 = a2_1 + t2_1;
 				t1_1 = a2_1*w1 + a1_1*t1;
 				t1_1 += __vlibm_TBL_sincos_lo[j1+xsb1];
 				*py1 = a1_1 + t1_1;
 			}
 		}
-		if ( hx0 < 0x3fc40000 )
+		if (hx0 < 0x3fc40000)
 		{
 			z0 = x0 * x0;
-			t0 = z0 * ( poly3[1] + z0 * poly4[1] );
-			t0 = z0 * ( poly1[1] + z0 * ( poly2[1] + t0 ) );
+			t0 = z0 * (poly3[1] + z0 * poly4[1]);
+			t0 = z0 * (poly1[1] + z0 * (poly2[1] + t0));
 			t0 = one + t0;
 			*pc0 = t0;
-			t0 = z0 * ( poly3[0] + z0 * poly4[0] );
-			t0 = z0 * ( poly1[0] + z0 * ( poly2[0] + t0 ) );
+			t0 = z0 * (poly3[0] + z0 * poly4[0]);
+			t0 = z0 * (poly1[0] + z0 * (poly2[0] + t0));
 			t0 = x0 + x0 * t0;
 			*py0 = t0;
 		}
 		else
 		{
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			LO(&t0) = 0;
 			x0 -= t0;
 			z0 = x0 * x0;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
+			t0 = z0 * (qq1 + z0 * qq2);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
 			a1_0 = __vlibm_TBL_sincos_hi[j0+xsb0]; /* sin_hi(t) */
 			a2_0 = __vlibm_TBL_sincos_hi[j0+1];	/* cos_hi(t) */
-			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - ( a1_0*w0 - a2_0*t0 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+1] - (a1_0*w0 - a2_0*t0);
 			*pc0 = a2_0 + t2_0;
 			t1_0 = a2_0*w0 + a1_0*t0;
 			t1_0 += __vlibm_TBL_sincos_lo[j0+xsb0]; /* sin_lo(t) */
@@ -692,7 +692,7 @@ LOOP2: /* Get third arg, same as above. */
 		}
 	} /* END CLEAN UP */
 
-	if ( !biguns )
+	if (!biguns)
 		return;
 
 	/*
@@ -733,19 +733,19 @@ loop0:
 		hx = HI(x);
 		xsb0 = hx >> 31;
 		hx &= ~0x80000000;
-		if ( hx <= 0x3fe921fb ) /* Done above. */
+		if (hx <= 0x3fe921fb) /* Done above. */
 		{
 			x += stridex;
 			y += stridey;
 			c += stridec;
 			i = 0;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop0;
 		}
-		if ( hx > 0x413921fb ) /* (1.6471e+06) Too big: leave it. */
+		if (hx > 0x413921fb) /* (1.6471e+06) Too big: leave it. */
 		{
-			if ( hx >= 0x7ff00000 ) /* Inf or NaN */
+			if (hx >= 0x7ff00000) /* Inf or NaN */
 			{
 				x0 = *x;
 				*y = x0 - x0;
@@ -758,7 +758,7 @@ loop0:
 			y += stridey;
 			c += stridec;
 			i = 0;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop0;
 		}
@@ -769,26 +769,26 @@ loop0:
 		y += stridey;
 		c += stridec;
 		i = 1;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 loop1:
 		hx = HI(x);
 		xsb1 = hx >> 31;
 		hx &= ~0x80000000;
-		if ( hx <= 0x3fe921fb )
+		if (hx <= 0x3fe921fb)
 		{
 			x += stridex;
 			y += stridey;
 			c += stridec;
 			i = 1;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop1;
 		}
-		if ( hx > 0x413921fb )
+		if (hx > 0x413921fb)
 		{
-			if ( hx >= 0x7ff00000 )
+			if (hx >= 0x7ff00000)
 			{
 				x1 = *x;
 				*y = x1 - x1;
@@ -801,7 +801,7 @@ loop1:
 			y += stridey;
 			c += stridec;
 			i = 1;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop1;
 		}
@@ -812,26 +812,26 @@ loop1:
 		y += stridey;
 		c += stridec;
 		i = 2;
-		if ( --n <= 0 )
+		if (--n <= 0)
 			break;
 
 loop2:
 		hx = HI(x);
 		xsb2 = hx >> 31;
 		hx &= ~0x80000000;
-		if ( hx <= 0x3fe921fb )
+		if (hx <= 0x3fe921fb)
 		{
 			x += stridex;
 			y += stridey;
 			c += stridec;
 			i = 2;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop2;
 		}
-		if ( hx > 0x413921fb )
+		if (hx > 0x413921fb)
 		{
-			if ( hx >= 0x7ff00000 )
+			if (hx >= 0x7ff00000)
 			{
 				x2 = *x;
 				*y = x2 - x2;
@@ -844,7 +844,7 @@ loop2:
 			y += stridey;
 			c += stridec;
 			i = 2;
-			if ( --n <= 0 )
+			if (--n <= 0)
 				break;
 			goto loop2;
 		}
@@ -852,9 +852,9 @@ loop2:
 		py2 = y;
 		pc2 = c;
 
-		n0 = (int) ( x0 * invpio2 + half[xsb0] );
-		n1 = (int) ( x1 * invpio2 + half[xsb1] );
-		n2 = (int) ( x2 * invpio2 + half[xsb2] );
+		n0 = (int) (x0 * invpio2 + half[xsb0]);
+		n1 = (int) (x1 * invpio2 + half[xsb1]);
+		n2 = (int) (x2 * invpio2 + half[xsb2]);
 		fn0 = (double) n0;
 		fn1 = (double) n1;
 		fn2 = (double) n2;
@@ -870,9 +870,9 @@ loop2:
 		x0 = a0 - w0;
 		x1 = a1 - w1;
 		x2 = a2 - w2;
-		y0 = ( a0 - x0 ) - w0;
-		y1 = ( a1 - x1 ) - w1;
-		y2 = ( a2 - x2 ) - w2;
+		y0 = (a0 - x0) - w0;
+		y1 = (a1 - x1) - w1;
+		y2 = (a2 - x2) - w2;
 		a0 = x0;
 		a1 = x1;
 		a2 = x2;
@@ -882,9 +882,9 @@ loop2:
 		x0 = a0 - w0;
 		x1 = a1 - w1;
 		x2 = a2 - w2;
-		y0 = ( a0 - x0 ) - w0;
-		y1 = ( a1 - x1 ) - w1;
-		y2 = ( a2 - x2 ) - w2;
+		y0 = (a0 - x0) - w0;
+		y1 = (a1 - x1) - w1;
+		y2 = (a2 - x2) - w2;
 		a0 = x0;
 		a1 = x1;
 		a2 = x2;
@@ -894,16 +894,16 @@ loop2:
 		x0 = a0 - w0;
 		x1 = a1 - w1;
 		x2 = a2 - w2;
-		y0 = ( a0 - x0 ) - w0;
-		y1 = ( a1 - x1 ) - w1;
-		y2 = ( a2 - x2 ) - w2;
+		y0 = (a0 - x0) - w0;
+		y1 = (a1 - x1) - w1;
+		y2 = (a2 - x2) - w2;
 		xsb2 = HI(&x2);
-		i = ( ( xsb2 & ~0x80000000 ) - 0x3fc40000 ) >> 31;
+		i = ((xsb2 & ~0x80000000) - 0x3fc40000) >> 31;
 		xsb1 = HI(&x1);
-		i |= ( ( ( xsb1 & ~0x80000000 ) - 0x3fc40000 ) >> 30 ) & 2;
+		i |= (((xsb1 & ~0x80000000) - 0x3fc40000) >> 30) & 2;
 		xsb0 = HI(&x0);
-		i |= ( ( ( xsb0 & ~0x80000000 ) - 0x3fc40000 ) >> 29 ) & 4;
-		switch ( i )
+		i |= (((xsb0 & ~0x80000000) - 0x3fc40000) >> 29) & 4;
+		switch (i)
 		{
 			double		a1_0, a1_1, a1_2, a2_0, a2_1, a2_2;
 			double		t0, t1, t2, t1_0, t1_1, t1_2, t2_0, t2_1, t2_2;
@@ -911,36 +911,36 @@ loop2:
 			unsigned	j0, j1, j2;
 
 		case 0:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			HI(&t1) = j1;
 			HI(&t2) = j2;
 			LO(&t0) = 0;
 			LO(&t1) = 0;
 			LO(&t2) = 0;
-			x0 = ( x0 - t0 ) + y0;
-			x1 = ( x1 - t1 ) + y1;
-			x2 = ( x2 - t2 ) + y2;
+			x0 = (x0 - t0) + y0;
+			x1 = (x1 - t1) + y1;
+			x2 = (x2 - t2) + y2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			xsb1 = ( xsb1 >> 30 ) & 2;
-			xsb2 = ( xsb2 >> 30 ) & 2;
-			n0 ^= ( xsb0 & ~( n0 << 1 ) );
-			n1 ^= ( xsb1 & ~( n1 << 1 ) );
-			n2 ^= ( xsb2 & ~( n2 << 1 ) );
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (qq1 + z2 * qq2);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			xsb1 = (xsb1 >> 30) & 2;
+			xsb2 = (xsb2 >> 30) & 2;
+			n0 ^= (xsb0 & ~(n0 << 1));
+			n1 ^= (xsb1 & ~(n1 << 1));
+			n2 ^= (xsb2 & ~(n2 << 1));
 			xsb0 |= 1;
 			xsb1 |= 1;
 			xsb2 |= 1;
@@ -953,9 +953,9 @@ loop2:
 			a2_1 = __vlibm_TBL_sincos_hi[j1+((n1+xsb1)&3)];
 			a2_2 = __vlibm_TBL_sincos_hi[j2+((n2+xsb2)&3)];
 
-			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - ( a1_0*w0 - a2_0*t0 );
-			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - ( a1_1*w1 - a2_1*t1 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - ( a1_2*w2 - a2_2*t2 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - (a1_0*w0 - a2_0*t0);
+			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - (a1_1*w1 - a2_1*t1);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - (a1_2*w2 - a2_2*t2);
 
 			w0 *= a2_0;
 			w1 *= a2_1;
@@ -980,8 +980,8 @@ loop2:
 			break;
 
 		case 1:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
 			j2 = n2 & 1;
 			HI(&t0) = j0;
 			HI(&t1) = j1;
@@ -989,25 +989,25 @@ loop2:
 			LO(&t1) = 0;
 			x2_or_one[0] = x2;
 			x2_or_one[2] = -x2;
-			x0 = ( x0 - t0 ) + y0;
-			x1 = ( x1 - t1 ) + y1;
+			x0 = (x0 - t0) + y0;
+			x1 = (x1 - t1) + y1;
 			y2_or_zero[0] = y2;
 			y2_or_zero[2] = -y2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			xsb1 = ( xsb1 >> 30 ) & 2;
-			n0 ^= ( xsb0 & ~( n0 << 1 ) );
-			n1 ^= ( xsb1 & ~( n1 << 1 ) );
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			xsb1 = (xsb1 >> 30) & 2;
+			n0 ^= (xsb0 & ~(n0 << 1));
+			n1 ^= (xsb1 & ~(n1 << 1));
 			xsb0 |= 1;
 			xsb1 |= 1;
 			a1_0 = __vlibm_TBL_sincos_hi[j0+n0];
@@ -1016,9 +1016,9 @@ loop2:
 			a2_0 = __vlibm_TBL_sincos_hi[j0+((n0+xsb0)&3)];
 			a2_1 = __vlibm_TBL_sincos_hi[j1+((n1+xsb1)&3)];
 
-			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - ( a1_0*w0 - a2_0*t0 );
-			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - ( a1_1*w1 - a2_1*t1 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - (a1_0*w0 - a2_0*t0);
+			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - (a1_1*w1 - a2_1*t1);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 
 			*pc0 = a2_0 + t2_0;
 			*pc1 = a2_1 + t2_1;
@@ -1026,15 +1026,15 @@ loop2:
 
 			n2 = (n2 + 1) & 3;
 			j2 = (j2 + 1) & 1;
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
 
 			t1_0 = a2_0*w0 + a1_0*t0;
 			t1_1 = a2_1*w1 + a1_1*t1;
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
 
 			t1_0 += __vlibm_TBL_sincos_lo[j0+n0];
 			t1_1 += __vlibm_TBL_sincos_lo[j1+n1];
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 
 			*py0 = a1_0 + t1_0;
 			*py1 = a1_1 + t1_1;
@@ -1043,34 +1043,34 @@ loop2:
 			break;
 
 		case 2:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
 			j1 = n1 & 1;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			HI(&t2) = j2;
 			LO(&t0) = 0;
 			LO(&t2) = 0;
 			x1_or_one[0] = x1;
 			x1_or_one[2] = -x1;
-			x0 = ( x0 - t0 ) + y0;
+			x0 = (x0 - t0) + y0;
 			y1_or_zero[0] = y1;
 			y1_or_zero[2] = -y1;
-			x2 = ( x2 - t2 ) + y2;
+			x2 = (x2 - t2) + y2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			xsb2 = ( xsb2 >> 30 ) & 2;
-			n0 ^= ( xsb0 & ~( n0 << 1 ) );
-			n2 ^= ( xsb2 & ~( n2 << 1 ) );
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+			t2 = z2 * (qq1 + z2 * qq2);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			xsb2 = (xsb2 >> 30) & 2;
+			n0 ^= (xsb0 & ~(n0 << 1));
+			n2 ^= (xsb2 & ~(n2 << 1));
 			xsb0 |= 1;
 			xsb2 |= 1;
 
@@ -1080,9 +1080,9 @@ loop2:
 			a2_0 = __vlibm_TBL_sincos_hi[j0+((n0+xsb0)&3)];
 			a2_2 = __vlibm_TBL_sincos_hi[j2+((n2+xsb2)&3)];
 
-			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - ( a1_0*w0 - a2_0*t0 );
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - ( a1_2*w2 - a2_2*t2 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - (a1_0*w0 - a2_0*t0);
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - (a1_2*w2 - a2_2*t2);
 
 			*pc0 = a2_0 + t2_0;
 			*py1 = t1;
@@ -1090,14 +1090,14 @@ loop2:
 
 			n1 = (n1 + 1) & 3;
 			j1 = (j1 + 1) & 1;
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
 
 			t1_0 = a2_0*w0 + a1_0*t0;
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
 			t1_2 = a2_2*w2 + a1_2*t2;
 
 			t1_0 += __vlibm_TBL_sincos_lo[j0+n0];
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
 			t1_2 += __vlibm_TBL_sincos_lo[j2+n2];
 
 			*py0 = a1_0 + t1_0;
@@ -1107,7 +1107,7 @@ loop2:
 			break;
 
 		case 3:
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
 			j1 = n1 & 1;
 			j2 = n2 & 1;
 			HI(&t0) = j0;
@@ -1116,7 +1116,7 @@ loop2:
 			x1_or_one[2] = -x1;
 			x2_or_one[0] = x2;
 			x2_or_one[2] = -x2;
-			x0 = ( x0 - t0 ) + y0;
+			x0 = (x0 - t0) + y0;
 			y1_or_zero[0] = y1;
 			y1_or_zero[2] = -y1;
 			y2_or_zero[0] = y2;
@@ -1124,23 +1124,23 @@ loop2:
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			n0 ^= ( xsb0 & ~( n0 << 1 ) );
+			t0 = z0 * (qq1 + z0 * qq2);
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			n0 ^= (xsb0 & ~(n0 << 1));
 			xsb0 |= 1;
 
 			a1_0 = __vlibm_TBL_sincos_hi[j0+n0];
 			a2_0 = __vlibm_TBL_sincos_hi[j0+((n0+xsb0)&3)];
 
-			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - ( a1_0*w0 - a2_0*t0 );
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - (a1_0*w0 - a2_0*t0);
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 
 			*pc0 = a2_0 + t2_0;
 			*py1 = t1;
@@ -1152,15 +1152,15 @@ loop2:
 			j2 = (j2 + 1) & 1;
 
 			t1_0 = a2_0*w0 + a1_0*t0;
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
 
 			t1_0 += __vlibm_TBL_sincos_lo[j0+n0];
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
 
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 
 			*py0 = a1_0 + t1_0;
 			*pc1 = t1;
@@ -1170,8 +1170,8 @@ loop2:
 
 		case 4:
 			j0 = n0 & 1;
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t1) = j1;
 			HI(&t2) = j2;
 			LO(&t1) = 0;
@@ -1180,23 +1180,23 @@ loop2:
 			x0_or_one[2] = -x0;
 			y0_or_zero[0] = y0;
 			y0_or_zero[2] = -y0;
-			x1 = ( x1 - t1 ) + y1;
-			x2 = ( x2 - t2 ) + y2;
+			x1 = (x1 - t1) + y1;
+			x2 = (x2 - t2) + y2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb1 = ( xsb1 >> 30 ) & 2;
-			xsb2 = ( xsb2 >> 30 ) & 2;
-			n1 ^= ( xsb1 & ~( n1 << 1 ) );
-			n2 ^= ( xsb2 & ~( n2 << 1 ) );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (qq1 + z2 * qq2);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb1 = (xsb1 >> 30) & 2;
+			xsb2 = (xsb2 >> 30) & 2;
+			n1 ^= (xsb1 & ~(n1 << 1));
+			n2 ^= (xsb2 & ~(n2 << 1));
 			xsb1 |= 1;
 			xsb2 |= 1;
 
@@ -1206,9 +1206,9 @@ loop2:
 			a2_1 = __vlibm_TBL_sincos_hi[j1+((n1+xsb1)&3)];
 			a2_2 = __vlibm_TBL_sincos_hi[j2+((n2+xsb2)&3)];
 
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - ( a1_1*w1 - a2_1*t1 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - ( a1_2*w2 - a2_2*t2 );
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - (a1_1*w1 - a2_1*t1);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - (a1_2*w2 - a2_2*t2);
 
 			*py0 = t0;
 			*pc1 = a2_1 + t2_1;
@@ -1216,13 +1216,13 @@ loop2:
 
 			n0 = (n0 + 1) & 3;
 			j0 = (j0 + 1) & 1;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
 
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
 			t1_1 = a2_1*w1 + a1_1*t1;
 			t1_2 = a2_2*w2 + a1_2*t2;
 
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
 			t1_1 += __vlibm_TBL_sincos_lo[j1+n1];
 			t1_2 += __vlibm_TBL_sincos_lo[j2+n2];
 
@@ -1234,7 +1234,7 @@ loop2:
 
 		case 5:
 			j0 = n0 & 1;
-			j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
+			j1 = (xsb1 + 0x4000) & 0xffff8000;
 			j2 = n2 & 1;
 			HI(&t1) = j1;
 			LO(&t1) = 0;
@@ -1244,29 +1244,29 @@ loop2:
 			x2_or_one[2] = -x2;
 			y0_or_zero[0] = y0;
 			y0_or_zero[2] = -y0;
-			x1 = ( x1 - t1 ) + y1;
+			x1 = (x1 - t1) + y1;
 			y2_or_zero[0] = y2;
 			y2_or_zero[2] = -y2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t1 = z1 * ( qq1 + z1 * qq2 );
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
-			j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb1 = ( xsb1 >> 30 ) & 2;
-			n1 ^= ( xsb1 & ~( n1 << 1 ) );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t1 = z1 * (qq1 + z1 * qq2);
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
+			j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb1 = (xsb1 >> 30) & 2;
+			n1 ^= (xsb1 & ~(n1 << 1));
 			xsb1 |= 1;
 
 			a1_1 = __vlibm_TBL_sincos_hi[j1+n1];
 			a2_1 = __vlibm_TBL_sincos_hi[j1+((n1+xsb1)&3)];
 
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - ( a1_1*w1 - a2_1*t1 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - (a1_1*w1 - a2_1*t1);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 
 			*py0 = t0;
 			*pc1 = a2_1 + t2_1;
@@ -1277,16 +1277,16 @@ loop2:
 			j0 = (j0 + 1) & 1;
 			j2 = (j2 + 1) & 1;
 
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
 			t1_1 = a2_1*w1 + a1_1*t1;
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
 
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
 			t1_1 += __vlibm_TBL_sincos_lo[j1+n1];
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
 
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 
 			*pc0 = t0;
 			*py1 = a1_1 + t1_1;
@@ -1297,7 +1297,7 @@ loop2:
 		case 6:
 			j0 = n0 & 1;
 			j1 = n1 & 1;
-			j2 = ( xsb2 + 0x4000 ) & 0xffff8000;
+			j2 = (xsb2 + 0x4000) & 0xffff8000;
 			HI(&t2) = j2;
 			LO(&t2) = 0;
 			x0_or_one[0] = x0;
@@ -1308,27 +1308,27 @@ loop2:
 			y0_or_zero[2] = -y0;
 			y1_or_zero[0] = y1;
 			y1_or_zero[2] = -y1;
-			x2 = ( x2 - t2 ) + y2;
+			x2 = (x2 - t2) + y2;
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-			t2 = z2 * ( qq1 + z2 * qq2 );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-			w2 = x2 * ( one + z2 * ( pp1 + z2 * pp2 ) );
-			j2 = ( ( ( j2 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb2 = ( xsb2 >> 30 ) & 2;
-			n2 ^= ( xsb2 & ~( n2 << 1 ) );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+			t2 = z2 * (qq1 + z2 * qq2);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+			w2 = x2 * (one + z2 * (pp1 + z2 * pp2));
+			j2 = (((j2 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb2 = (xsb2 >> 30) & 2;
+			n2 ^= (xsb2 & ~(n2 << 1));
 			xsb2 |= 1;
 
 			a1_2 = __vlibm_TBL_sincos_hi[j2+n2];
 			a2_2 = __vlibm_TBL_sincos_hi[j2+((n2+xsb2)&3)];
 
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
-			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - ( a1_2*w2 - a2_2*t2 );
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
+			t2_2 = __vlibm_TBL_sincos_lo[j2+((n2+xsb2)&3)] - (a1_2*w2 - a2_2*t2);
 
 			*py0 = t0;
 			*py1 = t1;
@@ -1339,16 +1339,16 @@ loop2:
 			j0 = (j0 + 1) & 1;
 			j1 = (j1 + 1) & 1;
 
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
 			t1_2 = a2_2*w2 + a1_2*t2;
 
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
 			t1_2 += __vlibm_TBL_sincos_lo[j2+n2];
 
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
 
 			*pc0 = t0;
 			*pc1 = t1;
@@ -1375,15 +1375,15 @@ loop2:
 			z0 = x0 * x0;
 			z1 = x1 * x1;
 			z2 = x2 * x2;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 			*py0 = t0;
 			*py1 = t1;
 			*py2 = t2;
@@ -1394,15 +1394,15 @@ loop2:
 			j0 = (j0 + 1) & 1;
 			j1 = (j1 + 1) & 1;
 			j2 = (j2 + 1) & 1;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-			t2 = z2 * ( poly3[j2] + z2 * poly4[j2] );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-			t2 = z2 * ( poly1[j2] + z2 * ( poly2[j2] + t2 ) );
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
-			t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
-			t2 = x2_or_one[n2] + ( y2_or_zero[n2] + x2_or_one[n2] * t2 );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+			t2 = z2 * (poly3[j2] + z2 * poly4[j2]);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+			t2 = z2 * (poly1[j2] + z2 * (poly2[j2] + t2));
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
+			t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
+			t2 = x2_or_one[n2] + (y2_or_zero[n2] + x2_or_one[n2] * t2);
 			*pc0 = t0;
 			*pc1 = t1;
 			*pc2 = t2;
@@ -1413,9 +1413,9 @@ loop2:
 		y += stridey;
 		c += stridec;
 		i = 0;
-	} while ( --n > 0 );
+	} while (--n > 0);
 
-	if ( i > 0 )
+	if (i > 0)
 	{
 		double		a1_0, a1_1, a2_0, a2_1;
 		double		t0, t1, t1_0, t1_1, t2_0, t2_1;
@@ -1424,25 +1424,25 @@ loop2:
 		unsigned	j0, j1;
 		int		n0, n1;
 
-		if ( i > 1 )
+		if (i > 1)
 		{
-			n1 = (int) ( x1 * invpio2 + half[xsb1] );
+			n1 = (int) (x1 * invpio2 + half[xsb1]);
 			fn1 = (double) n1;
 			n1 &= 3;
 			a1 = x1 - fn1 * pio2_1;
 			w1 = fn1 * pio2_2;
 			x1 = a1 - w1;
-			y1 = ( a1 - x1 ) - w1;
+			y1 = (a1 - x1) - w1;
 			a1 = x1;
 			w1 = fn1 * pio2_3 - y1;
 			x1 = a1 - w1;
-			y1 = ( a1 - x1 ) - w1;
+			y1 = (a1 - x1) - w1;
 			a1 = x1;
 			w1 = fn1 * pio2_3t - y1;
 			x1 = a1 - w1;
-			y1 = ( a1 - x1 ) - w1;
+			y1 = (a1 - x1) - w1;
 			xsb1 = HI(&x1);
-			if ( ( xsb1 & ~0x80000000 ) < 0x3fc40000 )
+			if ((xsb1 & ~0x80000000) < 0x3fc40000)
 			{
 				j1 = n1 & 1;
 				x1_or_one[0] = x1;
@@ -1450,56 +1450,56 @@ loop2:
 				y1_or_zero[0] = y1;
 				y1_or_zero[2] = -y1;
 				z1 = x1 * x1;
-				t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-				t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-				t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
+				t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+				t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+				t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
 				*py1 = t1;
 				n1 = (n1 + 1) & 3;
 				j1 = (j1 + 1) & 1;
-				t1 = z1 * ( poly3[j1] + z1 * poly4[j1] );
-				t1 = z1 * ( poly1[j1] + z1 * ( poly2[j1] + t1 ) );
-				t1 = x1_or_one[n1] + ( y1_or_zero[n1] + x1_or_one[n1] * t1 );
+				t1 = z1 * (poly3[j1] + z1 * poly4[j1]);
+				t1 = z1 * (poly1[j1] + z1 * (poly2[j1] + t1));
+				t1 = x1_or_one[n1] + (y1_or_zero[n1] + x1_or_one[n1] * t1);
 				*pc1 = t1;
 			}
 			else
 			{
-				j1 = ( xsb1 + 0x4000 ) & 0xffff8000;
+				j1 = (xsb1 + 0x4000) & 0xffff8000;
 				HI(&t1) = j1;
 				LO(&t1) = 0;
-				x1 = ( x1 - t1 ) + y1;
+				x1 = (x1 - t1) + y1;
 				z1 = x1 * x1;
-				t1 = z1 * ( qq1 + z1 * qq2 );
-				w1 = x1 * ( one + z1 * ( pp1 + z1 * pp2 ) );
-				j1 = ( ( ( j1 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-				xsb1 = ( xsb1 >> 30 ) & 2;
-				n1 ^= ( xsb1 & ~( n1 << 1 ) );
+				t1 = z1 * (qq1 + z1 * qq2);
+				w1 = x1 * (one + z1 * (pp1 + z1 * pp2));
+				j1 = (((j1 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+				xsb1 = (xsb1 >> 30) & 2;
+				n1 ^= (xsb1 & ~(n1 << 1));
 				xsb1 |= 1;
 				a1_1 = __vlibm_TBL_sincos_hi[j1+n1];
 				a2_1 = __vlibm_TBL_sincos_hi[j1+((n1+xsb1)&3)];
-				t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - ( a1_1*w1 - a2_1*t1 );
+				t2_1 = __vlibm_TBL_sincos_lo[j1+((n1+xsb1)&3)] - (a1_1*w1 - a2_1*t1);
 				*pc1 = a2_1 + t2_1;
 				t1_1 = a2_1*w1 + a1_1*t1;
 				t1_1 += __vlibm_TBL_sincos_lo[j1+n1];
 				*py1 = a1_1 + t1_1;
 			}
 		}
-		n0 = (int) ( x0 * invpio2 + half[xsb0] );
+		n0 = (int) (x0 * invpio2 + half[xsb0]);
 		fn0 = (double) n0;
 		n0 &= 3;
 		a0 = x0 - fn0 * pio2_1;
 		w0 = fn0 * pio2_2;
 		x0 = a0 - w0;
-		y0 = ( a0 - x0 ) - w0;
+		y0 = (a0 - x0) - w0;
 		a0 = x0;
 		w0 = fn0 * pio2_3 - y0;
 		x0 = a0 - w0;
-		y0 = ( a0 - x0 ) - w0;
+		y0 = (a0 - x0) - w0;
 		a0 = x0;
 		w0 = fn0 * pio2_3t - y0;
 		x0 = a0 - w0;
-		y0 = ( a0 - x0 ) - w0;
+		y0 = (a0 - x0) - w0;
 		xsb0 = HI(&x0);
-		if ( ( xsb0 & ~0x80000000 ) < 0x3fc40000 )
+		if ((xsb0 & ~0x80000000) < 0x3fc40000)
 		{
 			j0 = n0 & 1;
 			x0_or_one[0] = x0;
@@ -1507,33 +1507,33 @@ loop2:
 			y0_or_zero[0] = y0;
 			y0_or_zero[2] = -y0;
 			z0 = x0 * x0;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
 			*py0 = t0;
 			n0 = (n0 + 1) & 3;
 			j0 = (j0 + 1) & 1;
-			t0 = z0 * ( poly3[j0] + z0 * poly4[j0] );
-			t0 = z0 * ( poly1[j0] + z0 * ( poly2[j0] + t0 ) );
-			t0 = x0_or_one[n0] + ( y0_or_zero[n0] + x0_or_one[n0] * t0 );
+			t0 = z0 * (poly3[j0] + z0 * poly4[j0]);
+			t0 = z0 * (poly1[j0] + z0 * (poly2[j0] + t0));
+			t0 = x0_or_one[n0] + (y0_or_zero[n0] + x0_or_one[n0] * t0);
 			*pc0 = t0;
 		}
 		else
 		{
-			j0 = ( xsb0 + 0x4000 ) & 0xffff8000;
+			j0 = (xsb0 + 0x4000) & 0xffff8000;
 			HI(&t0) = j0;
 			LO(&t0) = 0;
-			x0 = ( x0 - t0 ) + y0;
+			x0 = (x0 - t0) + y0;
 			z0 = x0 * x0;
-			t0 = z0 * ( qq1 + z0 * qq2 );
-			w0 = x0 * ( one + z0 * ( pp1 + z0 * pp2 ) );
-			j0 = ( ( ( j0 & ~0x80000000 ) - 0x3fc40000 ) >> 13 ) & ~0x3;
-			xsb0 = ( xsb0 >> 30 ) & 2;
-			n0 ^= ( xsb0 & ~( n0 << 1 ) );
+			t0 = z0 * (qq1 + z0 * qq2);
+			w0 = x0 * (one + z0 * (pp1 + z0 * pp2));
+			j0 = (((j0 & ~0x80000000) - 0x3fc40000) >> 13) & ~0x3;
+			xsb0 = (xsb0 >> 30) & 2;
+			n0 ^= (xsb0 & ~(n0 << 1));
 			xsb0 |= 1;
 			a1_0 = __vlibm_TBL_sincos_hi[j0+n0];
 			a2_0 = __vlibm_TBL_sincos_hi[j0+((n0+xsb0)&3)];
-			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - ( a1_0*w0 - a2_0*t0 );
+			t2_0 = __vlibm_TBL_sincos_lo[j0+((n0+xsb0)&3)] - (a1_0*w0 - a2_0*t0);
 			*pc0 = a2_0 + t2_0;
 			t1_0 = a2_0*w0 + a1_0*t0;
 			t1_0 += __vlibm_TBL_sincos_lo[j0+n0];
@@ -1541,7 +1541,7 @@ loop2:
 		}
 	}
 
-	if ( biguns ) {
-		__vlibm_vsincos_big( nsave, xsave, sxsave, ysave, sysave, csave, scsave, 0x413921fb );
+	if (biguns) {
+		__vlibm_vsincos_big(nsave, xsave, sxsave, ysave, sysave, csave, scsave, 0x413921fb);
 	}
 }

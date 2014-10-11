@@ -73,7 +73,7 @@
 
 #define sqrtf __sqrtf
 
-extern float sqrtf( float );
+extern float sqrtf(float);
 
 static const double __TBL_rsqrtf[] = {
 /*
@@ -222,7 +222,7 @@ static const unsigned long long LCONST[] = {
 };
 
 static void
-__vrsqrtf_n( int n, float * restrict px, int stridex, float * restrict py, int stridey );
+__vrsqrtf_n(int n, float * restrict px, int stridex, float * restrict py, int stridey);
 
 #pragma no_inline(__vrsqrtf_n)
 
@@ -230,7 +230,7 @@ __vrsqrtf_n( int n, float * restrict px, int stridex, float * restrict py, int s
 {								\
 	*py = (ret);						\
 	py += stridey;						\
-	if ( n_n == 0 )						\
+	if (n_n == 0)						\
 	{							\
 		spx = px; spy = py;				\
 		ax0 = *(int*)px;				\
@@ -241,40 +241,40 @@ __vrsqrtf_n( int n, float * restrict px, int stridex, float * restrict py, int s
 }
 
 void
-__vrsqrtf( int n, float * restrict px, int stridex, float * restrict py, int stridey )
+__vrsqrtf(int n, float * restrict px, int stridex, float * restrict py, int stridey)
 {
 	float		*spx, *spy;
 	int		ax0, n_n;
 	float		res;
 	float		FONE = 1.0f, FTWO = 2.0f;
 
-	while ( n > 1 )
+	while (n > 1)
 	{
 		n_n = 0;
 		spx = px;
 		spy = py;
 		ax0 = *(int*)px;
-		for ( ; n > 1 ; n-- )
+		for (; n > 1 ; n--)
 		{
 			px += stridex;
-			if ( ax0 >= 0x7f800000 )	/* X = NaN or Inf	*/
+			if (ax0 >= 0x7f800000)	/* X = NaN or Inf	*/
 			{
 				res = *(px - stridex);
-				RETURN ( FONE / res )
+				RETURN (FONE / res)
 			}
 
 			py += stridey;
 
-			if ( ax0 < 0x00800000 )		/* X = denormal, zero or negative	*/
+			if (ax0 < 0x00800000)		/* X = denormal, zero or negative	*/
 			{
 				py -= stridey;
 				res = *(px - stridex);
 
-				if ( (ax0 & 0x7fffffff) == 0 )	/* |X| = zero	*/
+				if ((ax0 & 0x7fffffff) == 0)	/* |X| = zero	*/
 				{
-					RETURN ( FONE / res )
+					RETURN (FONE / res)
 				}
-				else if ( ax0 >= 0 )	/* X = denormal	*/
+				else if (ax0 >= 0)	/* X = denormal	*/
 				{
 					double		A0 = ((double*)LCONST)[0];	/*  9.99999997962321453275e-01	*/
 					double		A1 = ((double*)LCONST)[1];	/* -4.99999998166077580600e-01	*/
@@ -307,34 +307,34 @@ __vrsqrtf( int n, float * restrict px, int stridex, float * restrict py, int str
 				}
 				else	/* X = negative	*/
 				{
-					RETURN ( sqrtf(res) )
+					RETURN (sqrtf(res))
 				}
 			}
 			n_n++;
 			ax0 = *(int*)px;
 		}
-		if ( n_n > 0 )
-			__vrsqrtf_n( n_n, spx, stridex, spy, stridey );
+		if (n_n > 0)
+			__vrsqrtf_n(n_n, spx, stridex, spy, stridey);
 	}
 
-	if ( n > 0 )
+	if (n > 0)
 	{
 		ax0 = *(int*)px;
 
-		if ( ax0 >= 0x7f800000 )	/* X = NaN or Inf	*/
+		if (ax0 >= 0x7f800000)	/* X = NaN or Inf	*/
 		{
 			res = *px;
 			*py = FONE / res;
 		}
-		else if ( ax0 < 0x00800000 )	/* X = denormal, zero or negative	*/
+		else if (ax0 < 0x00800000)	/* X = denormal, zero or negative	*/
 		{
 			res = *px;
 
-			if ( (ax0 & 0x7fffffff) == 0 )	/* |X| = zero	*/
+			if ((ax0 & 0x7fffffff) == 0)	/* |X| = zero	*/
 			{
 				*py = FONE / res;
 			}
-			else if ( ax0 >= 0 )	/* X = denormal	*/
+			else if (ax0 >= 0)	/* X = denormal	*/
 			{
 				double		A0 = ((double*)LCONST)[0];	/*  9.99999997962321453275e-01	*/
 				double		A1 = ((double*)LCONST)[1];	/* -4.99999998166077580600e-01	*/
@@ -402,7 +402,7 @@ __vrsqrtf( int n, float * restrict px, int stridex, float * restrict py, int str
 }
 
 void
-__vrsqrtf_n( int n, float * restrict px, int stridex, float * restrict py, int stridey )
+__vrsqrtf_n(int n, float * restrict px, int stridex, float * restrict py, int stridey)
 {
 	double		A0 = ((double*)LCONST)[0];	/*  9.99999997962321453275e-01	*/
 	double		A1 = ((double*)LCONST)[1];	/* -4.99999998166077580600e-01	*/
@@ -419,7 +419,7 @@ __vrsqrtf_n( int n, float * restrict px, int stridex, float * restrict py, int s
 	int		iax1, ax1, si1, iexp1;
 	int		iax2, ax2, si2, iexp2;
 
-	for( ; n > 2 ; n -= 3 )
+	for(; n > 2 ; n -= 3)
 	{
 		ax0 = *(int*)px;
 		px += stridex;
@@ -479,7 +479,7 @@ __vrsqrtf_n( int n, float * restrict px, int stridex, float * restrict py, int s
 		py += stridey;
 	}
 #endif
-	for( ; n > 0 ; n-- )
+	for(; n > 0 ; n--)
 	{
 		ax0 = *(int*)px;
 		px += stridex;
