@@ -47,7 +47,7 @@
 void
 __vatan(int n, double * restrict x, int stridex, double * restrict y, int stridey)
 {
-  double  f , z, ans = 0.0L, ansu , ansl , tmp , poly , conup , conlo , dummy;
+  double  f, z, ans = 0.0L, ansu, ansl, tmp, poly, conup, conlo, dummy;
   double  f1,   ans1, ansu1, ansl1, tmp1, poly1, conup1, conlo1;
   double  f2,   ans2, ansu2, ansl2, tmp2, poly2, conup2, conlo2;
   int index, sign, intf, intflo, intz, argcount;
