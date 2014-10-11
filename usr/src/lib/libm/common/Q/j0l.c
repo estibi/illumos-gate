@@ -101,7 +101,7 @@ j0l(x) GENERIC x;{
 		if(x>1.0e2450L) {	/* x+x may overflow */
 			ss = s-c;
 			cc = s+c;
-		} else if(signbitl(s)!=signbitl(c)) {
+		} else if (signbitl(s)!=signbitl(c)) {
 			ss = s - c;
 			cc = -cosl(x+x)/ss;
 		} else {
@@ -117,7 +117,7 @@ j0l(x) GENERIC x;{
 		return invsqrtpi*(u*cc-v*ss)/sqrtl(x);
 	}
 	if(x<=small) {
-	    if(x<=tiny) return one-x;
+	    if (x<=tiny) return one-x;
 	    else return one-x*x*0.25L;
 	}
 	z = x*x;
@@ -185,7 +185,7 @@ y0l(x) GENERIC x;{
 		if(x>1.0e2450L) {	/* x+x may overflow */
 			ss = s-c;
 			cc = s+c;
-		} else if(signbitl(s)!=signbitl(c)) {
+		} else if (signbitl(s)!=signbitl(c)) {
 			ss = s - c;
 			cc = -cosl(x+x)/ss;
 		} else {
@@ -447,19 +447,19 @@ GENERIC x;
 		r = z*r + pr2[i];
 		s = z*s + ps2[i];
 	    }
-	} else if(x>3.5L) {
+	} else if (x>3.5L) {
 	    r = pr3[12]; s = ps3[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + pr3[i];
 		s = z*s + ps3[i];
 	    }
-	} else if(x>2.5L) {
+	} else if (x>2.5L) {
 	    r = pr4[12]; s = ps4[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + pr4[i];
 		s = z*s + ps4[i];
 	    }
-	} else if(x> (1.0L/0.5625L)){
+	} else if (x> (1.0L/0.5625L)){
 	    r = pr5[12]; s = ps5[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + pr5[i];
@@ -697,31 +697,31 @@ GENERIC x;
 		r = z*r + qr0[i];
 		s = z*s + qs0[i];
 	    }
-	} else if(x>eight) {
+	} else if (x>eight) {
 	    r = qr1[11]; s = qs1[11]+z*(qs1[12]+z*qs1[13]);
 	    for(i=10;i>=0;i--) {
 		r = z*r + qr1[i];
 		s = z*s + qs1[i];
 	    }
-	} else if(x>five){  /* assume x > 5.0 */
+	} else if (x>five){  /* assume x > 5.0 */
 	    r = qr2[11]; s = qs2[11]+z*(qs2[12]+z*qs2[13]);
 	    for(i=10;i>=0;i--) {
 		r = z*r + qr2[i];
 		s = z*s + qs2[i];
 	    }
-	} else if(x>3.5L) {
+	} else if (x>3.5L) {
 	    r = qr3[12]; s = qs3[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + qr3[i];
 		s = z*s + qs3[i];
 	    }
-	} else if(x>2.5L) {
+	} else if (x>2.5L) {
 	    r = qr4[12]; s = qs4[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + qr4[i];
 		s = z*s + qs4[i];
 	    }
-	} else if(x> (1.0L/0.5625L)) {
+	} else if (x> (1.0L/0.5625L)) {
 	    r = qr5[12]; s = qs5[12];
 	    for(i=11;i>=0;i--) {
 		r = z*r + qr5[i];

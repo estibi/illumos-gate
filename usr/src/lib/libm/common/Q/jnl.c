@@ -91,10 +91,10 @@ jnl(n,x) int n; GENERIC x;{
 		sgn = signbitl(x);	/* old n  */
 	x = fabsl(x);
 	if(x == zero||!finitel(x)) b = zero;
-	else if((GENERIC)n<=x) {   	/* Safe to use
+	else if ((GENERIC)n<=x) {   	/* Safe to use
 					   J(n+1,x)=2n/x *J(n,x)-J(n-1,x)
 					 */
-	    if(x>1.0e91L) {	/* x >> n**2
+	    if (x>1.0e91L) {	/* x >> n**2
 				    Jn(x) = cos(x-(2n+1)*pi/4)*sqrt(2/x*pi)
 				    Yn(x) = sin(x-(2n+1)*pi/4)*sqrt(2/x*pi)
 				    Let s=sin(x), c=cos(x),
@@ -124,7 +124,7 @@ jnl(n,x) int n; GENERIC x;{
 	        }
 	    }
 	} else {
-	    if(x<1e-17L) {	/* use J(n,x) = 1/n!*(x/2)^n */
+	    if (x<1e-17L) {	/* use J(n,x) = 1/n!*(x/2)^n */
 		b = powl(0.5L*x,(GENERIC) n);
 		if (b!=zero) {
 		    for(a=one,i=1;i<=n;i++) a *= (GENERIC)i;
