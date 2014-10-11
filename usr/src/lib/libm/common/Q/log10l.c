@@ -40,7 +40,7 @@
  *	    ivln10   = 1/log(10) rounded.
  *	Then
  *		n = ilogb(x),
- *		if(n<0)  n = n+1;
+ *		if (n<0)  n = n+1;
  *		x = scalbn(x,-n);
  *		LOG10(x) := n*log10_2hi + (n*log10_2lo + ivln10*log(x))
  *

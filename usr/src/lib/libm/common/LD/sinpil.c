@@ -149,7 +149,7 @@ sinpil(long double x) {
 			k = 1;
 		}
 		if (k) {	/* x = N/4 */
-			if((n & 1) != 0)
+			if ((n & 1) != 0)
 				y = sqrth + tiny;
 			else
 				y = (n & 2) == 0 ? zero : one;

@@ -170,7 +170,7 @@ sincospil(long double x, long double *s, long double *c) {
 			k = 1;
 		}
 		if (k) {	/* x = N/4 */
-			if((n & 1) != 0)
+			if ((n & 1) != 0)
 				*s = *c = sqrth + tiny;
 			else
 				if ((n & 2) == 0) {

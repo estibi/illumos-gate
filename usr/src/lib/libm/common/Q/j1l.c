@@ -79,10 +79,10 @@ j1l(x) GENERIC x;{
 	GENERIC z, d, s,c,ss,cc,r;
 	int i, sgn;
 
-	if(!finitel(x)) return one/x;
+	if (!finitel(x)) return one/x;
 	sgn = signbitl(x);
 	x = fabsl(x);
-	if(x > 1.28L){
+	if (x > 1.28L){
 		s = sinl(x);
 		c = cosl(x);
 	/*
@@ -97,7 +97,7 @@ j1l(x) GENERIC x;{
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>1.0e2450L) {	/* x+x may overflow */
+		if (x>1.0e2450L) {	/* x+x may overflow */
 			ss = -s-c;
 			cc =  s-c;
 		} else if (signbitl(s)!=signbitl(c)) {
@@ -113,9 +113,9 @@ j1l(x) GENERIC x;{
 	 */
                 if (x>1.0e120L) return (invsqrtpi*cc)/sqrtl(x);
                 d =  invsqrtpi*(pone(x)*cc-qone(x)*ss)/sqrtl(x);
-		if(sgn==0) return d; else return -d;
+		if (sgn==0) return d; else return -d;
 	}
-	if(x<=small) {
+	if (x<=small) {
             if (x<=tiny) d = 0.5L*x;
             else d =  x*(0.5L-x*x*0.125L);
 	    if (sgn==0) return d; else return -d;
@@ -128,7 +128,7 @@ j1l(x) GENERIC x;{
 		s = s*z + s0[i];
 	    }
 	d = x*0.5L+x*(z*(r/s));
-	if(sgn==0) return d; else return -d;
+	if (sgn==0) return d; else return -d;
 }
 
 static const GENERIC u0[7] = {
@@ -156,15 +156,15 @@ y1l(x) GENERIC x;{
 	GENERIC z, s,c,ss,cc,u,v;
 	int i;
 
-	if(isnanl(x)) return x+x;
-	if(x <= zero){
-		if(x==zero)
+	if (isnanl(x)) return x+x;
+	if (x <= zero){
+		if (x==zero)
 		    return -one/zero;
 		else
 		    return zero/zero;
 	}
-	if(x > 1.28L){
-		if(!finitel(x)) return zero;
+	if (x > 1.28L){
+		if (!finitel(x)) return zero;
 		s = sinl(x);
 		c = cosl(x);
 	/*
@@ -179,7 +179,7 @@ y1l(x) GENERIC x;{
 	 *		sin(x) +- cos(x) = -cos(2x)/(sin(x) -+ cos(x))
 	 * to compute the worse one.
 	 */
-		if(x>1.0e2450L) {	/* x+x may overflow */
+		if (x>1.0e2450L) {	/* x+x may overflow */
 			ss = -s-c;
 			cc =  s-c;
 		} else if (signbitl(s)!=signbitl(c)) {
@@ -193,7 +193,7 @@ y1l(x) GENERIC x;{
 	 * j1(x) = 1/sqrt(pi*x) * (P(1,x)*cc - Q(1,x)*ss)
 	 * y1(x) = 1/sqrt(pi*x) * (P(1,x)*ss + Q(1,x)*cc)
 	 */
-		if(x>1.0e91L) return (invsqrtpi*ss)/sqrtl(x);
+		if (x>1.0e91L) return (invsqrtpi*ss)/sqrtl(x);
                 return invsqrtpi*(pone(x)*ss+qone(x)*cc)/sqrtl(x);
 	}
         if (x<=tiny) {
@@ -424,9 +424,9 @@ GENERIC x;
 {
 	GENERIC s,r,t,z;
 	int i;
-	if(x>huge) return one;
+	if (x>huge) return one;
 	t = one/x; z = t*t;
-	if(x>sixteen) {
+	if (x>sixteen) {
 	    r = z*pr0[11]+pr0[10]; s = ps0[10];
 	    for(i=9;i>=0;i--) {
 		r = z*r + pr0[i];
@@ -685,9 +685,9 @@ GENERIC x;
 {
 	GENERIC s,r,t,z;
 	int i;
-	if(x>huge) return 0.375L/x;
+	if (x>huge) return 0.375L/x;
 	t = one/x; z = t*t;
-	if(x>sixteen) {
+	if (x>sixteen) {
 	    r = z*qr0[11]+qr0[10]; s = qs0[10];
 	    for(i=9;i>=0;i--) {
 		r = z*r + qr0[i];

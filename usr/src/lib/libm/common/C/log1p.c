@@ -87,7 +87,7 @@
  *	 algorithm can be used to compute log1p(x) to within a few ULP:
  *
  *		u = 1+x;
- *		if(u==1.0) return x ; else
+ *		if (u==1.0) return x ; else
  *			   return log(u)*(x/(u-1.0));
  *
  *	 See HP-15C Advanced Functions Handbook, p.193.

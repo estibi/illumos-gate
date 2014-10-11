@@ -78,19 +78,19 @@ jnl(n,x) int n; GENERIC x;{
      * J(-n,x) = (-1)^n * J(n, x), J(n, -x) = (-1)^n * J(n, x)
      * Thus, J(-n,x) = J(n,-x)
      */
-	if(n<0){
+	if (n<0){
 		n = -n;
 		x = -x;
 	}
-	if(n==0) return(j0l(x));
-	if(n==1) return(j1l(x));
-	if(x!=x) return x+x;
-	if((n&1)==0)
+	if (n==0) return(j0l(x));
+	if (n==1) return(j1l(x));
+	if (x!=x) return x+x;
+	if ((n&1)==0)
 		sgn=0; 			/* even n */
 	else
 		sgn = signbitl(x);	/* old n  */
 	x = fabsl(x);
-	if(x == zero||!finitel(x)) b = zero;
+	if (x == zero||!finitel(x)) b = zero;
 	else if ((GENERIC)n<=x) {   	/* Safe to use
 					   J(n+1,x)=2n/x *J(n,x)-J(n-1,x)
 					 */
@@ -187,7 +187,7 @@ jnl(n,x) int n; GENERIC x;{
 		tmp = n;
 		v = two/x;
 		tmp = tmp*logl(fabsl(v*tmp));
-		if(tmp<1.1356523406294143949491931077970765e+04L) {
+		if (tmp<1.1356523406294143949491931077970765e+04L) {
 	    	    for(i=n-1;i>0;i--){
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
@@ -198,7 +198,7 @@ jnl(n,x) int n; GENERIC x;{
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
-			if(b>1e1000L) {
+			if (b>1e1000L) {
                             a /= b;
                             t /= b;
                             b  = 1.0;
@@ -208,7 +208,7 @@ jnl(n,x) int n; GENERIC x;{
 	    	b = (t*j0l(x)/b);
 	    }
 	}
-	if(sgn==1) return -b; else return b;
+	if (sgn==1) return -b; else return b;
 }
 
 GENERIC ynl(n,x)
@@ -217,23 +217,23 @@ int n; GENERIC x;{
 	int sign;
 	GENERIC a, b, temp;
 
-	if(x!=x) return x+x;
+	if (x!=x) return x+x;
 	if (x <= zero) {
-		if(x==zero)
+		if (x==zero)
 			return -one/zero;
 		else
 			return zero/zero;
 	}
 	sign = 1;
-	if(n<0){
+	if (n<0){
 		n = -n;
-		if((n&1) == 1) sign = -1;
+		if ((n&1) == 1) sign = -1;
 	}
-	if(n==0) return(y0l(x));
-	if(n==1) return(sign*y1l(x));
-	if(!finitel(x)) return zero;
+	if (n==0) return(y0l(x));
+	if (n==1) return(sign*y1l(x));
+	if (!finitel(x)) return zero;
 
-	if(x>1.0e91L) {	/* x >> n**2
+	if (x>1.0e91L) {	/* x >> n**2
 				    Jn(x) = cos(x-(2n+1)*pi/4)*sqrt(2/x*pi)
 				    Yn(x) = sin(x-(2n+1)*pi/4)*sqrt(2/x*pi)
 				    Let s=sin(x), c=cos(x),
@@ -268,5 +268,5 @@ int n; GENERIC x;{
 			a = temp;
 		}
 	}
-	if(sign>0) return b; else return -b;
+	if (sign>0) return b; else return -b;
 }

@@ -279,19 +279,19 @@ long double x;
 {
 	long double erfcl(long double),s,y,t;
 
-	if(!finitel(x)) {
+	if (!finitel(x)) {
 	    if (x!=x) return x+x; 	/* NaN */
 	    return copysignl(one,x);	/* return +-1.0 is x=Inf */
 	}
 
 	y = fabsl(x);
-	if(y <= 0.84375L) {
+	if (y <= 0.84375L) {
 	    if (y<=tiny) return x+P[0]*x;
 	    s = y*y;
 	    t = __poly_libmq(s,21,P);
 	    return  x+x*t;
 	}
-	if(y<=1.25L) {
+	if (y<=1.25L) {
 	    s = y-one;
 	    t = C1+__poly_libmq(s,12,P1)/(one+s*__poly_libmq(s,12,Q1));
 	    return (signbitl(x))? -t: t;
@@ -300,7 +300,7 @@ long double x;
 	    t = C2+__poly_libmq(s,12,P2)/(one+s*__poly_libmq(s,13,Q2));
 	    return (signbitl(x))? -t: t;
 	} 
-	if(y<=9.0L) t = erfcl(y); else t = tiny;
+	if (y<=9.0L) t = erfcl(y); else t = tiny;
 	return (signbitl(x))? t-one: one-t;
 }
 
@@ -309,21 +309,21 @@ long double x;
 {
 	long double erfl(long double),s,y,t;
 
-	if(!finitel(x)) {
+	if (!finitel(x)) {
 	    if (x!=x) return x+x; 	/* NaN */
 	    				/* return 2.0 if x= -inf
 						  0.0 if x= +inf */
 	    if (x<0.0L) return 2.0L; else return 0.0L;
 	}
 
-	if(x <= 0.84375L) {
+	if (x <= 0.84375L) {
 	    if (x<=0.25) return one-erfl(x);
 	    s = x*x;
 	    t = half-x;
 	    t = t - x*__poly_libmq(s,21,P);
 	    return  half+t;
 	}
-	if(x<=1.25L) {
+	if (x<=1.25L) {
 	    s = x-one;
 	    t = one-C1;
 	    return t - __poly_libmq(s,12,P1)/(one+s*__poly_libmq(s,12,Q1));
@@ -332,7 +332,7 @@ long double x;
 	    t = one-C2;
 	    return t - __poly_libmq(s,12,P2)/(one+s*__poly_libmq(s,13,Q2));
 	} 
-	if(x>=107.0L) return nearunfl*nearunfl;		/* underflow */
+	if (x>=107.0L) return nearunfl*nearunfl;		/* underflow */
 	else if (x >= L16_3) {
 	    y = __poly_libmq(x,15,R2);
 	    t = y/__poly_libmq(x,16,S2);
