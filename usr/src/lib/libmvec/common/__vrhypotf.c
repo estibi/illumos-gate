@@ -279,7 +279,7 @@ __vrhypotf(int n, float * restrict px, int stridex, float * restrict py,
 				y0 = *py;
 				res = fabsf(x0) + fabsf(y0);
 				if(ax0 == 0x7f800000) res = 0.0f;
-				else if(ay0 == 0x7f800000) res = 0.0f;
+				else if (ay0 == 0x7f800000) res = 0.0f;
 				ax0 = *(int*)px;
 				py += stridey;
 				RETURN (res)
@@ -315,7 +315,7 @@ __vrhypotf(int n, float * restrict px, int stridex, float * restrict py,
 		{
 			res = fabsf(x0) + fabsf(y0);
 			if(ax0 == 0x7f800000) res = 0.0f;
-			else if(ay0 == 0x7f800000) res = 0.0f;
+			else if (ay0 == 0x7f800000) res = 0.0f;
 			*pz = res;
 		}
 		else if (ax0 == 0 && ay0 == 0)	/* X and Y = 0	*/
