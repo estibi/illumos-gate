@@ -82,10 +82,10 @@ jnl(n,x) int n; GENERIC x;{
 		n = -n;
 		x = -x;
 	}
-	if (n==0) return (j0l(x));
-	if (n==1) return (j1l(x));
+	if (n == 0) return (j0l(x));
+	if (n == 1) return (j1l(x));
 	if (x!=x) return x+x;
-	if ((n&1)==0)
+	if ((n&1) == 0)
 		sgn=0; 			/* even n */
 	else
 		sgn = signbitl(x);	/* old n  */
@@ -208,7 +208,7 @@ jnl(n,x) int n; GENERIC x;{
 	    	b = (t*j0l(x)/b);
 	    }
 	}
-	if (sgn==1) return -b; else return b;
+	if (sgn == 1) return -b; else return b;
 }
 
 GENERIC ynl(n,x)
@@ -219,7 +219,7 @@ int n; GENERIC x;{
 
 	if (x!=x) return x+x;
 	if (x <= zero) {
-		if (x==zero)
+		if (x == zero)
 			return -one/zero;
 		else
 			return zero/zero;
@@ -229,8 +229,8 @@ int n; GENERIC x;{
 		n = -n;
 		if ((n&1) == 1) sign = -1;
 	}
-	if (n==0) return (y0l(x));
-	if (n==1) return (sign*y1l(x));
+	if (n == 0) return (y0l(x));
+	if (n == 1) return (sign*y1l(x));
 	if (!finitel(x)) return zero;
 
 	if (x>1.0e91L) {	/* x >> n**2

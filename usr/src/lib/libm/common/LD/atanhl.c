@@ -68,7 +68,7 @@ GENERIC x;
 {	
 	GENERIC t;
 	t = FABS(x);
-	if (t==one) return x/zero;
+	if (t == one) return x/zero;
 	t = t/(one-t);
 	return COPYSIGN(half,x)*LOG1P(t+t);
 }

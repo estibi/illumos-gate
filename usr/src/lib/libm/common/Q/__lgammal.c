@@ -374,7 +374,7 @@ neg(long double z, int *signgamlp) {
       *		t = sinpi(z); ...note that when z>2**112, z is an int
       *		and hence t=0.
       *
-      *		if (t==0.0) return 1.0/0.0;
+      *		if (t == 0.0) return 1.0/0.0;
       *		if (t< 0.0) *signgamlp = -1; else t= -t;
       *		if (z<1.0e-40)	...tiny z
       *		    return -log(z);
@@ -384,7 +384,7 @@ neg(long double z, int *signgamlp) {
       */
 
 	t = sinpil(z);			/* t := sin(pi*z) */
-	if (t==c0)  			/* return   1.0/0.0 =  +INF */
+	if (t == c0)  			/* return   1.0/0.0 =  +INF */
 	    return c1/c0;
 
 	z = -z;

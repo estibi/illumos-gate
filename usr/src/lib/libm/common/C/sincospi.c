@@ -37,7 +37,7 @@
  * Algorithm, 10/17/2002, K.C. Ng
  * ------------------------------
  * Let y = |4x|, z = floor(y), and n = (int)(z mod 8.0) (displayed in binary).
- *	1. If y==z, then x is a multiple of pi/4. Return the following values:
+ *	1. If y == z, then x is a multiple of pi/4. Return the following values:
  *             ---------------------------------------------------
  *               n  x mod 2    sin(x*pi)    cos(x*pi)   tan(x*pi)
  *             ---------------------------------------------------
