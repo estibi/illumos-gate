@@ -197,7 +197,7 @@ y1l(x) GENERIC x;{
                 return invsqrtpi*(pone(x)*ss+qone(x)*cc)/sqrtl(x);
 	}
         if (x<=tiny) {
-            return(-tpi/x);
+            return (-tpi/x);
         }
 	z = x*x;
 	    u = u0[6]; v = v0[6]+z*v0[7];

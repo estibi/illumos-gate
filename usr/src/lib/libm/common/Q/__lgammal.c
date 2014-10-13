@@ -76,7 +76,7 @@ __k_lgammal(long double x, int *signgamlp) {
     /* purge off +-inf, NaN and negative arguments */
 	if (!finitel(x)) return x*x;
 	*signgamlp = 1;
-	if (signbitl(x)) return(neg(x,signgamlp));
+	if (signbitl(x)) return (neg(x,signgamlp));
 
     /* for x < 8.0 */
 	if (x<8.0L) {
