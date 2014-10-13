@@ -82,8 +82,8 @@ jnl(n,x) int n; GENERIC x;{
 		n = -n;
 		x = -x;
 	}
-	if (n==0) return(j0l(x));
-	if (n==1) return(j1l(x));
+	if (n==0) return (j0l(x));
+	if (n==1) return (j1l(x));
 	if (x!=x) return x+x;
 	if ((n&1)==0)
 		sgn=0; 			/* even n */
@@ -229,8 +229,8 @@ int n; GENERIC x;{
 		n = -n;
 		if ((n&1) == 1) sign = -1;
 	}
-	if (n==0) return(y0l(x));
-	if (n==1) return(sign*y1l(x));
+	if (n==0) return (y0l(x));
+	if (n==1) return (sign*y1l(x));
 	if (!finitel(x)) return zero;
 
 	if (x>1.0e91L) {	/* x >> n**2

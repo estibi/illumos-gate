@@ -201,7 +201,7 @@ y0l(x) GENERIC x;{
 
 	}
 	if (x<=tiny) {
-	    return(u0[0] + tpi*logl(x));
+	    return (u0[0] + tpi*logl(x));
 	}
 	z = x*x;
 	u = u0[7]; v = v0[7];
