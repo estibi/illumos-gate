@@ -64,50 +64,57 @@
 #define	GENERIC long double
 
 static const GENERIC
-invsqrtpi= 5.641895835477562869480794515607725858441e-0001L,
+invsqrtpi = 5.641895835477562869480794515607725858441e-0001L,
 two  = 2.0L,
 zero = 0.0L,
 one  = 1.0L;
 
 GENERIC
-jnl(n,x) int n; GENERIC x;{
+jnl(n, x) int n; GENERIC x; {
 	int i, sgn;
 	GENERIC a, b, temp, z, w;
 
-    /*
-     * J(-n,x) = (-1)^n * J(n, x), J(n, -x) = (-1)^n * J(n, x)
-     * Thus, J(-n,x) = J(n,-x)
-     */
-	if (n<0) {
+	/*
+	 * J(-n,x) = (-1)^n * J(n, x), J(n, -x) = (-1)^n * J(n, x)
+	 * Thus, J(-n,x) = J(n,-x)
+	 */
+	if (n < 0) {
 		n = -n;
 		x = -x;
 	}
-	if (n == 0) return (j0l(x));
-	if (n == 1) return (j1l(x));
-	if (x != x) return x+x;
+	if (n == 0)
+		return (j0l(x));
+	if (n == 1)
+		return (j1l(x));
+	if (x != x)
+		return (x+x);
 	if ((n&1) == 0)
-		sgn=0; 			/* even n */
+		sgn = 0; 			/* even n */
 	else
 		sgn = signbitl(x);	/* old n  */
 	x = fabsl(x);
-	if (x == zero||!finitel(x)) b = zero;
-	else if ((GENERIC)n<=x) {   	/* Safe to use
-					   J(n+1,x)=2n/x *J(n,x)-J(n-1,x)
+	if (x == zero || !finitel(x)) b = zero;
+	else if ((GENERIC)n <= x) {
+					/*
+					 * Safe to use
+					 * J(n+1,x)=2n/x *J(n,x)-J(n-1,x)
 					 */
-	    if (x>1.0e91L) {	/* x >> n**2
-				    Jn(x) = cos(x-(2n+1)*pi/4)*sqrt(2/x*pi)
-				    Yn(x) = sin(x-(2n+1)*pi/4)*sqrt(2/x*pi)
-				    Let s=sin(x), c=cos(x),
-					xn=x-(2n+1)*pi/4, sqt2 = sqrt(2),then
-
-					   n	sin(xn)*sqt2	cos(xn)*sqt2
-					----------------------------------
-					   0	 s-c		 c+s
-					   1	-s-c 		-c+s
-					   2	-s+c		-c-s
-					   3	 s+c		 c-s
+	    if (x > 1.0e91L) {
+				/*
+				 * x >> n**2
+				 *  Jn(x) = cos(x-(2n+1)*pi/4)*sqrt(2/x*pi)
+				 *   Yn(x) = sin(x-(2n+1)*pi/4)*sqrt(2/x*pi)
+				 *   Let s=sin(x), c=cos(x),
+				 *	xn=x-(2n+1)*pi/4, sqt2 = sqrt(2),then
+				 *
+				 *	   n	sin(xn)*sqt2	cos(xn)*sqt2
+				 *	----------------------------------
+				 *	   0	 s-c		 c+s
+				 *	   1	-s-c 		-c+s
+				 *	   2	-s+c		-c-s
+				 *	   3	 s+c		 c-s
 				 */
-		switch(n&3) {
+		switch (n&3) {
 		    case 0: temp =  cosl(x)+sinl(x); break;
 		    case 1: temp = -cosl(x)+sinl(x); break;
 		    case 2: temp = -cosl(x)-sinl(x); break;
@@ -115,19 +122,19 @@ jnl(n,x) int n; GENERIC x;{
 		}
 		b = invsqrtpi*temp/sqrtl(x);
 	    } else {
-	        a = j0l(x);
-	        b = j1l(x);
-	        for (i=1;i<n;i++) {
+			a = j0l(x);
+			b = j1l(x);
+			for (i = 1; i < n; i++) {
 		    temp = b;
 		    b = b*((GENERIC)(i+i)/x) - a; /* avoid underflow */
 		    a = temp;
-	        }
+			}
 	    }
 	} else {
-	    if (x<1e-17L) {	/* use J(n,x) = 1/n!*(x/2)^n */
-		b = powl(0.5L*x,(GENERIC) n);
+	    if (x < 1e-17L) {	/* use J(n,x) = 1/n!*(x/2)^n */
+		b = powl(0.5L*x, (GENERIC)n);
 		if (b != zero) {
-		    for (a=one,i=1;i<=n;i++) a *= (GENERIC)i;
+		    for (a = one, i = 1; i <= n; i++) a *= (GENERIC)i;
 		    b = b/a;
 		}
 	    } else {
@@ -161,18 +168,18 @@ jnl(n,x) int n; GENERIC x;{
 		 * When Q(k) > 1e17	good for quaduple
 		 */
 	    /* determin k */
-		GENERIC t,v;
-		double q0,q1,h,tmp; int k,m;
+		GENERIC t, v;
+		double q0, q1, h, tmp; int k, m;
 		w  = (n+n)/(double)x; h = 2.0/(double)x;
-		q0 = w;  z = w+h; q1 = w*z - 1.0; k=1;
-		while(q1<1.0e17) {
+		q0 = w;  z = w+h; q1 = w*z - 1.0; k = 1;
+		while (q1 < 1.0e17) {
 			k += 1; z += h;
 			tmp = z*q1 - q0;
 			q0 = q1;
 			q1 = tmp;
 		}
 		m = n+n;
-		for(t=zero, i = 2*(n+k); i>=m; i -= 2) t = one/(i/x-t);
+		for (t = zero, i = 2*(n+k); i >= m; i -= 2) t = one/(i/x-t);
 		a = t;
 		b = one;
                 /*
@@ -187,18 +194,18 @@ jnl(n,x) int n; GENERIC x;{
 		tmp = n;
 		v = two/x;
 		tmp = tmp*logl(fabsl(v*tmp));
-		if (tmp<1.1356523406294143949491931077970765e+04L) {
-				for (i=n-1;i>0;i--) {
+		if (tmp < 1.1356523406294143949491931077970765e+04L) {
+				for (i = n-1; i > 0; i--) {
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
 	     	    }
 		} else {
-				for (i=n-1;i>0;i--) {
+				for (i = n-1; i > 0; i--) {
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
-			if (b>1e1000L) {
+			if (b > 1e1000L) {
                             a /= b;
                             t /= b;
                             b  = 1.0;
@@ -208,36 +215,43 @@ jnl(n,x) int n; GENERIC x;{
 	    	b = (t*j0l(x)/b);
 	    }
 	}
-	if (sgn == 1) return -b; else return b;
+	if (sgn == 1)
+		return (-b);
+	else
+		return (b);
 }
 
-GENERIC ynl(n,x)
-int n; GENERIC x;{
+GENERIC ynl(n, x)
+int n; GENERIC x; {
 	int i;
 	int sign;
 	GENERIC a, b, temp;
 
-	if (x != x) return x+x;
+	if (x != x)
+		return (x+x);
 	if (x <= zero) {
 		if (x == zero)
-			return -one/zero;
+			return (-one/zero);
 		else
-			return zero/zero;
+			return (zero/zero);
 	}
 	sign = 1;
-	if (n<0) {
+	if (n < 0) {
 		n = -n;
 		if ((n&1) == 1) sign = -1;
 	}
-	if (n == 0) return (y0l(x));
-	if (n == 1) return (sign*y1l(x));
-	if (!finitel(x)) return zero;
+	if (n == 0)
+		return (y0l(x));
+	if (n == 1)
+		return (sign*y1l(x));
+	if (!finitel(x))
+		return (zero);
 
-	if (x>1.0e91L) {	/* x >> n**2
+	if (x > 1.0e91L) {	/* x >> n**2
 				    Jn(x) = cos(x-(2n+1)*pi/4)*sqrt(2/x*pi)
 				    Yn(x) = sin(x-(2n+1)*pi/4)*sqrt(2/x*pi)
-				    Let s=sin(x), c=cos(x),
-					xn=x-(2n+1)*pi/4, sqt2 = sqrt(2),then
+				    Let s = sin(x), c = cos(x),
+					xn = x-(2n+1)*pi/4, sqt2 = sqrt(2), then
 
 					   n	sin(xn)*sqt2	cos(xn)*sqt2
 					----------------------------------
@@ -246,7 +260,7 @@ int n; GENERIC x;{
 					   2	-s+c		-c-s
 					   3	 s+c		 c-s
 				 */
-		switch(n&3) {
+		switch (n&3) {
 		    case 0: temp =  sinl(x)-cosl(x); break;
 		    case 1: temp = -sinl(x)-cosl(x); break;
 		    case 2: temp = -sinl(x)+cosl(x); break;
@@ -268,5 +282,8 @@ int n; GENERIC x;{
 			a = temp;
 		}
 	}
-	if (sign>0) return b; else return -b;
+	if (sign > 0)
+		return (b);
+	else
+		return (-b);
 }
