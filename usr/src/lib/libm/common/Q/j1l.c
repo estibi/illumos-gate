@@ -123,7 +123,7 @@ j1l(x) GENERIC x;{
 	z = x*x;
 	    r = r0[6];
 	    s = s0[6];
-	    for(i=5;i>=0;i--) {
+	    for (i=5;i>=0;i--) {
 		r = r*z + r0[i];
 		s = s*z + s0[i];
 	    }
@@ -201,7 +201,7 @@ y1l(x) GENERIC x;{
         }
 	z = x*x;
 	    u = u0[6]; v = v0[6]+z*v0[7];
-	    for(i=5;i>=0;i--){
+	    for (i=5;i>=0;i--){
 		u = u*z + u0[i];
 		v = v*z + v0[i];
 	    }
@@ -428,43 +428,43 @@ GENERIC x;
 	t = one/x; z = t*t;
 	if (x>sixteen) {
 	    r = z*pr0[11]+pr0[10]; s = ps0[10];
-	    for(i=9;i>=0;i--) {
+	    for (i=9;i>=0;i--) {
 		r = z*r + pr0[i];
 		s = z*s + ps0[i];
 	    }
 	} else if (x>eight) {
 	    r = pr1[11]; s = ps1[11]+z*(ps1[12]+z*ps1[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i=10;i>=0;i--) {
 		r = z*r + pr1[i];
 		s = z*s + ps1[i];
 	    }
 	} else if (x>five) {
 	    r = pr2[11]; s = ps2[11]+z*(ps2[12]+z*ps2[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i=10;i>=0;i--) {
 		r = z*r + pr2[i];
 		s = z*s + ps2[i];
 	    }
         } else if (x>3.5L) {
             r = pr3[12]; s = ps3[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + pr3[i];
                 s = z*s + ps3[i];
             }
         } else if (x>2.5L) {
             r = pr4[12]; s = ps4[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + pr4[i];
                 s = z*s + ps4[i];
             }
         } else if (x> (1.0L/0.5625L)){
             r = pr5[12]; s = ps5[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + pr5[i];
                 s = z*s + ps5[i];
             }
         } else {        /* assume x > 1.28 */
             r = pr6[12]; s = ps6[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + pr6[i];
                 s = z*s + ps6[i];
             }
@@ -689,43 +689,43 @@ GENERIC x;
 	t = one/x; z = t*t;
 	if (x>sixteen) {
 	    r = z*qr0[11]+qr0[10]; s = qs0[10];
-	    for(i=9;i>=0;i--) {
+	    for (i=9;i>=0;i--) {
 		r = z*r + qr0[i];
 		s = z*s + qs0[i];
 	    }
 	} else if (x>eight) {
 	    r = qr1[11]; s = qs1[11]+z*(qs1[12]+z*qs1[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i=10;i>=0;i--) {
 		r = z*r + qr1[i];
 		s = z*s + qs1[i];
 	    }
 	} else if (x>five) {	/* x > 5.0 */
 	    r = qr2[11]; s = qs2[11]+z*(qs2[12]+z*qs2[13]);
-	    for(i=10;i>=0;i--) {
+	    for (i=10;i>=0;i--) {
 		r = z*r + qr2[i];
 		s = z*s + qs2[i];
 	    }
         } else if (x>3.5L) {
             r = qr3[12]; s = qs3[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + qr3[i];
                 s = z*s + qs3[i];
             }
         } else if (x>2.5L) {
             r = qr4[12]; s = qs4[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + qr4[i];
                 s = z*s + qs4[i];
             }
         } else if (x> (1.0L/0.5625L)) {
             r = qr5[12]; s = qs5[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + qr5[i];
                 s = z*s + qs5[i];
             }
         } else {        /* assume x > 1.28 */
             r = qr6[12]; s = qs6[12];
-            for(i=11;i>=0;i--) {
+            for (i=11;i>=0;i--) {
                 r = z*r + qr6[i];
                 s = z*s + qs6[i];
             }
