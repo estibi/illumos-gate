@@ -82,7 +82,7 @@ j0l(x) GENERIC x;{
 
 	if (isnanl(x)) return x+x;
 	x = fabsl(x);
-	if (x > 1.28L){
+	if (x > 1.28L) {
 		if (!finitel(x)) return zero;
 		s = sinl(x);
 		c = cosl(x);
@@ -157,7 +157,7 @@ y0l(x) GENERIC x;{
 	volatile GENERIC d;
 
 	if (isnanl(x)) return x+x;
-	if (x <= zero){
+	if (x <= zero) {
 		if (x == zero)
 		    d= -one/(x-x);
 		else
@@ -166,7 +166,7 @@ y0l(x) GENERIC x;{
 #ifdef lint
 	d = d;
 #endif
-	if (x > 1.28L){
+	if (x > 1.28L) {
 		if (!finitel(x)) return zero;
 		s = sinl(x);
 		c = cosl(x);
@@ -205,7 +205,7 @@ y0l(x) GENERIC x;{
 	}
 	z = x*x;
 	u = u0[7]; v = v0[7];
-	for(i=6;i>=0;i--){
+	for(i=6;i>=0;i--) {
 	    u = u*z + u0[i];
 	    v = v*z + v0[i];
 	}
@@ -435,13 +435,13 @@ GENERIC x;
 		r = z*r + pr0[i];
 		s = z*s + ps0[i];
 	    }
-	} else if (x > eight){
+	} else if (x > eight) {
 	    r = pr1[11]; s = ps1[11]+z*(ps1[12]+z*ps1[13]);
 	    for (i=10;i>=0;i--) {
 		r = z*r + pr1[i];
 		s = z*s + ps1[i];
 	    }
-	} else if (x > five){ 	/* x > 5.0 */
+	} else if (x > five) { 	/* x > 5.0 */
 	    r = pr2[11]; s = ps2[11]+z*(ps2[12]+z*ps2[13]);
 	    for (i=10;i>=0;i--) {
 		r = z*r + pr2[i];
@@ -459,7 +459,7 @@ GENERIC x;
 		r = z*r + pr4[i];
 		s = z*s + ps4[i];
 	    }
-	} else if (x> (1.0L/0.5625L)){
+	} else if (x> (1.0L/0.5625L)) {
 	    r = pr5[12]; s = ps5[12];
 	    for (i=11;i>=0;i--) {
 		r = z*r + pr5[i];
@@ -703,7 +703,7 @@ GENERIC x;
 		r = z*r + qr1[i];
 		s = z*s + qs1[i];
 	    }
-	} else if (x>five){  /* assume x > 5.0 */
+	} else if (x>five) {  /* assume x > 5.0 */
 	    r = qr2[11]; s = qs2[11]+z*(qs2[12]+z*qs2[13]);
 	    for (i=10;i>=0;i--) {
 		r = z*r + qr2[i];

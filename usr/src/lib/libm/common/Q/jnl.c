@@ -78,7 +78,7 @@ jnl(n,x) int n; GENERIC x;{
      * J(-n,x) = (-1)^n * J(n, x), J(n, -x) = (-1)^n * J(n, x)
      * Thus, J(-n,x) = J(n,-x)
      */
-	if (n<0){
+	if (n<0) {
 		n = -n;
 		x = -x;
 	}
@@ -117,7 +117,7 @@ jnl(n,x) int n; GENERIC x;{
 	    } else {
 	        a = j0l(x);
 	        b = j1l(x);
-	        for (i=1;i<n;i++){
+	        for (i=1;i<n;i++) {
 		    temp = b;
 		    b = b*((GENERIC)(i+i)/x) - a; /* avoid underflow */
 		    a = temp;
@@ -188,13 +188,13 @@ jnl(n,x) int n; GENERIC x;{
 		v = two/x;
 		tmp = tmp*logl(fabsl(v*tmp));
 		if (tmp<1.1356523406294143949491931077970765e+04L) {
-				for (i=n-1;i>0;i--){
+				for (i=n-1;i>0;i--) {
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
 	     	    }
 		} else {
-				for (i=n-1;i>0;i--){
+				for (i=n-1;i>0;i--) {
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
@@ -225,7 +225,7 @@ int n; GENERIC x;{
 			return zero/zero;
 	}
 	sign = 1;
-	if (n<0){
+	if (n<0) {
 		n = -n;
 		if ((n&1) == 1) sign = -1;
 	}
