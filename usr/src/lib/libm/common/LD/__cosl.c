@@ -37,7 +37,7 @@
  * Table look up algorithm
  *	1. by cos(-x) = cos(x), we may replace x by |x|
  *	2. if x < 25/128 = [0x3ffc4000, 0] = 0.15625 , then
- *	     if x < 2^-57 (hx < 0x3fc60000 0), return 1.0 with inexact if x!= 0
+ *	     if x < 2^-57 (hx < 0x3fc60000 0), return 1.0 with inexact if x !=  0
  *	     z = x*x;
  *	     if x <= 1/128 = 2**-7 = 0.0078125
  *		cos(x)=1.0+z*(qq1+z*(qq2+z*(qq3+z*(qq4+z*qq5))))

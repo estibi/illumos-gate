@@ -79,7 +79,7 @@ __k_tanf(double x, int n) {
 	/* small argument */
 	if (ix < 0x3f800000) {		/* if |x| < 0.0078125 = 2**-7 */
 		if (ix < 0x3f100000) {	/* if |x| < 2**-14 */
-			if ((int) x == 0) {	/* raise inexact if x!=0 */
+			if ((int) x == 0) {	/* raise inexact if x != 0 */
 				ft = n == 0 ? (float) x : (float) (-one / x);
 			}
 			return (ft);

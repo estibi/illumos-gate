@@ -281,7 +281,7 @@ long double x;
 	long double s,y,t;
 
 	if (!finitel(x)) {
-	    if (x!=x) return x+x; 	/* NaN */
+	    if (x != x) return x+x; 	/* NaN */
 	    return copysignl(one,x);	/* return +-1.0 is x=Inf */
 	}
 
@@ -311,7 +311,7 @@ long double x;
 	long double s,y,t;
 
 	if (!finitel(x)) {
-	    if (x!=x) return x+x; 	/* NaN */
+	    if (x != x) return x+x; 	/* NaN */
 	    /* return 2.0 if x= -inf; 0.0 if x= +inf */
 	    if (x < 0.0L) return 2.0L; else return 0.0L;
 	}

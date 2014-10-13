@@ -66,7 +66,7 @@
  *    catan( NaN, 0   ) =  (NaN  ,  0   )
  *    catan( 0  , 1   ) =  (0    ,  +inf) with divide-by-zero
  *    catan( inf, y   ) =  (pi/2 ,  0   ) for finite +y
- *    catan( NaN, y   ) =  (NaN  ,  NaN ) with invalid for finite y!=0
+ *    catan( NaN, y   ) =  (NaN  ,  NaN ) with invalid for finite y != 0
  *    catan( x  , inf ) =  (pi/2 ,  0   ) for finite +x
  *    catan( inf, inf ) =  (pi/2 ,  0   )
  *    catan( NaN, inf ) =  (NaN  ,  0   )
@@ -242,7 +242,7 @@ catan(dcomplex z) {
 		/* INDENT OFF */
 		/*
 		 * Tiny x:
-		 * when |x| < E^4,  (note that y!=1)
+		 * when |x| < E^4,  (note that y != 1)
 		 *      1                            1
 		 * A = --- * atan2(2x, 1-x*x-y*y) ~ --- * atan2(2x,(1-y)*(1+y))
 		 *      2                            2

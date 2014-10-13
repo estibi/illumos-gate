@@ -92,7 +92,7 @@ __k_sincosf(double x, float *s, float *c) {
 	/* small argument */
 	if ((hx & ~0x80000000) < 0x3f100000) {	/* if |x| < 2**-14 */
 		*s = (float) x; *c = (float) 1;
-		if ((int) x == 0)	/* raise inexact if x!=0 */
+		if ((int) x == 0)	/* raise inexact if x != 0 */
 			return;
 	}
 	z = x * x;

@@ -197,13 +197,13 @@ __fex_read_syms(int fd)
 			sh[sh[i].sh_link].sh_size)
 	{
 		free(sh);
-		return -1;
+		return (-1);
 	}
 	nsyms = (int) (sh[i].sh_size / sh[i].sh_entsize);
 	stoffset = (int) sh[i].sh_size;
 
 	free(sh);
-	return 0;
+	return (0);
 }
 
 /* find the symbol corresponding to the given text address;

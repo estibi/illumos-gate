@@ -97,7 +97,7 @@
  *	(A). To save one multiplication, we scale the coefficient Qi
  *	     to Qi*2^i, and replace z by (x^2)/2.
  *	(B). To achieve maximum accuracy, we compute expm1(x) by
- *	  (i)   if x < -56*ln2, return -1.0, (raise inexact if x!=inf)
+ *	  (i)   if x < -56*ln2, return -1.0, (raise inexact if x != inf)
  *	  (ii)  if k=0, return r-E
  *	  (iii) if k=-1, return 0.5*(r-E)-0.5
  *        (iv)	if k=1 if r < -0.25, return 2*((r+0.5)- E)

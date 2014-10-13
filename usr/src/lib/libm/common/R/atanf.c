@@ -115,7 +115,7 @@ atanf(float xx) {
 	/* for |x| < 1/8 */
 	if (ix < 0x3e000000) {
 		if (ix < 0x38800000) {	/* if |x| < 2**(-prec/2-2) */
-			dummy = big + x;	/* get inexact flag if x!=0 */
+			dummy = big + x;	/* get inexact flag if x != 0 */
 #ifdef lint
 			dummy = dummy;
 #endif
