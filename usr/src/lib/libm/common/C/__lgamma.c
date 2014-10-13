@@ -180,9 +180,9 @@ neg(double z, int *signgamp) {
 	 *		t = sin_pi(z); ...note that when z>2**52, z is an int
 	 *		and hence t=0.
 	 *
-	 *		if (t==0.0) return 1.0/0.0;
+	 *		if (t == 0.0) return 1.0/0.0;
 	 *		if (t< 0.0) *signgamp = -1; else t= -t;
-	 *		if (z+1.0==1.0)	...tiny z
+	 *		if (z+1.0 == 1.0)	...tiny z
 	 *		    return -log(z);
 	 *		else
 	 *		    return log(pi/(t*z))-__k_lgamma(z, signgamp);

@@ -41,7 +41,7 @@
  *	     else
  *		z = x*x;
  *		w = x + (y+(x*z)*(t1+z*(t2+z*(t3+z*(t4+z*(t5+z*t6))))))
- *	   return (k==0)? w: 1/w;
+ *	   return (k == 0)? w: 1/w;
  *	3. else
  *		ht = (hx + 0x400)&0x7ffff800	(round x to a break point t)
  *		lt = 0

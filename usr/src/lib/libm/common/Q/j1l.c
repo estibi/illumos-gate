@@ -113,12 +113,12 @@ j1l(x) GENERIC x;{
 	 */
                 if (x>1.0e120L) return (invsqrtpi*cc)/sqrtl(x);
                 d =  invsqrtpi*(pone(x)*cc-qone(x)*ss)/sqrtl(x);
-		if (sgn==0) return d; else return -d;
+		if (sgn == 0) return d; else return -d;
 	}
 	if (x<=small) {
             if (x<=tiny) d = 0.5L*x;
             else d =  x*(0.5L-x*x*0.125L);
-	    if (sgn==0) return d; else return -d;
+	    if (sgn == 0) return d; else return -d;
         }
 	z = x*x;
 	    r = r0[6];
@@ -128,7 +128,7 @@ j1l(x) GENERIC x;{
 		s = s*z + s0[i];
 	    }
 	d = x*0.5L+x*(z*(r/s));
-	if (sgn==0) return d; else return -d;
+	if (sgn == 0) return d; else return -d;
 }
 
 static const GENERIC u0[7] = {
@@ -158,7 +158,7 @@ y1l(x) GENERIC x;{
 
 	if (isnanl(x)) return x+x;
 	if (x <= zero){
-		if (x==zero)
+		if (x == zero)
 		    return -one/zero;
 		else
 		    return zero/zero;

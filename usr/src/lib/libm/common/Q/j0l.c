@@ -158,7 +158,7 @@ y0l(x) GENERIC x;{
 
 	if (isnanl(x)) return x+x;
 	if (x <= zero){
-		if (x==zero)
+		if (x == zero)
 		    d= -one/(x-x);
 		else
 		    d = zero/(x-x);
