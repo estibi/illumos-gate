@@ -82,7 +82,7 @@ j1l(x) GENERIC x;{
 	if (!finitel(x)) return one/x;
 	sgn = signbitl(x);
 	x = fabsl(x);
-	if (x > 1.28L){
+	if (x > 1.28L) {
 		s = sinl(x);
 		c = cosl(x);
 	/*
@@ -157,13 +157,13 @@ y1l(x) GENERIC x;{
 	int i;
 
 	if (isnanl(x)) return x+x;
-	if (x <= zero){
+	if (x <= zero) {
 		if (x == zero)
 		    return -one/zero;
 		else
 		    return zero/zero;
 	}
-	if (x > 1.28L){
+	if (x > 1.28L) {
 		if (!finitel(x)) return zero;
 		s = sinl(x);
 		c = cosl(x);
@@ -201,7 +201,7 @@ y1l(x) GENERIC x;{
         }
 	z = x*x;
 	    u = u0[6]; v = v0[6]+z*v0[7];
-	    for (i=5;i>=0;i--){
+	    for (i=5;i>=0;i--) {
 		u = u*z + u0[i];
 		v = v*z + v0[i];
 	    }
@@ -456,7 +456,7 @@ GENERIC x;
                 r = z*r + pr4[i];
                 s = z*s + ps4[i];
             }
-        } else if (x> (1.0L/0.5625L)){
+        } else if (x> (1.0L/0.5625L)) {
             r = pr5[12]; s = ps5[12];
             for (i=11;i>=0;i--) {
                 r = z*r + pr5[i];
