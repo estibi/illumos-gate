@@ -117,7 +117,7 @@ jnl(n,x) int n; GENERIC x;{
 	    } else {
 	        a = j0l(x);
 	        b = j1l(x);
-	        for(i=1;i<n;i++){
+	        for (i=1;i<n;i++){
 		    temp = b;
 		    b = b*((GENERIC)(i+i)/x) - a; /* avoid underflow */
 		    a = temp;
@@ -127,7 +127,7 @@ jnl(n,x) int n; GENERIC x;{
 	    if (x<1e-17L) {	/* use J(n,x) = 1/n!*(x/2)^n */
 		b = powl(0.5L*x,(GENERIC) n);
 		if (b!=zero) {
-		    for(a=one,i=1;i<=n;i++) a *= (GENERIC)i;
+		    for (a=one,i=1;i<=n;i++) a *= (GENERIC)i;
 		    b = b/a;
 		}
 	    } else {
@@ -188,13 +188,13 @@ jnl(n,x) int n; GENERIC x;{
 		v = two/x;
 		tmp = tmp*logl(fabsl(v*tmp));
 		if (tmp<1.1356523406294143949491931077970765e+04L) {
-	    	    for(i=n-1;i>0;i--){
+				for (i=n-1;i>0;i--){
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
 	     	    }
 		} else {
-	    	    for(i=n-1;i>0;i--){
+				for (i=n-1;i>0;i--){
 		        temp = b;
 		        b = ((i+i)/x)*b - a;
 		        a = temp;
