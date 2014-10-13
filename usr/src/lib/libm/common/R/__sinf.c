@@ -74,7 +74,7 @@ __k_sinf(double x) {
 	hx = ((int *) &x)[HIWORD];	/* hx = leading x */
 	if ((hx & ~0x80000000) < 0x3f100000) {	/* if |x| < 2**-14 */
 		ft = (float) x;
-		if ((int) x == 0)	/* raise inexact if x!=0 */
+		if ((int) x == 0)	/* raise inexact if x != 0 */
 			return (ft);
 	}
 	z = x * x;

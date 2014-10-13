@@ -84,7 +84,7 @@ jnl(n,x) int n; GENERIC x;{
 	}
 	if (n == 0) return (j0l(x));
 	if (n == 1) return (j1l(x));
-	if (x!=x) return x+x;
+	if (x != x) return x+x;
 	if ((n&1) == 0)
 		sgn=0; 			/* even n */
 	else
@@ -126,7 +126,7 @@ jnl(n,x) int n; GENERIC x;{
 	} else {
 	    if (x<1e-17L) {	/* use J(n,x) = 1/n!*(x/2)^n */
 		b = powl(0.5L*x,(GENERIC) n);
-		if (b!=zero) {
+		if (b != zero) {
 		    for (a=one,i=1;i<=n;i++) a *= (GENERIC)i;
 		    b = b/a;
 		}
@@ -217,7 +217,7 @@ int n; GENERIC x;{
 	int sign;
 	GENERIC a, b, temp;
 
-	if (x!=x) return x+x;
+	if (x != x) return x+x;
 	if (x <= zero) {
 		if (x == zero)
 			return -one/zero;

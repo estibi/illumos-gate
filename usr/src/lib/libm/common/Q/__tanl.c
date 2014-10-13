@@ -37,7 +37,7 @@
  * Table look up algorithm
  *	1. by tan(-x) = -tan(x), need only to consider positive x
  *	2. if x < 5/32 = [0x3ffc4000, 0] = 0.15625 , then
- *	     if x < 2^-57 (hx < 0x3fc40000 0), set w=x with inexact if x!= 0
+ *	     if x < 2^-57 (hx < 0x3fc40000 0), set w=x with inexact if x !=  0
  *	     else
  *		z = x*x;
  *		w = x + (y+(x*z)*(t1+z*(t2+z*(t3+z*(t4+z*(t5+z*t6))))))

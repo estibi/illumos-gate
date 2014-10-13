@@ -35,7 +35,7 @@
  *			1+x = 2^k * (1+f),
  *	   where  sqrt(2)/2 < 1+f < sqrt(2) .
  *
- *      Note. If k=0, then f=x is exact. However, if k!=0, then f
+ *      Note. If k=0, then f=x is exact. However, if k != 0, then f
  *	may not be representable exactly. In that case, a correction
  *	term is need. Let u=1+x rounded. Let c = (1+x)-u, then
  *	log(1+x) - log(u) ~ c/u. Thus, we proceed to compute log(u),

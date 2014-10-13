@@ -101,7 +101,7 @@ j0l(x) GENERIC x;{
 		if (x>1.0e2450L) {	/* x+x may overflow */
 			ss = s-c;
 			cc = s+c;
-		} else if (signbitl(s)!=signbitl(c)) {
+		} else if (signbitl(s) != signbitl(c)) {
 			ss = s - c;
 			cc = -cosl(x+x)/ss;
 		} else {
@@ -185,7 +185,7 @@ y0l(x) GENERIC x;{
 		if (x>1.0e2450L) {	/* x+x may overflow */
 			ss = s-c;
 			cc = s+c;
-		} else if (signbitl(s)!=signbitl(c)) {
+		} else if (signbitl(s) != signbitl(c)) {
 			ss = s - c;
 			cc = -cosl(x+x)/ss;
 		} else {

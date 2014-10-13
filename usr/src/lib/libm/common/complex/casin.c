@@ -74,7 +74,7 @@
  *    casin( 0 + i 0   ) =  0    + i 0
  *    casin( 0 + i NaN ) =  0    + i NaN
  *    casin( x + i inf ) =  0    + i inf for finite x
- *    casin( x + i NaN ) =  NaN  + i NaN with invalid for finite x!=0
+ *    casin( x + i NaN ) =  NaN  + i NaN with invalid for finite x != 0
  *    casin(inf + iy   ) =  pi/2 + i inf finite y
  *    casin(inf + i inf) =  pi/4 + i inf
  *    casin(inf + i NaN) =  NaN  + i inf

@@ -37,7 +37,7 @@
  * Table look up algorithm
  *	1. by sin(-x) = -sin(x), need only to consider positive x
  *	2. if x < 25/128 = [0x3ffc9000,0,0,0] = 0.1953125 , then
- *	     if x < 2^-57 (hx < 0x3fc60000,0,0,0), return x (inexact if x!= 0)
+ *	     if x < 2^-57 (hx < 0x3fc60000,0,0,0), return x (inexact if x !=  0)
  *	     z = x*x;
  *	     if x <= 1/64 = 2**-6
  *		sin(x) = x + (y+(x*z)*(p1 + z*p2))
