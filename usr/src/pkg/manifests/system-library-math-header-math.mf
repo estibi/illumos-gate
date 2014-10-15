@@ -14,7 +14,6 @@
 #
 
 # all data have been moved to system/library/math
-# package obsolete now
 #
 set name=pkg.fmri value=pkg:/system/library/math/header-math@$(PKGVERS)
 set name=pkg.description value="Math Library Headers & Lint Files"
