@@ -18,7 +18,6 @@
 #
 set name=pkg.fmri value=pkg:/system/library/math/header-math@$(PKGVERS)
 set name=pkg.description value="Math Library Headers & Lint Files"
-set name=pkg.obsolete value=true
 set name=pkg.summary value="Math Library Headers & Lint Files"
 set name=info.classification \
     value=org.opensolaris.category.2008:System/Libraries
