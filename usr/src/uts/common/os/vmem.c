@@ -177,7 +177,7 @@
  * This ensures that vmem_xalloc() works in constant time.
  *
  * We maintain a bit map to determine quickly which freelists are non-empty.
- * vmp->vm_freemap & (1 << n) is non-zero iff vmp->vm_freelist[n] is non-empty.
+ * vmp->vm_freemap & (1 << n) is non-zero if vmp->vm_freelist[n] is non-empty.
  *
  * The different freelists are linked together into one large freelist,
  * with the freelist heads serving as markers.  Freelist markers simplify
