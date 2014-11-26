@@ -11,6 +11,16 @@ cscope.po.out
 /packages
 /proto
 /webrev
+obj32
+obj64
+debug32
+debug64
+*.o
+*.so.1
+*.diff
+*.tmp
+*.tmp.new
+/illumos.sh
 /usr/src/.build.tstamp
 /usr/src/ELF-data.*
 /usr/src/check-*.out
