@@ -19,8 +19,20 @@
 #include <sys/obpdefs.h>
 #include <sys/promif.h>
 #include <sys/systm.h>
+#include <sys/sysmacros.h>
 #include <sys/memnode.h>
 #include <vm/page.h>
+
+/*
+ * Simple boot time debug facilities
+ */
+static char *prm_dbg_str[] = {
+	"%s:%d: '%s' is 0x%x\n",
+	"%s:%d: '%s' is 0x%llx\n"
+};
+
+#define	ROUND_UP_PAGE(x) \
+	((uintptr_t)P2ROUNDUP((uintptr_t)(x), (uintptr_t)MMU_PAGESIZE))
 
 /*
  *	32-bit Kernel's Virtual memory layout.
@@ -94,6 +106,10 @@ uintptr_t hole_start, hole_end;
  */
 int prom_debug = 1;
 
+#define	PRM_DEBUG(q)    if (prom_debug)     \
+	prom_printf(prm_dbg_str[sizeof (q) >> 3], "startup.c", __LINE__, #q, q);
+
+
 /*
  * VM related data
  */
@@ -141,6 +157,13 @@ startup_memlist()
 {
 	struct memlist *ml;
 	int memblocks;
+
+	moddata = (caddr_t)ROUND_UP_PAGE(e_data);
+
+	PRM_DEBUG(modtext);
+	PRM_DEBUG(e_modtext);
+	PRM_DEBUG(moddata);
+	PRM_DEBUG(e_moddata);
 
 	ml = &bootops->boot_mem.physinstalled;
 	if (prom_debug)
